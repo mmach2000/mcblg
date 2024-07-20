@@ -1,44 +1,49 @@
 import type { RspressPlugin } from '@rspress/shared';
 import { execa } from 'execa';
 
-async function getGitCreated(filePath: string) {
+interface GitInfo {
+  created?: Date;
+  lastUpdated?: Date;
+  lastUpdatedHash?: string;
+}
+
+async function getGitCreated(filePath: string): Promise<Date | null> {
   try {
     // Thanks to https://stackoverflow.com/a/25633731
-    return (await execa('git', [
+    const cmd = await execa('git', [
       'log',
       '--diff-filter=A',
       '--follow',
-      '--format=%h %at',
+      '--format=%at',
       '-1',
       filePath,
-    ])).stdout;
-  }
-  catch {
+    ]);
+    if (!cmd.stdout) {
+      return null;
+    }
+    return new Date(Number(cmd.stdout) * 1000);
+  } catch {
     return null;
   }
 }
 
-async function getGitLastUpdated(filePath: string) {
+async function getGitLastUpdated(filePath: string): Promise<{ lastUpdatedHash: string; lastUpdated: Date } | null> {
   try {
-    return (await execa('git', [
+    const cmd = await execa('git', [
       'log',
       '--format=%h %at',
       '-1',
       filePath,
-    ])).stdout;
-  }
-  catch {
+    ]);
+    if (!cmd.stdout) {
+      return null;
+    }
+    const [lastUpdatedHash, timestamp] = cmd.stdout.split(' ');
+    const lastUpdated = new Date(Number(timestamp) * 1000);
+    return { lastUpdatedHash, lastUpdated };
+  } catch {
     return null;
   }
-}
-
-function parseInfo(info: string) {
-  if (!info) {
-    return null;
-  }
-  const [hash, timestamp] = info.split(' ');
-  const time = new Date(Number(timestamp) * 1000);
-  return { hash, time };
 }
 
 /**
@@ -46,17 +51,26 @@ function parseInfo(info: string) {
  * Thanks to https://github.com/web-infra-dev/rspress/blob/3e28e909bf59ec3cd3800c5979161befcd0a83bb/packages/plugin-last-updated/src/index.ts
  */
 export function myPluginGitStatus(): RspressPlugin {
+  const routeToGitInfo: Record<string, GitInfo> = {};
+
   return {
     name: 'my-plugin/git-status',
-    async extendPageData(pageData) {
-      const { _filepath } = pageData;
-      const [lastUpdated, created] = await Promise.all([
-        getGitLastUpdated(_filepath),
-        getGitCreated(_filepath),
-      ]);
-      pageData.lastUpdated = parseInfo(lastUpdated);
-      pageData.created = pageData.created || parseInfo(created);
-      console.log(pageData);
+    async extendPageData(pageData, isProd) {
+      const { _filepath, routePath, frontmatter } = pageData;
+
+      const { lastUpdatedHash, lastUpdated } = await getGitLastUpdated(_filepath);
+      const created = typeof frontmatter?.created == 'string'
+        ? new Date(frontmatter.created)
+        : await getGitCreated(_filepath);
+
+      const gitInfo = { created, lastUpdated, lastUpdatedHash };
+      pageData.gitInfo = gitInfo;
+      routeToGitInfo[routePath] = gitInfo;
+
+      !isProd && console.log('my-plugin/git-status', pageData);
+    },
+    async addRuntimeModules() {
+      return { 'virtual-git-status': `export default const gitStatus = ${JSON.stringify(routeToGitInfo)};` };
     },
   };
 }

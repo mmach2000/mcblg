@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "rspress dev",
     "build": "rspress build",
-    "preview": "rspress preview"
+    "preview": "rspress preview",
+    "prepare": "husky"
   },
   "dependencies": {
     "@douyinfe/semi-ui": "^2.62.1",
     "@rspress/shared": "^1.26",
     "date-fns": "^3.6.0",
+    "oxlint": "^0.6.1",
     "react": "^18.3.1",
     "rspress": "^1.26",
     "shiki": "^1.10.3"
@@ -26,6 +28,13 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.8",
     "execa": "^9.3.0",
+    "gray-matter": "^4.0.3",
+    "husky": "^9.1.1",
+    "lint-staged": "^15.2.7",
     "unocss": "^0.61.5"
+  },
+  "lint-staged": {
+    "*.{md, mdx}": "node ./scripts/add-created.js",
+    "*.{js,jsx,ts,tsx, cjs, mjs, cts, mts}": "oxlint --fix"
   }
 }
