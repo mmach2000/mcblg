@@ -1,6 +1,6 @@
+import { useEffect, useState } from 'react';
 import { getCustomMDXComponent as originalGet } from 'rspress/theme';
 
-import { useEffect, useState } from 'react';
 import { codeToHtml } from 'shiki';
 
 interface CodeProps {
@@ -10,12 +10,12 @@ interface CodeProps {
   meta?: string;
 }
 
-const customMDXComponent = originalGet();
+const OriginalCode = originalGet().code;
 const langsUseShiki = new Set(['gleam']);
 const shikiConfig = {
-  themes: { light: 'min-light', dark: 'min-dark' },
+  themes: { light: 'github-light', dark: 'github-dark' },
   colorReplacements: {
-    'min-dark': { '#1f1f1f': '#242424' },
+    'github-dark': { '#24292e': '#242424' },
   },
 };
 
@@ -32,13 +32,10 @@ export function ShikiCode({ code, lang }) {
 
 export function FallBackCode(props: CodeProps) {
   const { className, children } = props;
-  const lang: string = className.replace(/language-/, '');
+  const lang = className.replace(/language-/, '');
+
   if (langsUseShiki.has(lang)) {
     return <ShikiCode code={children} lang={lang} />;
   }
-  return (
-    <customMDXComponent.code {...props}>
-      {children}
-    </customMDXComponent.code>
-  );
+  return <OriginalCode {...props}>{children}</OriginalCode>;
 }

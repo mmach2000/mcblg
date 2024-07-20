@@ -1,5 +1,5 @@
 // uno.config.ts
-import { defineConfig, presetUno } from 'unocss';
+import { defineConfig, presetUno, transformerDirectives } from 'unocss';
 
 export default defineConfig({
   content: {
@@ -9,5 +9,8 @@ export default defineConfig({
   },
   presets: [
     presetUno(),
+  ],
+  transformers: [
+    transformerDirectives(),
   ],
 });
