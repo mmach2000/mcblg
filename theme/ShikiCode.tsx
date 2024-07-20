@@ -26,17 +26,19 @@ export function ShikiCode({ code, lang }) {
     codeToHtml(code, { lang, ...shikiConfig }).then(setHtml);
   }, []);
 
-  return (
-    <>
-      <code className={`language-${lang} !py-0`} dangerouslySetInnerHTML={{ __html: html }} />
-    </>
-  );
+  // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
+  return <code className={`language-${lang} !py-0`} dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
 export function FallBackCode(props: CodeProps) {
-  const lang: string = props.className.replace(/language-/, '');
+  const { className, children } = props;
+  const lang: string = className.replace(/language-/, '');
   if (langsUseShiki.has(lang)) {
-    return <ShikiCode code={props.children} lang={lang} />;
+    return <ShikiCode code={children} lang={lang} />;
   }
-  return <customMDXComponent.code {...props} children={props.children} />;
+  return (
+    <customMDXComponent.code {...props}>
+      {children}
+    </customMDXComponent.code>
+  );
 }

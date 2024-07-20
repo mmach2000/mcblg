@@ -25,7 +25,6 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.8",
     "execa": "^9.3.0",
-    "gray-matter": "^4.0.3",
     "unocss": "^0.61.5"
   }
 }
