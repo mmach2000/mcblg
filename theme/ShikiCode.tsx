@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { codeToHtml } from 'shiki';
 
 export function ShikiCode({ children, className }) {
-  const [html, setHtml] = useState(children);
+  const [html, setHtml] = useState(`<code>${children}</code>`);
 
   const language: string = className.replace(/language-/, '');
 
