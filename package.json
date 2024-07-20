@@ -12,8 +12,8 @@
     "@douyinfe/semi-ui": "^2.62.1",
     "@rspress/shared": "^1.26",
     "date-fns": "^3.6.0",
-    "oxlint": "^0.6.1",
     "react": "^18.3.1",
+    "reading-time-estimator": "^1.11.0",
     "rspress": "^1.26",
     "shiki": "^1.10.3"
   },
@@ -31,10 +31,11 @@
     "gray-matter": "^4.0.3",
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
+    "oxlint": "^0.6.1",
     "unocss": "^0.61.5"
   },
   "lint-staged": {
-    "*.{md, mdx}": "node ./scripts/add-created.js",
+    "*.{md, mdx}": "node ./scripts/add-frontmatter.js",
     "*.{js,jsx,ts,tsx, cjs, mjs, cts, mts}": "oxlint --fix"
   }
 }

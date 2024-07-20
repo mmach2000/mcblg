@@ -2,7 +2,7 @@ import * as path from 'node:path';
 
 import { defineConfig } from 'rspress/config';
 
-import { myPluginCollectTags } from './plugins/my-plugin-collect-tags';
+import { myPluginCollectFrontMatter } from './plugins/my-plugin-collect-front-matter';
 import { myPluginGitStatus } from './plugins/my-plugin-git-status';
 
 export default defineConfig({
@@ -25,7 +25,7 @@ export default defineConfig({
 
   plugins: [
     myPluginGitStatus(),
-    myPluginCollectTags(),
+    myPluginCollectFrontMatter(),
   ],
   mediumZoom: {
     selector: '.rspress-doc img',

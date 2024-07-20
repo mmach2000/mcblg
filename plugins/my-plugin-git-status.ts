@@ -69,7 +69,7 @@ export function myPluginGitStatus(): RspressPlugin {
 
       !isProd && console.log('my-plugin/git-status', pageData);
     },
-    async addRuntimeModules() {
+    addRuntimeModules() {
       return { 'virtual-git-status': `export default const gitStatus = ${JSON.stringify(routeToGitInfo)};` };
     },
   };

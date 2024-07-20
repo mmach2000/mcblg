@@ -1,5 +1,9 @@
 ---
 created: '2024-07-20T17:39:34+08:00'
+readTime:
+  minutes: 0
+  words: 34
+  text: 小于一分钟
 ---
 
 # Hello World!
