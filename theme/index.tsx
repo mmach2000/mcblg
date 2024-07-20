@@ -1,8 +1,8 @@
 import Theme, { getCustomMDXComponent as originalGet } from 'rspress/theme';
-import { ShikiCode } from './ShikiCode';
+import { FallBackCode } from './ShikiCode';
 
 const customMDXComponent = originalGet();
-customMDXComponent.code = ShikiCode;
+customMDXComponent.code = FallBackCode;
 
 export default Theme;
 export * from 'rspress/theme';

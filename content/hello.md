@@ -8,6 +8,13 @@ created: '2024-07-20T17:39:34+08:00'
 
 Write something to build your own docs! 🎁
 
+```text
+pub fn main() {
+  let message = "Hello, World!";
+  io.print(message)
+}
+```
+
 ```gleam
 pub fn main() {
   let message = "Hello, World!";
