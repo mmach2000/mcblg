@@ -2,8 +2,7 @@ import * as path from 'node:path';
 
 import { defineConfig } from 'rspress/config';
 
-import { myPluginCollectFrontMatter } from './plugins/my-plugin-collect-front-matter';
-import { myPluginGitStatus } from './plugins/my-plugin-git-status';
+import { myPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
 
 export default defineConfig({
   title: '博客',
@@ -22,11 +21,9 @@ export default defineConfig({
     ],
   },
   globalStyles: path.join(__dirname, 'theme/index.css'),
-  globalUIComponents: [path.join(__dirname, 'components', 'ShikiCode.tsx')],
 
   plugins: [
-    myPluginGitStatus(),
-    myPluginCollectFrontMatter(),
+    myPluginCollectPageInfo(),
   ],
   mediumZoom: {
     selector: '.rspress-doc img',

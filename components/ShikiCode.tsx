@@ -13,11 +13,13 @@ export default function ShikiCode({ code, lang }) {
   const [html, setHtml] = useState(`<code>${code}</code>`);
 
   useEffect(() => {
-    if (code) {
-      codeToHtml(code, { lang, ...shikiConfig }).then(setHtml);
-    }
+    codeToHtml(code, { lang, ...shikiConfig }).then(setHtml);
   }, []);
 
-  // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
-  return <code className={`language-${lang} !py-0`} dangerouslySetInnerHTML={{ __html: html }} />;
+  if (!code) {
+    return null;
+  } else {
+    // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
+    return <code className={`language-${lang} !py-0`} dangerouslySetInnerHTML={{ __html: html }} />;
+  }
 }
