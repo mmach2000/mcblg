@@ -1,7 +1,8 @@
 import * as fs from 'node:fs';
 import { parseArgs } from 'node:util';
+
 import matter from 'gray-matter';
-import dateFns from 'date-fns';
+import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
 const addingFields = ['created', 'readTime'];
@@ -25,7 +26,7 @@ function addFrontMatter(file: string) {
   }
 
   if (!content.data?.created) {
-    content.data.created = dateFns.formatISO(new Date());
+    content.data.created = formatISO(new Date());
   }
 
   if (!content.data?.readTime) {
