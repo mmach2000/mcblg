@@ -1,7 +1,7 @@
-import { useSearchParams } from '@rspress/runtime';
 import { unique } from 'radash';
-import { useMediaQuery } from '@uidotdev/usehooks';
 import { Timeline } from '@douyinfe/semi-ui';
+import { useMediaQuery } from '@uidotdev/usehooks';
+import { NoSSR, useSearchParams } from '@rspress/runtime';
 
 // @ts-expect-error Virtual modules are runtime-only
 import tagToInfos from 'my-virtual-tags';
@@ -31,19 +31,20 @@ export default function Tags() {
 
     const place = isSmallDevice ? 'left' : 'center';
     return (
-      <Timeline mode={place}>
-        {posts.map((post) => {
-          const time = new Date(post.gitInfo.created);
-          const readingTime = post.readTime.text;
-          const extra = `${post.routePath} · 阅读时间 ${readingTime}`;
-          return (
-            <Timeline.Item time={time.toLocaleDateString()} key={post.routePath} extra={extra}>
-              {post.title}
-            </Timeline.Item>
-          );
-        },
-        )}
-      </Timeline>
+      <NoSSR>
+        <Timeline mode={place}>
+          {posts.map((post) => {
+            const time = new Date(post.gitInfo.created);
+            const readingTime = post.readTime.text;
+            const extra = `${post.routePath} · 阅读时间 ${readingTime}`;
+            return (
+              <Timeline.Item time={time.toLocaleDateString()} key={post.routePath} extra={extra}>
+                {post.title}
+              </Timeline.Item>
+            );
+          })}
+        </Timeline>
+      </NoSSR>
     );
   }
 }
