@@ -1,4 +1,4 @@
-import { RspressPlugin } from '@rspress/shared';
+import type { RspressPlugin } from '@rspress/shared';
 
 import { readingTime } from 'reading-time-estimator';
 
@@ -27,11 +27,13 @@ export function myPluginCollectFrontMatter(): RspressPlugin {
         : readingTime(content, 400, 'cn');
       pageData.readTime = readTime;
       routeToReadTime[routePath] = readTime;
+
+      // !isProd && console.log('my-plugin/git-status', pageData);
     },
     addRuntimeModules() {
       return {
-        'virtual-tags': `export default const tagToRoutes = ${JSON.stringify(tagToRoutes)};`,
-        'virtual-read-time': `export default const routeToReadTime = ${JSON.stringify(routeToReadTime)};`,
+        'virtual-tags': `export default ${JSON.stringify(tagToRoutes)};`,
+        'virtual-read-time': `export default ${JSON.stringify(routeToReadTime)};`,
       };
     },
   };

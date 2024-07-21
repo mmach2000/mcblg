@@ -13,7 +13,9 @@ export default function ShikiCode({ code, lang }) {
   const [html, setHtml] = useState(`<code>${code}</code>`);
 
   useEffect(() => {
-    codeToHtml(code, { lang, ...shikiConfig }).then(setHtml);
+    if (code) {
+      codeToHtml(code, { lang, ...shikiConfig }).then(setHtml);
+    }
   }, []);
 
   // eslint-disable-next-line react-dom/no-dangerously-set-innerhtml
