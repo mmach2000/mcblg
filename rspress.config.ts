@@ -21,6 +21,7 @@ export default defineConfig({
     ],
   },
   globalStyles: path.join(__dirname, 'theme/index.css'),
+  globalUIComponents: [path.join(__dirname, 'components', 'SideEffects.tsx')],
 
   plugins: [
     myPluginCollectPageInfo(),
