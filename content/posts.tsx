@@ -1,12 +1,7 @@
-import { useSearchParams } from '@rspress/runtime';
 import { Space, Tag } from '@douyinfe/semi-ui';
+import { useSearchParams } from '@rspress/runtime';
 
-// @ts-expect-error Virtual modules are runtime-only
 import tagToInfos from 'my-virtual-tags';
-
-import type { RuntimePageInfo } from '../types';
-
-type TagToPageInfos = Record<string, RuntimePageInfo[]>;
 
 export function TagsCloud() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +16,7 @@ export function TagsCloud() {
     }
   }
 
-  function getOnClick(tag: string) {
+  function onClickFactory(tag: string) {
     return () => {
       if (includeTags.has(tag)) {
         includeTags.delete(tag);
@@ -42,7 +37,7 @@ export function TagsCloud() {
   return (
     <Space>
       {Object.keys(tagToInfos).map(tag => (
-        <Tag onClick={getOnClick(tag)} color={getColor(tag)} key={tag}>
+        <Tag size="large" onClick={onClickFactory(tag)} color={getColor(tag)} key={tag}>
           {tag}
         </Tag>
       ))}
@@ -50,10 +45,14 @@ export function TagsCloud() {
   );
 }
 
+// noinspection JSUnusedGlobalSymbols
 export default function Archive() {
   return <TagsCloud />;
 }
 
+// noinspection JSUnusedGlobalSymbols
 export const frontmatter = {
-  pageType: 'custom',
+  sidebar: false,
+  outline: false,
+  footer: false,
 };

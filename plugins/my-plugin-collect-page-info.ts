@@ -1,21 +1,21 @@
 import type { RspressPlugin } from '@rspress/shared';
 
-import { readingTime } from 'reading-time-estimator';
 import { formatISO } from 'date-fns';
-import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
+import { readingTime } from 'reading-time-estimator';
 
-import type { RuntimePageInfo } from '../types';
+import type { RouteToPageInfo, TagToPageInfos } from '../typing';
+import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
 
 /**
  * Thanks to https://github.com/web-infra-dev/rspress/blob/3e28e909bf59ec3cd3800c5979161befcd0a83bb/packages/plugin-last-updated/src/index.ts
  */
 export function myPluginCollectPageInfo(): RspressPlugin {
-  const tagToPageInfos: Record<string, RuntimePageInfo[]> = {};
-  const routeToPageInfo: Record<string, RuntimePageInfo> = {};
+  const tagToPageInfos: TagToPageInfos = {};
+  const routeToPageInfo: RouteToPageInfo = {};
 
   return {
     name: 'my-plugin/collect-page-info',
-    async extendPageData(pageData) {
+    async extendPageData(pageData, isProd) {
       const { _filepath, title, routePath, content, frontmatter } = pageData;
 
       // collect created/updated timestamp
@@ -46,7 +46,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
         }
       }
 
-      // !isProd && console.log('my-plugin/git-status', pageData);
+      !isProd && console.log('my-plugin/git-status', pageData);
     },
     async addRuntimeModules() {
       return {

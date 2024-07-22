@@ -11,9 +11,10 @@ export default antfu({
   },
 }, {
   rules: {
-    'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
     'no-console': 'off',
-    'unused-imports/no-unused-vars': 'warn',
     'react-hooks/exhaustive-deps': 'off',
+    'unused-imports/no-unused-vars': 'warn',
+    'react-refresh/only-export-components': 'off',
+    'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
   },
 });

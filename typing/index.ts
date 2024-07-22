@@ -12,3 +12,6 @@ export interface RuntimePageInfo {
   gitInfo?: GitInfo;
   readTime: ReturnType<typeof readingTime>;
 }
+
+export type TagToPageInfos = Record<string, RuntimePageInfo[]>;
+export type RouteToPageInfo = Record<string, RuntimePageInfo>;

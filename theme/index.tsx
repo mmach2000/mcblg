@@ -6,7 +6,6 @@ import FallBackCode from './FallBackCode';
 const customMDXComponent = originalGet();
 customMDXComponent.code = FallBackCode;
 
-// eslint-disable-next-line react-refresh/only-export-components
 function Layout() {
   useMutationObserver((mutationsList) => {
     const [mutation] = mutationsList;
@@ -24,7 +23,6 @@ function Layout() {
 
 // noinspection JSUnusedGlobalSymbols
 export default { ...Theme, Layout };
-// eslint-disable-next-line react-refresh/only-export-components
 export * from 'rspress/theme';
 // noinspection JSUnusedGlobalSymbols
 export const getCustomMDXComponent = () => customMDXComponent;
