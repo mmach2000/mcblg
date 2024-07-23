@@ -1,6 +1,5 @@
 import Theme, { getCustomMDXComponent as originalGet } from 'rspress/theme';
 
-import { useMutationObserver } from 'ahooks';
 import FallBackCode from './FallBackCode';
 
 const customMDXComponent = originalGet();

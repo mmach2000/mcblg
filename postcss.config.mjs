@@ -1,8 +1,8 @@
 // postcss.config.mjs
-import UnoCSS from '@unocss/postcss';
+import TailwindCSS from '@tailwindcss/postcss';
 
 export default {
   plugins: [
-    UnoCSS(),
+    TailwindCSS(),
   ],
 };

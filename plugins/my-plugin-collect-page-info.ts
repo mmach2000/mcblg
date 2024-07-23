@@ -1,16 +1,18 @@
+// noinspection ES6PreferShortImport
+
 import type { RspressPlugin } from '@rspress/shared';
 
 import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
-import type { RouteToPageInfo, TagToPageInfos } from '../typing';
+import type { RouteToPageInfo, TagToRoutes } from '../typing';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
 
 /**
  * Thanks to https://github.com/web-infra-dev/rspress/blob/3e28e909bf59ec3cd3800c5979161befcd0a83bb/packages/plugin-last-updated/src/index.ts
  */
 export function myPluginCollectPageInfo(): RspressPlugin {
-  const tagToPageInfos: TagToPageInfos = {};
+  const tagToRoutes: TagToRoutes = {};
   const routeToPageInfo: RouteToPageInfo = {};
 
   return {
@@ -39,10 +41,10 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       // collect tags
       if (frontmatter.tags) {
         for (const tag of frontmatter.tags as string[]) {
-          if (!tagToPageInfos[tag]) {
-            tagToPageInfos[tag] = [];
+          if (!tagToRoutes[tag]) {
+            tagToRoutes[tag] = [];
           }
-          tagToPageInfos[tag].push(routeToPageInfo[routePath]);
+          tagToRoutes[tag].push(routePath);
         }
       }
 
@@ -51,7 +53,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
     async addRuntimeModules() {
       return {
         'my-virtual-page-info': `export default ${JSON.stringify(routeToPageInfo)};`,
-        'my-virtual-tags': `export default ${JSON.stringify(tagToPageInfos)};`,
+        'my-virtual-tags': `export default ${JSON.stringify(tagToRoutes)};`,
       };
     },
   };

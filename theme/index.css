@@ -1,4 +1,4 @@
-@unocss;
+@import "tailwindcss";
 
 html.dark .shiki,
 html.dark .shiki span {

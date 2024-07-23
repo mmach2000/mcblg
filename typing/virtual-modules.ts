@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 declare module 'my-virtual-tags' {
-  const tagToPageInfos: import('./index').TagToPageInfos;
+  const tagToPageInfos: import('./index').TagToRoutes;
   export default tagToPageInfos;
 }
 

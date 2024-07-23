@@ -13,5 +13,5 @@ export interface RuntimePageInfo {
   readTime: ReturnType<typeof readingTime>;
 }
 
-export type TagToPageInfos = Record<string, RuntimePageInfo[]>;
+export type TagToRoutes = Record<string, string[]>;
 export type RouteToPageInfo = Record<string, RuntimePageInfo>;

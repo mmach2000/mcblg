@@ -15,13 +15,19 @@ export default defineConfig({
     dark: '/rspress-dark-logo.png',
   },
 
+  globalStyles: path.join(__dirname, 'theme/index.css'),
+  globalUIComponents: [path.join(__dirname, 'components', 'SideEffects.tsx')],
+
+  builderConfig: {
+    output: {
+      polyfill: 'usage',
+    },
+  },
   themeConfig: {
     socialLinks: [
       { icon: 'github', mode: 'link', content: 'https://github.com/mmach2000/mmach2000.github.io' },
     ],
   },
-  globalStyles: path.join(__dirname, 'theme/index.css'),
-  globalUIComponents: [path.join(__dirname, 'components', 'SideEffects.tsx')],
 
   plugins: [
     myPluginCollectPageInfo(),
