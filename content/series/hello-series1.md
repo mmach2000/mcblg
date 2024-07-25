@@ -3,11 +3,11 @@ tags:
   - hello
   - world
   - s1
-created: '2024-07-20T23:30:14+08:00'
+created: '2023-07-20T17:39:34+08:00'
 readTime:
   minutes: 0
   words: 11
-  text: 小于一分钟
+  text: 1 分钟
 ---
 
 # Hello World!

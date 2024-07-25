@@ -1,9 +1,9 @@
 ---
-created: '2024-07-20T17:39:34+08:00'
+created: '2024-07-24T22:09:05+08:00'
 readTime:
   minutes: 0
   words: 34
-  text: 小于一分钟
+  text: 1 分钟
 ---
 
 # Hello World!

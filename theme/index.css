@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import '@unocss/reset/tailwind-compat.css';
+@unocss;
 
 html.dark .shiki,
 html.dark .shiki span {

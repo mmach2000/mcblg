@@ -12,16 +12,21 @@ const addingFields = ['created', 'readTime'];
  * If the file doesn't exist, it is not an MD / MDX file, or already has such fields, do nothing.
  * So, if you want to update some fields, you should remove them first.
  *
- * @param file {string} The file to add the `created` field to.
+ * @param file The file to add the fields to.
+ * @param force Whether to force adding the fields even if they already exist.
  */
-function addFrontMatter(file: string) {
+function addFrontMatter(file: string, force: boolean = false) {
   if (!fs.existsSync(file) || !(file.endsWith('.md') || file.endsWith('.mdx'))) {
     return;
   }
 
   const content = matter.read(file);
 
-  if (addingFields.every(field => content.data?.[field])) {
+  if (content.data.pageType === 'home') {
+    return;
+  }
+
+  if (!force && addingFields.every(field => content.data?.[field])) {
     return;
   }
 
@@ -29,12 +34,14 @@ function addFrontMatter(file: string) {
     content.data.created = formatISO(new Date());
   }
 
-  if (!content.data?.readTime) {
+  if (force || !content.data?.readTime) {
     content.data.readTime = readingTime(content.content, 400, 'cn');
+    content.data.readTime.text = content.data.readTime.text.replace('小于一', '1 ');
   }
 
   fs.writeFileSync(file, matter.stringify(content.content, content.data));
 }
 
-const args = parseArgs({ strict: false });
-args.positionals.forEach(addFrontMatter);
+const { positionals, values } = parseArgs({ strict: false });
+const force = values.force;
+positionals.forEach(file => addFrontMatter(file, Boolean(force)));

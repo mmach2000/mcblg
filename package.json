@@ -6,12 +6,15 @@
     "dev": "rspress dev",
     "build": "rspress build",
     "preview": "rspress preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "update-meta": "fd -e md -e mdx -x bun ./scripts/add-frontmatter.ts --force {}"
   },
   "dependencies": {
     "@ahooksjs/use-url-state": "^3.5.1",
     "@douyinfe/semi-icons": "^2.62.1",
+    "@douyinfe/semi-illustrations": "^2.62.1",
     "@douyinfe/semi-ui": "^2.62.1",
+    "@formkit/auto-animate": "^0.8.2",
     "@rspress/shared": "^1.26",
     "ahooks": "^3.8.0",
     "radash": "^12.1.0",
@@ -24,9 +27,10 @@
     "@antfu/eslint-config": "^2.23.0",
     "@eslint-react/eslint-plugin": "^1.5.27",
     "@shikijs/transformers": "^1.10.3",
-    "@tailwindcss/postcss": "^4.0.0-alpha.17",
     "@types/node": "^18",
     "@types/react": "^18.3.3",
+    "@unocss/postcss": "^0.61.5",
+    "@unocss/reset": "^0.61.5",
     "eslint": "^9.7.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.8",
@@ -35,7 +39,7 @@
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
     "oxlint": "^0.6.1",
-    "tailwindcss": "^4.0.0-alpha.17"
+    "unocss": "^0.61.5"
   },
   "lint-staged": {
     "*.{md, mdx}": "bun ./scripts/add-frontmatter.ts",

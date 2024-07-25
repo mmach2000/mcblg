@@ -5,7 +5,7 @@ import type { RspressPlugin } from '@rspress/shared';
 import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
-import type { RouteToPageInfo, TagToRoutes } from '../typing';
+import type { ReadingTime, RouteToPageInfo, TagToRoutes } from '../typing';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
 
 /**
@@ -32,9 +32,10 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       pageData.gitInfo = gitInfo;
 
       // collect read time
-      const readTime = frontmatter?.readTime
-        ? (frontmatter.readTime as ReturnType<typeof readingTime>)
+      const readTime: ReadingTime = frontmatter?.readTime
+        ? (frontmatter.readTime as ReadingTime)
         : readingTime(content, 400, 'cn');
+      readTime.text = readTime.text.replace('小于一', '1 ');
       pageData.readTime = readTime;
       routeToPageInfo[routePath] = { title, routePath, gitInfo, readTime };
 

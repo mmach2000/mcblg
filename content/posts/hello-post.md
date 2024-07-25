@@ -1,5 +1,5 @@
 ---
-created: 2021-07-20T09:39:34.000Z
+created: '2024-07-24T17:39:34+08:00'
 tags:
   - hello
   - world
@@ -7,7 +7,7 @@ tags:
 readTime:
   minutes: 0
   words: 10
-  text: 小于一分钟
+  text: 1 分钟
 ---
 
 # Hello World!
