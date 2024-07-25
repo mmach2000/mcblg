@@ -1,5 +1,6 @@
 import useUrlState from '@ahooksjs/use-url-state';
 
+import { sort } from 'moderndash';
 import { format } from 'date-fns';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { IconFilter, IconPriceTag } from '@douyinfe/semi-icons';
@@ -8,7 +9,9 @@ import { IllustrationNoResult, IllustrationNoResultDark } from '@douyinfe/semi-i
 
 import tagToRoutes from 'my-virtual-tags';
 import routeToPageInfo from 'my-virtual-page-info';
+
 import type { RuntimePageInfo } from '../typing';
+import { memoizedToDate } from '../utils/memoized-to-date';
 
 const InitialUrlState = { filter: [], exclude: [] };
 const UrlStateOptions = {
@@ -66,12 +69,14 @@ export function TagsCloud({ className }: { className?: string }) {
 
 function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] }) {
   const [parent] = useAutoAnimate();
+  const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo.created });
+
   return (
     <div key={year} className="space-y-4 items-start">
       <Typography.Title className="inline">{year}</Typography.Title>
       <ul ref={parent} className="space-y-3">
-        {pages.map((page) => {
-          const date = format(new Date(page.gitInfo.created), 'MM/dd');
+        {sortedPages.map((page) => {
+          const date = format(memoizedToDate(page.gitInfo.created), 'MM/dd');
           const readTime = page.readTime.text;
           return (
             <li key={page.routePath}>
@@ -107,13 +112,14 @@ export default function Posts() {
     .flatMap(([, routes]) => routes);
 
   const routeSet: Set<string> = filterTags.length > 0 // @ts-expect-error Set.prototype.Difference is only supported in es2024
-    ? new Set(filteredRoutes).difference(new Set(excludedRoutes)) // @ts-expect-error Same as above
+    ? new Set(filteredRoutes).difference(new Set(excludedRoutes)) // @ts-expect-error The same as above
     : new Set(allRoutes).difference(new Set(excludedRoutes));
   // @ts-expect-error Object.groupBy is only supported in es2024
   const pageGroups: Record<string, RuntimePageInfo[]> = Object.groupBy(
     Array.from(routeSet).map(route => routeToPageInfo[route]),
-    ({ gitInfo: { created } }) => new Date(created).getFullYear(),
+    ({ gitInfo: { created } }) => memoizedToDate(created).getFullYear(),
   );
+  const sortedPageGroups = sort(Object.entries(pageGroups), { order: 'desc', by: item => item[0] });
 
   const handleResetFilters = () => {
     setState(InitialUrlState);
@@ -124,7 +130,7 @@ export default function Posts() {
       <TagsCloud className="mt-4" />
       <Divider className="!my-4" />
       {routeSet.size
-        ? Object.entries(pageGroups).map(([year, pageGroup]) => (
+        ? sortedPageGroups.map(([year, pageGroup]) => (
           <YearAndPosts key={year} year={year} pages={pageGroup} />
         ))
         : (

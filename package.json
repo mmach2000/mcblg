@@ -17,9 +17,8 @@
     "@formkit/auto-animate": "^0.8.2",
     "@rspress/shared": "^1.26",
     "ahooks": "^3.8.0",
-    "radash": "^12.1.0",
+    "moderndash": "^3.12.0",
     "react": "^18.3.1",
-    "reading-time-estimator": "^1.11.0",
     "rspress": "^1.26",
     "shiki": "^1.10.3"
   },
@@ -39,6 +38,7 @@
     "husky": "^9.1.1",
     "lint-staged": "^15.2.7",
     "oxlint": "^0.6.1",
+    "reading-time-estimator": "^1.11.0",
     "unocss": "^0.61.5"
   },
   "lint-staged": {

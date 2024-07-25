@@ -5,8 +5,9 @@ import type { RspressPlugin } from '@rspress/shared';
 import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
-import type { ReadingTime, RouteToPageInfo, TagToRoutes } from '../typing';
+import { memoizedToDate } from '../utils/memoized-to-date';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
+import type { ReadingTime, RouteToPageInfo, TagToRoutes } from '../typing';
 
 /**
  * Thanks to https://github.com/web-infra-dev/rspress/blob/3e28e909bf59ec3cd3800c5979161befcd0a83bb/packages/plugin-last-updated/src/index.ts
@@ -23,7 +24,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       // collect created/updated timestamp
       const lastUpdatedInfo = await getGitLastUpdated(_filepath);
       const created = typeof frontmatter?.created == 'string'
-        ? formatISO(new Date(frontmatter.created))
+        ? formatISO(memoizedToDate(frontmatter.created))
         : await getGitCreated(_filepath);
 
       const gitInfo = !created || !lastUpdatedInfo
