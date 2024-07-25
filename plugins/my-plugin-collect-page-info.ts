@@ -19,7 +19,12 @@ export function myPluginCollectPageInfo(): RspressPlugin {
   return {
     name: 'my-plugin/collect-page-info',
     async extendPageData(pageData) {
-      const { _filepath, title, routePath, content, frontmatter } = pageData;
+      const { _filepath, _relativePath, title, routePath, content, frontmatter } = pageData;
+
+      if ((_relativePath.endsWith('tsx') && !_relativePath.includes('posts/') && !_relativePath.includes('series/'))
+        || frontmatter.notBlog) {
+        return;
+      }
 
       // collect created/updated timestamp
       const lastUpdatedInfo = await getGitLastUpdated(_filepath);
@@ -41,14 +46,15 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       routeToPageInfo[routePath] = { title, routePath, gitInfo, readTime };
 
       // collect tags
-      if (frontmatter.tags) {
-        for (const tag of frontmatter.tags as string[]) {
-          if (!tagToRoutes[tag]) {
-            tagToRoutes[tag] = [];
-          }
-          tagToRoutes[tag].push(routePath);
+      const tags: string[] = frontmatter.tags as any ?? ['未分类'];
+      for (const tag of tags) {
+        if (!tagToRoutes[tag]) {
+          tagToRoutes[tag] = [];
         }
+        tagToRoutes[tag].push(routePath);
       }
+
+      // console.log('routeToPageInfo', routeToPageInfo);
     },
     async addRuntimeModules() {
       return {

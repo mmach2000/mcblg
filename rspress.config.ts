@@ -19,9 +19,7 @@ export default defineConfig({
   globalUIComponents: [path.join(__dirname, 'components', 'SideEffects.tsx')],
 
   builderConfig: {
-    output: {
-      polyfill: 'usage',
-    },
+    output: { polyfill: 'usage' },
   },
   themeConfig: {
     socialLinks: [
