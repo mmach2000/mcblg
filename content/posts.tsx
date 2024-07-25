@@ -77,9 +77,9 @@ function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] 
             <li key={page.routePath}>
               <a href={page.routePath} className="group" flex="~ items-baseline gap-3">
                 <span text="xl zinc-900 dark:zinc-100 hover-op">{page.title}</span>
-                <span text="sm zinc-600 dark:zinc-400 hover-op">{date}</span>
-                <span text="sm zinc-500 dark:zinc-500 hover-op">·</span>
-                <span text="sm zinc-400 dark:zinc-600 hover-op">{readTime}</span>
+                <span font="mono" text="sm zinc-600 dark:zinc-400 hover-op">{date}</span>
+                <span font="mono" text="sm zinc-500 dark:zinc-500 hover-op">·</span>
+                <span font="mono" text="sm zinc-400 dark:zinc-600 hover-op">{readTime}</span>
               </a>
             </li>
           );
@@ -93,7 +93,7 @@ function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] 
 // noinspection JSUnusedGlobalSymbols
 export default function Posts() {
   const [parent] = useAutoAnimate();
-  const [state] = useUrlState(InitialUrlState, UrlStateOptions);
+  const [state, setState] = useUrlState(InitialUrlState, UrlStateOptions);
 
   const filterTags = [state.filter].flat();
   const excludeTags = [state.exclude].flat();
@@ -115,6 +115,10 @@ export default function Posts() {
     ({ gitInfo: { created } }) => new Date(created).getFullYear(),
   );
 
+  const handleResetFilters = () => {
+    setState(InitialUrlState);
+  };
+
   return (
     <div ref={parent}>
       <TagsCloud className="mt-4" />
@@ -125,9 +129,18 @@ export default function Posts() {
         ))
         : (
             <Empty
-              image={<IllustrationNoResult style={{ width: 150, height: 150 }} />}
-              darkModeImage={<IllustrationNoResultDark style={{ width: 150, height: 150 }} />}
-              description="空空如也……"
+              className="mt-8"
+              image={<IllustrationNoResult />}
+              darkModeImage={<IllustrationNoResultDark />}
+              title="暂未找到匹配的筛选结果"
+              description={(
+                <span>
+                  <Typography.Text>试试 </Typography.Text>
+                  <a onClick={handleResetFilters}>
+                    <Typography.Text link>重置筛选条件</Typography.Text>
+                  </a>
+                </span>
+              )}
             />
           )}
       {}

@@ -17,7 +17,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
 
   return {
     name: 'my-plugin/collect-page-info',
-    async extendPageData(pageData, isProd) {
+    async extendPageData(pageData) {
       const { _filepath, title, routePath, content, frontmatter } = pageData;
 
       // collect created/updated timestamp
@@ -48,8 +48,6 @@ export function myPluginCollectPageInfo(): RspressPlugin {
           tagToRoutes[tag].push(routePath);
         }
       }
-
-      !isProd && console.log('my-plugin/git-status', pageData);
     },
     async addRuntimeModules() {
       return {
