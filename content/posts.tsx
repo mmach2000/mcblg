@@ -69,7 +69,7 @@ export function TagsCloud({ className }: { className?: string }) {
 
 function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] }) {
   const [parent] = useAutoAnimate();
-  const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo.created });
+  const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo?.created ?? '' });
 
   return (
     <div key={year} className="space-y-4 items-start">

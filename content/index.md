@@ -1,5 +1,6 @@
 ---
 pageType: home
+notBlog: true
 
 hero:
   name: 博客
@@ -41,7 +42,3 @@ readTime:
   words: 2
   text: 小于一分钟
 ---
-
-# 111
-
-aa

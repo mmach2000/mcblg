@@ -8,11 +8,12 @@ import { readingTime } from 'reading-time-estimator';
 import { memoizedToDate } from '../utils/memoized-to-date';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
 import type { ReadingTime, RouteToPageInfo, TagToRoutes } from '../typing';
+import { CATEGORIES } from '../constants';
 
 /**
  * Thanks to https://github.com/web-infra-dev/rspress/blob/3e28e909bf59ec3cd3800c5979161befcd0a83bb/packages/plugin-last-updated/src/index.ts
  */
-export function MyPluginCollectPageInfo(): RspressPlugin {
+export function myPluginCollectPageInfo(): RspressPlugin {
   const tagToRoutes: TagToRoutes = {};
   const routeToPageInfo: RouteToPageInfo = {};
 
@@ -21,20 +22,18 @@ export function MyPluginCollectPageInfo(): RspressPlugin {
     async extendPageData(pageData) {
       const { _filepath, _relativePath, title, routePath, content, frontmatter } = pageData;
 
-      if ((_relativePath.endsWith('tsx') && !_relativePath.includes('posts/') && !_relativePath.includes('series/'))
+      if ((_relativePath.endsWith('tsx') && !CATEGORIES.some(s => _relativePath.includes(`s/`)))
         || frontmatter.notBlog) {
         return;
       }
 
       // collect created/updated timestamp
-      const lastUpdatedInfo = await getGitLastUpdated(_filepath);
+      const lastUpdatedInfo = await getGitLastUpdated(_filepath) ?? { lastUpdated: formatISO(new Date()), lastUpdatedHash: 'unknown' };
       const created = typeof frontmatter?.created == 'string'
         ? formatISO(memoizedToDate(frontmatter.created))
-        : await getGitCreated(_filepath);
+        : await getGitCreated(_filepath) ?? formatISO(new Date());
 
-      const gitInfo = !created || !lastUpdatedInfo
-        ? undefined
-        : { created, ...lastUpdatedInfo };
+      const gitInfo = { created, ...lastUpdatedInfo };
       pageData.gitInfo = gitInfo;
 
       // collect read time
@@ -53,8 +52,6 @@ export function MyPluginCollectPageInfo(): RspressPlugin {
         }
         tagToRoutes[tag].push(routePath);
       }
-
-      // console.log('routeToPageInfo', routeToPageInfo);
     },
     async addRuntimeModules() {
       return {

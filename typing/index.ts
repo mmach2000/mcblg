@@ -1,7 +1,7 @@
 export interface GitInfo {
-  created?: string;
-  lastUpdated?: string;
-  lastUpdatedHash?: string;
+  created: string;
+  lastUpdated: string;
+  lastUpdatedHash: string;
 }
 
 export interface ReadingTime {
@@ -13,7 +13,7 @@ export interface ReadingTime {
 export interface RuntimePageInfo {
   title: string;
   routePath: string;
-  gitInfo?: GitInfo;
+  gitInfo: GitInfo;
   readTime: ReadingTime;
 }
 

@@ -1,0 +1,8 @@
+@import 'node_modules/@unocss/reset/tailwind-compat.css';
+@import 'node_modules/katex/dist/katex.min.css';
+
+@unocss;
+
+html.dark .rspress-code-content span {
+  color: var(--shiki-dark) !important;
+}
