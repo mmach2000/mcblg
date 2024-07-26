@@ -17,9 +17,11 @@
     "@formkit/auto-animate": "^0.8.2",
     "@rspress/shared": "^1.26",
     "ahooks": "^3.8.0",
+    "i": "^0.3.7",
     "moderndash": "^3.12.0",
     "react": "^18.3.1",
     "rspress": "^1.26",
+    "rspress-plugin-google-analytics": "^0.3.0",
     "shiki": "^1.10.3"
   },
   "devDependencies": {

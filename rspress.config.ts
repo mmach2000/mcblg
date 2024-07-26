@@ -1,8 +1,9 @@
 import * as path from 'node:path';
 
 import { defineConfig } from 'rspress/config';
+import GoogleAnalytics from 'rspress-plugin-google-analytics';
 
-import { myPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
+import { MyPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
 
 export default defineConfig({
   title: '博客',
@@ -28,7 +29,8 @@ export default defineConfig({
   },
 
   plugins: [
-    myPluginCollectPageInfo(),
+    GoogleAnalytics({ id: 'G-02B72QHDVW' }),
+    MyPluginCollectPageInfo(),
   ],
   mediumZoom: {
     selector: '.rspress-doc img',
