@@ -1,4 +1,6 @@
 // uno.config.ts
+// noinspection JSUnusedGlobalSymbols
+
 import {
   defineConfig,
   presetAttributify,
@@ -6,7 +8,6 @@ import {
   presetTypography,
   presetUno,
   presetWebFonts,
-  transformerAttributifyJsx,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss';

@@ -1,3 +1,6 @@
+// noinspection JSUnusedGlobalSymbols
+// noinspection SpellCheckingInspection
+
 import * as path from 'node:path';
 
 import { defineConfig } from 'rspress/config';
@@ -7,6 +10,7 @@ import rehypeShiki from '@shikijs/rehype';
 import pluginGoogleAnalytics from 'rspress-plugin-google-analytics';
 
 import rehypeKatex from 'rehype-katex';
+import rehypeMermaid from 'rehype-mermaid';
 import { myPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
 
 export default defineConfig({
@@ -28,6 +32,7 @@ export default defineConfig({
       polyfill: 'usage',
       sourceMap: { js: 'source-map', css: true },
     },
+    source: { alias: { '@': '.' } },
   },
   themeConfig: {
     socialLinks: [
@@ -45,9 +50,11 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [
-      // @ts-ignore
+      // @ts-expect-error. Rspress has a different type definition for rehype plugins
       rehypeKatex,
-      // @ts-ignore
+      // @ts-expect-error. Same as above
+      [rehypeMermaid, { strategy: 'img-svg' }],
+      // @ts-expect-error. Same as above
       [rehypeShiki, { themes: { light: 'github-light', dark: 'github-dark' } }],
     ],
     mdxRs: {

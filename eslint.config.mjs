@@ -1,9 +1,13 @@
 // eslint.config.mjs
+// noinspection JSUnusedGlobalSymbols
+
 import antfu from '@antfu/eslint-config';
+import * as mdx from 'eslint-plugin-mdx';
 
 export default antfu({
   isInEditor: true,
   react: true,
+  unocss: true,
   stylistic: {
     indent: 2,
     quotes: 'single',

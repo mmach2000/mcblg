@@ -10,8 +10,8 @@ import { IllustrationNoResult, IllustrationNoResultDark } from '@douyinfe/semi-i
 import tagToRoutes from 'my-virtual-tags';
 import routeToPageInfo from 'my-virtual-page-info';
 
-import type { RuntimePageInfo } from '../typing';
-import { memoizedToDate } from '../utils/memoized-to-date';
+import type { RuntimePageInfo } from '@/typing';
+import { memoizedToDate } from '@/utils/memoized-to-date';
 
 const InitialUrlState = { filter: [], exclude: [] };
 const UrlStateOptions = {
@@ -72,7 +72,7 @@ function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] 
   const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo?.created ?? '' });
 
   return (
-    <div key={year} className="space-y-4 items-start">
+    <div key={year} className="items-start space-y-4">
       <Typography.Title className="inline">{year}</Typography.Title>
       <ul ref={parent} className="space-y-3">
         {sortedPages.map((page) => {

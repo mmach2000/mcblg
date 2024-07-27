@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./*"]
+    },
     "esModuleInterop": true
   },
   "mdx": {

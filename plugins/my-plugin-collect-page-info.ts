@@ -22,7 +22,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
     async extendPageData(pageData) {
       const { _filepath, _relativePath, title, routePath, content, frontmatter } = pageData;
 
-      if ((_relativePath.endsWith('tsx') && !CATEGORIES.some(s => _relativePath.includes(`s/`)))
+      if ((_relativePath.endsWith('tsx') && !CATEGORIES.some(s => _relativePath.includes(`${s}/`)))
         || frontmatter.notBlog) {
         return;
       }
