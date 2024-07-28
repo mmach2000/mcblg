@@ -25,8 +25,8 @@ export default defineConfig({
     presetTypography(),
     presetWebFonts({
       fonts: {
-        romania: 'Playwrite RO:300',
-        argentina: 'Playwrite AR:300',
+        romania: ['Playwrite RO:300', 'cursive'],
+        argentina: ['Playwrite AR:300', 'cursive'],
       },
     }),
   ],

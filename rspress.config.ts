@@ -18,7 +18,7 @@ export default defineConfig({
   description: '我的博客',
   root: path.join(__dirname, 'content'),
 
-  icon: '/blog-icon.png',
+  icon: '/favicon.png',
   logo: {
     light: '/blog-logo.svg',
     dark: '/blog-logo.svg',
