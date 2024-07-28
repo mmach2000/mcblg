@@ -14,14 +14,14 @@ import rehypeMermaid from 'rehype-mermaid';
 import { myPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
 
 export default defineConfig({
-  title: '博客',
+  title: 'Reveries',
   description: '我的博客',
   root: path.join(__dirname, 'content'),
 
-  icon: '/rspress-icon.png',
+  icon: '/blog-icon.png',
   logo: {
-    light: '/rspress-light-logo.png',
-    dark: '/rspress-dark-logo.png',
+    light: '/blog-logo.svg',
+    dark: '/blog-logo.svg',
   },
 
   globalStyles: path.join(__dirname, 'index.css'),

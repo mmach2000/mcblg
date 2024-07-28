@@ -2,6 +2,16 @@
   {
     "text": "POSTS",
     "link": "/posts",
-    "activeMatch": "/posts/"
+    "activeMatch": "/posts"
+  },
+  {
+    "text": "SERIES",
+    "link": "/series",
+    "activeMatch": "/series"
+  },
+  {
+    "text": "NOTES",
+    "link": "/notes",
+    "activeMatch": "/notes"
   }
 ]

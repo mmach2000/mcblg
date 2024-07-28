@@ -183,21 +183,21 @@ graph TD;
 
 - - -
 
-## MathJax
+## 公式
 
 ```
 块级公式：
-$$    x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+$$ x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 
 行内公式： $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$
 ```
 
 块级公式：
-$$    x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
+$$ x = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a} $$
 
 行内公式： $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$
 
-## 脚注（Footnote）
+## 脚注
 
 ```
 这是一个脚注：[^sample_footnote]

@@ -1,7 +1,6 @@
 import useUrlState from '@ahooksjs/use-url-state';
 
 import { sort } from 'moderndash';
-import { format } from 'date-fns';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { IconFilter, IconPriceTag } from '@douyinfe/semi-icons';
 import { Divider, Empty, Space, Tag, Typography } from '@douyinfe/semi-ui';
@@ -12,6 +11,7 @@ import routeToPageInfo from 'my-virtual-page-info';
 
 import type { RuntimePageInfo } from '@/typing';
 import { memoizedToDate } from '@/utils/memoized-to-date';
+import { PageList } from '@/components/PageList';
 
 const InitialUrlState = { filter: [], exclude: [] };
 const UrlStateOptions = {
@@ -67,34 +67,6 @@ export function TagsCloud({ className }: { className?: string }) {
   );
 }
 
-function YearAndPosts({ year, pages }: { year: string; pages: RuntimePageInfo[] }) {
-  const [parent] = useAutoAnimate();
-  const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo?.created ?? '' });
-
-  return (
-    <div key={year} className="items-start space-y-4">
-      <Typography.Title className="inline">{year}</Typography.Title>
-      <ul ref={parent} className="space-y-3">
-        {sortedPages.map((page) => {
-          const date = format(memoizedToDate(page.gitInfo.created), 'MM/dd');
-          const readTime = page.readTime.text;
-          return (
-            <li key={page.routePath}>
-              <a href={page.routePath} className="group" flex="~ items-baseline gap-3">
-                <span text="xl zinc-900 dark:zinc-100 hover-op">{page.title}</span>
-                <span font="mono" text="sm zinc-600 dark:zinc-400 hover-op">{date}</span>
-                <span font="mono" text="sm zinc-500 dark:zinc-500 hover-op">·</span>
-                <span font="mono" text="sm zinc-400 dark:zinc-600 hover-op">{readTime}</span>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-      <Divider className="!my-4" />
-    </div>
-  );
-}
-
 // noinspection JSUnusedGlobalSymbols
 export default function Posts() {
   const [parent] = useAutoAnimate();
@@ -131,7 +103,11 @@ export default function Posts() {
       <Divider className="!my-4" />
       {routeSet.size
         ? sortedPageGroups.map(([year, pageGroup]) => (
-          <YearAndPosts key={year} year={year} pages={pageGroup} />
+          <div key={year} className="space-y-4">
+            <Typography.Title className="inline">{year}</Typography.Title>
+            <PageList pages={pageGroup} />
+            <Divider className="!my-4" />
+          </div>
         ))
         : (
             <Empty

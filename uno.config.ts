@@ -15,7 +15,7 @@ import {
 export default defineConfig({
   content: {
     filesystem: [
-      '**/*.{html,js,ts,jsx,tsx,vue,svelte,astro}',
+      '**/*.{html,js,ts,jsx,tsx,md,mdx,vue,svelte,astro}',
     ],
   },
   presets: [
@@ -23,7 +23,12 @@ export default defineConfig({
     presetAttributify(),
     presetIcons(),
     presetTypography(),
-    presetWebFonts(),
+    presetWebFonts({
+      fonts: {
+        romania: 'Playwrite RO:300',
+        argentina: 'Playwrite AR:300',
+      },
+    }),
   ],
   transformers: [
     transformerDirectives(),
