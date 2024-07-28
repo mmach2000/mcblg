@@ -40,7 +40,7 @@ jobs:
       - name: Install playwright
         run: bunx playwright install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Install playwright
+      - name: Install playwright dependencies
         run: bunx playwright install-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Build with Rspress
