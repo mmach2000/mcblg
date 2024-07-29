@@ -16,7 +16,6 @@ export default antfu({
   rules: {
     'no-console': 'off',
     'react-hooks/exhaustive-deps': 'off',
-    'unused-imports/no-unused-vars': 'warn',
     'react-refresh/only-export-components': 'off',
     'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
   },
