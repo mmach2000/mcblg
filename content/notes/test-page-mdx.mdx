@@ -6,25 +6,32 @@ readTime:
   text: 1 分钟
 ---
 
-# MDX 排版样张
-
-import { Divider } from "@douyinfe/semi-ui";
 import { Galileo } from "@/components/Galileo";
 
-<Divider/>
+import LoremIpsum from "./assets/lorem-ipsum.json";
 
-<p font="argentina">
-As any dedicated reader can clearly see, the Ideal of practical reason is a representation
-of, as far as I know, the things in themselves; as I have shown elsewhere, the phenomena
-should only be used as a canon for our understanding. The paralogisms of practical
-reason are what first give rise to the architectonic of practical reason. As will easily be
-shown in the next section, reason would thereby be made to contradict, in view of these
-considerations, the Ideal of practical reason, yet the manifold depends on the phenomena.
-Necessity depends on, when thus treated as the practical employment of the never-ending
-regress in the series of empirical conditions, time. Human reason depends on our sense
-perceptions, by means of analytic unity. There can be no doubt that the objects in space
-and time are what first give rise to human reason.
+# MDX 排版样张
+
+## MDX + UnoCSS
+
+<p font="argentina" leading="loose" mb="3">
+  {LoremIpsum}
 </p>
+
+<p font="romania" leading="loose">
+  {LoremIpsum}
+</p>
+
+<div flex="~ justify-around items-center" text="3xl" mt="6" mb="-6">
+  <div className="i-logos-react" />
+  <div className="i-logos-unocss" />
+  <div className="i-logos-bun" />
+  <div className="i-carbon-assembly text-cyan-400" />
+  <div className="i-carbon-sun dark:i-carbon-moon" />
+  <div className="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
+</div>
+
+## MDX + Components + Semi Design
 
 <Galileo roleInfos={{ 萨尔: { name : "萨尔维亚蒂"}, 萨格: { name: "萨格雷多", isUser: true }}} >
   萨尔：你们威尼斯人在著名的兵工厂里进行的经常性活动，特别是包含力学的那部分工作，对好学的人提出了一个广阔的研究领域。
@@ -37,5 +44,3 @@ and time are what first give rise to human reason.
   不久前，有一位老人告诉我们虽然是公认的和已被普遍接受的事，但如同在无知的人们中流传的许多别的说法一样，在我看来完全是错误的；
   因为我认为，他们的这些说法是为了表现他们知道一些事情，而对那些事他们并不理解。
 </Galileo>
-
-<Divider/>

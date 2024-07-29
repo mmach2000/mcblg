@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
-import { CATEGORIES } from '@/constants';
+import { PATHS } from '@/constants';
 
 const addingFields = ['created', 'readTime'];
 
@@ -19,7 +19,7 @@ const addingFields = ['created', 'readTime'];
  */
 function addFrontMatter(file: string, force: boolean = false) {
   if (!fs.existsSync(file)
-    || !CATEGORIES.some(path => file.includes(`${path}/`))
+    || !PATHS.some(path => file.includes(`${path}/`))
     || !(file.endsWith('.md') || file.endsWith('.mdx'))) {
     return;
   }

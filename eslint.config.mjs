@@ -3,6 +3,7 @@
 
 import antfu from '@antfu/eslint-config';
 
+// noinspection JSCheckFunctionSignatures
 export default antfu({
   isInEditor: true,
   react: true,

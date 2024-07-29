@@ -11,6 +11,8 @@ import pluginGoogleAnalytics from 'rspress-plugin-google-analytics';
 
 import rehypeKatex from 'rehype-katex';
 import rehypeMermaid from 'rehype-mermaid';
+
+import { GITHUB_LINK } from './constants';
 import { myPluginCollectPageInfo } from './plugins/my-plugin-collect-page-info';
 
 export default defineConfig({
@@ -36,7 +38,7 @@ export default defineConfig({
   },
   themeConfig: {
     socialLinks: [
-      { icon: 'github', mode: 'link', content: 'https://github.com/mmach2000/mmach2000.github.io' },
+      { icon: 'github', mode: 'link', content: GITHUB_LINK },
     ],
   },
 

@@ -2,70 +2,17 @@ import useUrlState from '@ahooksjs/use-url-state';
 
 import { sort } from 'moderndash';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { IconFilter, IconPriceTag } from '@douyinfe/semi-icons';
-import { Divider, Empty, Space, Tag, Typography } from '@douyinfe/semi-ui';
+import { Divider, Empty, Typography } from '@douyinfe/semi-ui';
 import { IllustrationNoResult, IllustrationNoResultDark } from '@douyinfe/semi-illustrations';
 
-import tagToRoutes from 'my-virtual-tags';
-import routeToPageInfo from 'my-virtual-page-info';
+import tagToRoutes from 'my-virtual-posts-tags';
+import routeToPageInfo from 'my-virtual-posts-page-info';
 
 import type { RuntimePageInfo } from '@/typing';
 import { memoizedToDate } from '@/utils/memoized-to-date';
 import { PageList } from '@/components/PageList';
-
-const InitialUrlState = { filter: [], exclude: [] };
-const UrlStateOptions = {
-  parseOptions: { arrayFormat: 'separator' as const, arrayFormatSeparator: '|' },
-  stringifyOptions: { arrayFormat: 'separator' as const, arrayFormatSeparator: '|' },
-};
-
-export function TagsCloud({ className }: { className?: string }) {
-  const [state, setState] = useUrlState(InitialUrlState, UrlStateOptions);
-  const filterTags = new Set<string>([state.filter].flat());
-  const excludeTags = new Set<string>([state.exclude].flat());
-
-  function getStyle(tag: string) {
-    if (filterTags.has(tag)) {
-      return { color: 'blue' as const, prefixIcon: <IconFilter /> };
-    } else if (excludeTags.has(tag)) {
-      return { color: 'red' as const, prefixIcon: <IconFilter /> };
-    }
-    return { prefixIcon: <IconPriceTag /> };
-  }
-
-  function onClickFactory(tag: string) {
-    return () => {
-      if (filterTags.has(tag)) {
-        filterTags.delete(tag);
-        excludeTags.add(tag);
-      } else if (excludeTags.has(tag)) {
-        excludeTags.delete(tag);
-      } else {
-        filterTags.add(tag);
-      }
-
-      setState({
-        filter: Array.from(filterTags),
-        exclude: Array.from(excludeTags),
-      });
-    };
-  }
-
-  return (
-    <Space wrap className={className}>
-      {Object.keys(tagToRoutes).map(tag => (
-        <Tag
-          key={tag}
-          size="large"
-          {...getStyle(tag)}
-          onClick={onClickFactory(tag)}
-        >
-          {tag}
-        </Tag>
-      ))}
-    </Space>
-  );
-}
+import { TagsCloud } from '@/components/TagsCloud';
+import { InitialUrlState, UrlStateOptions } from '@/constants/url-state';
 
 // noinspection JSUnusedGlobalSymbols
 export default function Posts() {
@@ -99,7 +46,7 @@ export default function Posts() {
 
   return (
     <div ref={parent}>
-      <TagsCloud className="mt-4" />
+      <TagsCloud tags={Object.keys(tagToRoutes)} className="mt-4" />
       <Divider className="!my-4" />
       {routeSet.size
         ? sortedPageGroups.map(([year, pageGroup]) => (
