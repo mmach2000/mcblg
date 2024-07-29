@@ -15,10 +15,4 @@ hero:
     - theme: alt
       text: NOTES
       link: ./notes
-
-created: '2024-07-20T23:30:14+08:00'
-readTime:
-  minutes: 0
-  words: 2
-  text: 小于一分钟
 ---

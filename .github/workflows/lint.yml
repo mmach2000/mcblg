@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Bun.js
         uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun i
       - name: Run eslint
         run: bunx eslint
-      - name: Report results
-        run: bunx eslint-report

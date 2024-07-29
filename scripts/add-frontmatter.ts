@@ -5,6 +5,8 @@ import matter from 'gray-matter';
 import { formatISO } from 'date-fns';
 import { readingTime } from 'reading-time-estimator';
 
+import { CATEGORIES } from '@/constants';
+
 const addingFields = ['created', 'readTime'];
 
 /**
@@ -16,7 +18,9 @@ const addingFields = ['created', 'readTime'];
  * @param force Whether to force adding the fields even if they already exist.
  */
 function addFrontMatter(file: string, force: boolean = false) {
-  if (!fs.existsSync(file) || !(file.endsWith('.md') || file.endsWith('.mdx'))) {
+  if (!fs.existsSync(file)
+    || !CATEGORIES.some(path => file.includes(`${path}/`))
+    || !(file.endsWith('.md') || file.endsWith('.mdx'))) {
     return;
   }
 
