@@ -4,10 +4,10 @@ import type { PageIndexInfo, RspressPlugin } from '@rspress/shared';
 
 import { formatISO } from 'date-fns';
 
+import { PATHS } from '../constants';
 import { memoizedToDate } from '../utils/memoized-to-date';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
 import type { RouteToPageInfo, TagToRoutes } from '../typing';
-import { PATHS } from '../constants';
 
 async function collectGitInfo({ frontmatter, _filepath }: PageIndexInfo) {
   const lastUpdatedInfo = await getGitLastUpdated(_filepath) ?? { lastUpdated: formatISO(new Date()), lastUpdatedHash: 'unknown' };

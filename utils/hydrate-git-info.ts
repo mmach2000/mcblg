@@ -1,5 +1,5 @@
-import type { GitInfo, HydratedGitInfo } from '@/typing';
 import { memoizedToDate } from '@/utils/memoized-to-date';
+import type { GitInfo, HydratedGitInfo } from '@/typing';
 
 export function hydrateGitInfo(gitInfo: GitInfo): HydratedGitInfo {
   return {

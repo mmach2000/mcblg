@@ -1,9 +1,10 @@
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { sort } from 'moderndash';
 import { format } from 'date-fns';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
+
+import type { PATHS } from '@/constants';
 import type { RuntimePageInfo } from '@/typing';
 import { memoizedToDate } from '@/utils/memoized-to-date';
-import type { PATHS } from '@/constants';
 
 export function PageList({ routes, pageInfos, path }: { routes: string[]; pageInfos: Record<string, RuntimePageInfo>; path: (typeof PATHS)[number] }) {
   const [parent] = useAutoAnimate();

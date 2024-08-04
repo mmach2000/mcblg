@@ -1,6 +1,6 @@
 import useUrlState from '@ahooksjs/use-url-state';
-import { IconFilter, IconPriceTag } from '@douyinfe/semi-icons';
 import { Space, Tag } from '@douyinfe/semi-ui';
+import { IconFilter, IconPriceTag } from '@douyinfe/semi-icons';
 import { InitialUrlState, UrlStateOptions } from '@/constants/url-state';
 
 export function TagsCloud({ tags, className }: { tags: string[]; className?: string }) {

@@ -2,8 +2,8 @@ import * as fs from 'node:fs';
 import { parseArgs } from 'node:util';
 
 import matter from 'gray-matter';
-import { formatISO } from 'date-fns';
 import wordsCount from 'words-count';
+import { formatISO } from 'date-fns';
 
 import { PATHS } from '@/constants';
 

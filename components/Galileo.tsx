@@ -1,6 +1,6 @@
+import { merge } from 'moderndash';
 import { Avatar, Chat } from '@douyinfe/semi-ui';
 import type { ReactElement, ReactNode } from 'react';
-import { merge } from 'moderndash';
 
 const AvatarColors = ['amber', 'blue', 'cyan', 'green', 'grey', 'indigo', 'light-blue', 'light-green', 'lime', 'orange', 'pink', 'purple', 'red', 'teal', 'violet', 'yellow'] as const;
 

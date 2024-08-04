@@ -13,9 +13,9 @@ import {
 import tagToRoutes from 'my-virtual-posts-tags';
 import routeToPageInfo from 'my-virtual-posts-page-info';
 
-import { memoizedToDate } from '@/utils/memoized-to-date';
 import { PageList } from '@/components/PageList';
 import { TagsCloud } from '@/components/TagsCloud';
+import { memoizedToDate } from '@/utils/memoized-to-date';
 import { InitialUrlState, UrlStateOptions } from '@/constants/url-state';
 
 // noinspection JSUnusedGlobalSymbols
