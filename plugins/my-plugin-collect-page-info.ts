@@ -39,6 +39,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       pageData.injected = true;
 
       const category = _relativePath.split('/')[0] as (typeof PATHS)[number];
+      pageData.category = category;
 
       // collect created/updated timestamp
       const gitInfo = await collectGitInfo(pageData);
