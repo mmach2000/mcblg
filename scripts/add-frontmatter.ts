@@ -3,11 +3,11 @@ import { parseArgs } from 'node:util';
 
 import matter from 'gray-matter';
 import { formatISO } from 'date-fns';
-import { readingTime } from 'reading-time-estimator';
+import wordsCount from 'words-count';
 
 import { PATHS } from '@/constants';
 
-const addingFields = ['created', 'readTime'];
+const fieldsToAdd = ['created', 'wordCount'] as const;
 
 /**
  * Add `created`, `readTime` fields to the front matter of a file.
@@ -30,17 +30,16 @@ function addFrontMatter(file: string, force: boolean = false) {
     return;
   }
 
-  if (!force && addingFields.every(field => content.data?.[field])) {
+  if (!force && fieldsToAdd.every(field => content.data?.[field])) {
     return;
   }
 
-  if (!content.data?.created) {
-    content.data.created = formatISO(new Date());
-  }
+  content.data.created = content.data?.created ?? formatISO(new Date());
+  content.data.wordCount = wordsCount(content.content);
 
-  if (force || !content.data?.readTime) {
-    content.data.readTime = readingTime(content.content, 400, 'cn');
-    content.data.readTime.text = content.data.readTime.text.replace('小于一', '1 ');
+  // category-specific actions
+  if (file.includes('posts')) {
+    content.data.sidebar = false;
   }
 
   fs.writeFileSync(file, matter.stringify(content.content, content.data));

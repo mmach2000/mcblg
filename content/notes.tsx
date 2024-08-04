@@ -8,15 +8,13 @@ import routeToPageInfo from 'my-virtual-notes-page-info';
 import { PageList } from '@/components/PageList';
 
 // noinspection JSUnusedGlobalSymbols
-export default function Posts() {
+export default function NotesPage() {
   const [parent] = useAutoAnimate();
-  console.log(routes);
-  const pageGroup = routes.map(route => routeToPageInfo[route]);
 
   return (
     <div ref={parent} mt="md:8">
       {routes.length
-        ? <PageList pages={pageGroup} />
+        ? <PageList routes={routes} pageInfos={routeToPageInfo} path="notes" />
         : (
             <Empty
               className="mt-8"

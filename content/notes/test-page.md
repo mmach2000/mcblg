@@ -1,9 +1,6 @@
 ---
-created: '2024-07-24T22:09:05+08:00'
-readTime:
-  minutes: 2
-  words: 742
-  text: 2 分钟
+created: '2024-07-21T22:09:05+08:00'
+wordCount: 805
 ---
 
 # Markdown 排版样张 - mdx-rs 版

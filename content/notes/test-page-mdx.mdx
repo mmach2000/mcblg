@@ -1,11 +1,9 @@
 ---
-created: '2024-07-27T12:11:36+08:00'
-readTime:
-  minutes: 1
-  words: 407
-  text: 1 分钟
+created: '2024-07-22T12:11:36+08:00'
+wordCount: 501
 ---
 
+import { usePageData } from "@rspress/runtime";
 import { Galileo } from "@/components/Galileo";
 
 import LoremIpsum from "./assets/lorem-ipsum.json";
@@ -44,3 +42,10 @@ import LoremIpsum from "./assets/lorem-ipsum.json";
   不久前，有一位老人告诉我们虽然是公认的和已被普遍接受的事，但如同在无知的人们中流传的许多别的说法一样，在我看来完全是错误的；
   因为我认为，他们的这些说法是为了表现他们知道一些事情，而对那些事他们并不理解。
 </Galileo>
+
+export function Thing() {
+  const pageData = usePageData();
+  console.log(pageData);
+}
+
+<Thing />

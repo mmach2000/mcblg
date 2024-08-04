@@ -3,15 +3,19 @@ import { sort } from 'moderndash';
 import { format } from 'date-fns';
 import type { RuntimePageInfo } from '@/typing';
 import { memoizedToDate } from '@/utils/memoized-to-date';
+import type { PATHS } from '@/constants';
 
-export function PageList({ pages }: { pages: RuntimePageInfo[] }) {
+export function PageList({ routes, pageInfos, path }: { routes: string[]; pageInfos: Record<string, RuntimePageInfo>; path: (typeof PATHS)[number] }) {
   const [parent] = useAutoAnimate();
-  const sortedPages = sort(pages, { order: 'desc', by: item => item.gitInfo?.created ?? '' });
+  const dateFormat = path === 'notes' ? 'yyyy/MM/dd' : 'MM/dd';
+  const sortedPages = sort(routes, { order: 'desc', by: route => pageInfos[route].gitInfo?.created ?? '' });
+
   return (
     <ul ref={parent} className="space-y-3">
-      {sortedPages.map((page) => {
-        const date = format(memoizedToDate(page.gitInfo.created), 'MM/dd');
-        const readTime = page.readTime.text;
+      {sortedPages.map((route) => {
+        const page = pageInfos[route];
+        const date = format(memoizedToDate(page.gitInfo.created), dateFormat);
+        const wordCount = `${page.wordCount} words`;
         return (
           <li key={page.routePath}>
             <a
@@ -23,7 +27,7 @@ export function PageList({ pages }: { pages: RuntimePageInfo[] }) {
               <span flex="~ gap-3">
                 <span text="sm zinc-600 dark:zinc-400 hover-op" font="mono">{date}</span>
                 <span text="sm zinc-500 dark:zinc-500 hover-op" font="mono">·</span>
-                <span text="sm zinc-400 dark:zinc-600 hover-op" font="mono">{readTime}</span>
+                <span text="sm zinc-400 dark:zinc-600 hover-op" font="mono">{wordCount}</span>
               </span>
             </a>
           </li>

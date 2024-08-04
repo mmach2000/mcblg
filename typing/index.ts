@@ -4,17 +4,17 @@ export interface GitInfo {
   lastUpdatedHash: string;
 }
 
-export interface ReadingTime {
-  minutes: number;
-  words: number;
-  text: string;
+export interface HydratedGitInfo {
+  created: Date;
+  lastUpdated: Date;
+  lastUpdatedHash: string;
 }
 
 export interface RuntimePageInfo {
   title: string;
   routePath: string;
   gitInfo: GitInfo;
-  readTime: ReadingTime;
+  wordCount: number;
 }
 
 export type TagToRoutes = Record<string, string[]>;

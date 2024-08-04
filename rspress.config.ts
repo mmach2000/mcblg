@@ -37,6 +37,10 @@ export default defineConfig({
     source: { alias: { '@': '.' } },
   },
   themeConfig: {
+    outlineTitle: '目录',
+    prevPageText: '上一篇',
+    nextPageText: '下一篇',
+    searchPlaceholderText: '搜索',
     socialLinks: [
       { icon: 'github', mode: 'link', content: GITHUB_LINK },
     ],

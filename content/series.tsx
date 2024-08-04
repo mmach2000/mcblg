@@ -1,5 +1,5 @@
 // noinspection JSUnusedGlobalSymbols
-export default function Posts() {
+export default function SeriesPage() {
   return '还在建设中...';
 }
 

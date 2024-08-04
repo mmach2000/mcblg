@@ -3,11 +3,10 @@
 import type { PageIndexInfo, RspressPlugin } from '@rspress/shared';
 
 import { formatISO } from 'date-fns';
-import { readingTime } from 'reading-time-estimator';
 
 import { memoizedToDate } from '../utils/memoized-to-date';
 import { getGitCreated, getGitLastUpdated } from '../utils/git-info';
-import type { ReadingTime, RouteToPageInfo, TagToRoutes } from '../typing';
+import type { RouteToPageInfo, TagToRoutes } from '../typing';
 import { PATHS } from '../constants';
 
 async function collectGitInfo({ frontmatter, _filepath }: PageIndexInfo) {
@@ -17,14 +16,6 @@ async function collectGitInfo({ frontmatter, _filepath }: PageIndexInfo) {
     : await getGitCreated(_filepath) ?? formatISO(new Date());
 
   return { created, ...lastUpdatedInfo };
-}
-
-function collectReadTime({ frontmatter, content }: PageIndexInfo) {
-  const readTime: ReadingTime = frontmatter?.readTime
-    ? (frontmatter.readTime as ReadingTime)
-    : readingTime(content, 400, 'cn');
-  readTime.text = readTime.text.replace('小于一', '1 ');
-  return readTime;
 }
 
 /**
@@ -44,15 +35,18 @@ export function myPluginCollectPageInfo(): RspressPlugin {
         return;
       }
 
+      // mark as injected
+      pageData.injected = true;
+
       const category = _relativePath.split('/')[0] as (typeof PATHS)[number];
 
       // collect created/updated timestamp
       const gitInfo = await collectGitInfo(pageData);
       pageData.gitInfo = gitInfo;
 
-      // collect read time
-      const readTime = collectReadTime(pageData);
-      pageData.readTime = collectReadTime(pageData);
+      // collect word count
+      const wordCount = frontmatter.wordCount as number ?? 0;
+      pageData.wordCount = wordCount;
 
       // collect routes
       routes[category].push(routePath);
@@ -67,7 +61,7 @@ export function myPluginCollectPageInfo(): RspressPlugin {
       }
 
       // collect page info
-      routeToPageInfo[category][routePath] = { title, routePath, gitInfo, readTime };
+      routeToPageInfo[category][routePath] = { title, routePath, gitInfo, wordCount };
     },
     async addRuntimeModules() {
       return Object.fromEntries(PATHS.flatMap(p => [
