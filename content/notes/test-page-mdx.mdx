@@ -3,7 +3,7 @@ created: '2024-07-22T12:11:36+08:00'
 wordCount: 501
 ---
 
-import { usePageData } from "@rspress/runtime";
+import { NoSSR, usePageData } from "@rspress/runtime";
 import { Galileo } from "@/components/Galileo";
 
 import LoremIpsum from "./assets/lorem-ipsum.json";
@@ -48,4 +48,6 @@ export function Thing() {
   console.log(pageData);
 }
 
-<Thing />
+<NoSSR>
+  <Thing />
+</NoSSR>
