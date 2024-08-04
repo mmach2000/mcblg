@@ -20,4 +20,9 @@ export default antfu({
     'react-refresh/only-export-components': 'off',
     'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
   },
+}, {
+  files: ['**/_meta.json'],
+  rules: {
+    'style/eol-last': 'off',
+  },
 });
