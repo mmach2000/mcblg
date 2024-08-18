@@ -23,7 +23,7 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="8.8854167"
      inkscape:cx="40.853458"
-     inkscape:cy="19.188746"
+     inkscape:cy="19.301289"
      inkscape:window-width="1920"
      inkscape:window-height="1029"
      inkscape:window-x="0"
@@ -36,12 +36,6 @@
      id="path1"
      style="fill:#0071a7" />
   <path
-     d="m 24,12 v 24 h 9 V 12 Z M 38,36 48,28.8 V 36 Z"
-     aria-label="L"
-     id="path2"
-     style="fill:#0071a7"
-     sodipodi:nodetypes="ccccccccc" />
-  <path
      d="m 57,36 c -4.926,0 -9,-3.724 -9,-8.335 v -7.33 C 48,15.725 52.074,12 57,12 Z m 6,0 c 4.926,0 9,-3.724 9,-8.335 v -7.33 C 72,15.725 67.926,12 63,12 Z"
      aria-label="O"
      id="path3"
@@ -51,4 +45,10 @@
      aria-label="G"
      id="path4"
      style="fill:#0071a7" />
+  <path
+     d="m 24,12 v 24 h 8.999753 V 12 Z m 15,24 v -6 l 9,-4 v 10 z"
+     id="text1-4"
+     style="fill:#0071a7"
+     aria-label="L"
+     sodipodi:nodetypes="cccccccccc" />
 </svg>

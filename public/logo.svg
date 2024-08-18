@@ -49,11 +49,11 @@
        sodipodi:nodetypes="ccccccssccssc"
        style="fill:#0071a7" />
     <path
-       d="m 24,24 v 24 h 8.999753 V 24 Z M 37.999747,48 48,35.800033 V 48 Z"
+       d="m 24,24 v 24 h 8.999753 V 24 Z m 15,24 v -6 l 9,-4 v 10 z"
        id="text1-4"
        style="fill:#0071a7"
        aria-label="L"
-       sodipodi:nodetypes="ccccccccc" />
+       sodipodi:nodetypes="cccccccccc" />
     <path
        d="M 8.9999955,24 C 4.0736798,24 0,20.275862 0,15.665024 V 8.334975 C 0,3.724137 4.0736798,0 8.9999955,0 Z m 5.9999985,0 C 19.92631,24 24,20.275862 24,15.665024 V 8.334975 C 24,3.724137 19.92631,0 14.999994,0 Z"
        id="text1-4-2"
