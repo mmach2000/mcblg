@@ -9,14 +9,37 @@ import { Comment, Skeleton, Rate, Slider, DatePicker } from 'tdesign-react';
 
 import {WrapperTest} from "@/components/react/WrapperTest";
 
+import exampleAvatar from 'assets/example-avatar.svg';
+
 <main className="not-content" flex="~ col gap-8">
   <Comment
-    avatar="https://tdesign.gtimg.com/site/avatar.jpg"
-    author="萨尔维亚蒂"
-    datetime="C.D. 1638"
-    content="你们威尼斯人在著名的兵工厂里进行的经常性活动，特别是包含力学的那部分工作，对好学的人提出了一个广阔的研究领域。
-    因为在这部分工作中，各种类型的仪器和机器被许多手工艺人不断制造出来，在他们中间一定有人因为继承经验或利用自己的观察，在解释问题时变得高度熟练和非常聪明。"
-  />
+    avatar={exampleAvatar.src}
+    datetime="2012/06">
+    <a slot="author" href="https://www.youtube.com/watch?v=MShbP3OpASA&t=2996s" target="_blank" text="gray-800 dark:gray-200" decoration-none>Anonymous</a>
+    <section slot="content" className="*-break-normal space-y-2 md:text-justify" lang="en">
+      I know exactly what you're talking about, and I'm very happy to say that it's the exception rather than the rule.
+      And I'm also happy to very publicly point out that NVIDIA has been one of the worst trouble spots we've had with hardware manufacturers.
+      And that is really sad because NVIDIA tries to sell chips, a lot of chips into the Android market.
+      And NVIDIA has been the single worst company we've ever dealt with.
+
+      Don't get me wrong, I'm not saying that other companies are perfect either.
+      We have had companies that just don't care.
+      We've had companies that felt that Linux wasn't a big enough market.
+      We'd have situations like that.
+      At the same time there's a lot of companies that have been very helpful since very early days
+      and it's, I think, it's very sad when you sell hardware and you actually use Linux and you're being really difficult about it.
+
+      I'm sad when it happens we can't do anything about it, but it's life.
+      I wish everybody was as nice as I am.
+    </section>
+  </Comment>
+
+  <div flex="~ row gap-6 items-start">
+    <Skeleton theme="avatar" animation="flashed" />
+    <div flex-1>
+      <Skeleton theme="paragraph" animation="flashed" />
+    </div>
+  </div>
 
   <div flex="~ justify-around items-center">
     <div className="i-logos-react" />
@@ -25,13 +48,6 @@ import {WrapperTest} from "@/components/react/WrapperTest";
     <div className="i-carbon-assembly text-cyan-400" />
     <div className="i-carbon-sun dark:i-carbon-moon" />
     <div className="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
-  </div>
-
-  <div flex="~ row gap-6 items-start">
-    <Skeleton theme="avatar" animation="flashed" />
-    <div flex-1>
-      <Skeleton theme="paragraph" animation="flashed" />
-    </div>
   </div>
 
   <Rate defaultValue={2.5} allowHalf client:load />

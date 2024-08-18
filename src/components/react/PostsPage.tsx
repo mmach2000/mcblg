@@ -1,4 +1,4 @@
-import { Button } from 'tdesign-react';
+import { CheckTag } from 'tdesign-react';
 import { computed } from 'nanostores';
 import { useStore } from '@nanostores/react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -24,7 +24,7 @@ const $tagFilter = computed($urlQueryStore, (queryStore: QueryStore) => {
   return { include, exclude };
 });
 
-function TagsCloud({ tags }: { tags: string[] }) {
+function CheckTagsCloud({ tags }: { tags: string[] }) {
   const tagFilter = useStore($tagFilter);
 
   function propsFactory(tag: string) {
@@ -66,16 +66,15 @@ function TagsCloud({ tags }: { tags: string[] }) {
       {
         tags.map((tag) => {
           return (
-            <Button
+            <CheckTag
               key={tag}
-              size="small"
               {...propsFactory(tag)}
             >
               {/* TODO: fix the evil -2px */}
               <span font-mono mb="[-2px]">
                 {tag}
               </span>
-            </Button>
+            </CheckTag>
           )
           ;
         })
@@ -101,7 +100,7 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
         return (
           <li key={post.slug}>
             <a
-              href={`/${post.slug}`}
+              href={post.slug}
               className="group mb-3 mt-1 decoration-none"
               flex="~ col md:row items-baseline gap-1 md:gap-3"
             >
@@ -126,7 +125,7 @@ export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
 
   return (
     <div className="not-content" mx-auto max-w-5xl>
-      <TagsCloud tags={tags} />
+      <CheckTagsCloud tags={tags} />
       <FilteredPosts posts={posts} />
     </div>
   );
