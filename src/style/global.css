@@ -12,3 +12,7 @@
 :root[theme-mode="dark"],:root[data-theme="dark"] {
   --skeleton-animation-gradient: rgba(255, 255, 255, 0.06);
 }
+
+.swup-progress-bar {
+  background-color: var(--sl-color-accent);
+}
