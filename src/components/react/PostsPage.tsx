@@ -2,6 +2,7 @@ import { CheckTag } from 'tdesign-react';
 import { computed } from 'nanostores';
 import { useStore } from '@nanostores/react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { withLeadingSlash } from 'ufo';
 
 import { useEffect } from 'react';
 import { $urlQueryStore, setQuery } from '@/store/url-query-store.ts';
@@ -100,7 +101,7 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
         return (
           <li key={post.slug}>
             <a
-              href={post.slug}
+              href={withLeadingSlash(post.slug)}
               className="group mb-3 mt-1 decoration-none"
               flex="~ col md:row items-baseline gap-1 md:gap-3"
             >
