@@ -14,12 +14,8 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
   },
   vite: {
-    build: {
-      sourcemap: true,
-    },
-    ssr: {
-      noExternal: ['tdesign-react'],
-    },
+    build: { sourcemap: true },
+    ssr: { noExternal: ['tdesign-react'] },
   },
   experimental: {
     clientPrerender: true,
@@ -31,7 +27,8 @@ export default defineConfig({
       title: 'Reveries',
       favicon: 'logo-min.svg',
       logo: {
-        src: 'public/logo-rect-min.svg',
+        light: 'public/logo-rect-min-dark.svg',
+        dark: 'public/logo-rect-min.svg',
         replacesTitle: true,
       },
       social: {
