@@ -3,6 +3,8 @@
 
 import type { AttributifyAttributes } from '@unocss/preset-attributify';
 
+declare const StarlightThemeProvider: any;
+
 declare module 'react' {
   interface HTMLAttributes<T> extends AttributifyAttributes {}
 }

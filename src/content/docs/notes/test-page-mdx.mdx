@@ -11,7 +11,25 @@ import {WrapperTest} from "@/components/react/WrapperTest";
 
 import exampleAvatar from 'assets/example-avatar.svg';
 
-<main className="not-content" flex="~ col gap-8">
+### HTML 元素
+
+<div className="not-content">
+  <div mt-8 flex="~ justify-around items-center">
+    <div className="i-logos-react" />
+    <div className="i-logos-unocss" />
+    <div className="i-logos-unocss" />
+    <div className="i-logos-bun" />
+    <div className="i-carbon-assembly text-cyan-400" />
+    <div className="i-carbon-sun dark:i-carbon-moon" />
+    <div className="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
+  </div>
+</div>
+
+### React 组件
+
+#### 无 JS
+
+<div className="not-content" flex="~ col gap-8">
   <Comment
     avatar={exampleAvatar.src}
     datetime="2012/06">
@@ -40,16 +58,11 @@ import exampleAvatar from 'assets/example-avatar.svg';
       <Skeleton theme="paragraph" animation="flashed" />
     </div>
   </div>
+</div>
 
-  <div flex="~ justify-around items-center">
-    <div className="i-logos-react" />
-    <div className="i-logos-unocss" />
-    <div className="i-logos-bun" />
-    <div className="i-carbon-assembly text-cyan-400" />
-    <div className="i-carbon-sun dark:i-carbon-moon" />
-    <div className="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
-  </div>
+#### 含 JS
 
+<div className="not-content" flex="~ col gap-8">
   <Rate defaultValue={2.5} allowHalf client:load />
 
   <Slider layout="horizontal" client:load />
@@ -57,4 +70,4 @@ import exampleAvatar from 'assets/example-avatar.svg';
   <DatePicker client:load />
 
   <WrapperTest client:load />
-</main>
+</div>
