@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import UnoCSS from 'unocss/astro';
+import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -72,5 +73,6 @@ export default defineConfig({
         { label: 'Notes', autogenerate: { directory: '/notes' } },
       ],
     }),
+    partytown({ config: { forward: ['dataLayer.push'] } }),
   ],
 });
