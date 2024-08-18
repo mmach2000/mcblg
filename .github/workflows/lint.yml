@@ -2,7 +2,7 @@ name: Lint the project
 
 on:
   push:
-    branches: [ astro ]
+    branches: [astro]
   workflow_dispatch:
 
 permissions:
