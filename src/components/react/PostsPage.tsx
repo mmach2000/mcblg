@@ -101,7 +101,7 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
         return (
           <li key={post.slug}>
             <a
-              href={post.slug}
+              href={`/${post.slug}`}
               className="group mb-3 mt-1 decoration-none"
               flex="~ col md:row items-baseline gap-1 md:gap-3"
             >

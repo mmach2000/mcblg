@@ -1,5 +1,6 @@
 @import "katex/dist/katex.min.css";
-@import "tdesign-react/dist/tdesign.min.css";
+/*@import "tdesign-react/dist/tdesign.min.css";*/
+/*@import "tdesign-react/es/style/index.css";*/
 
 @import "./tdesign-theme.css";
 @import "./starlight-theme.css";
