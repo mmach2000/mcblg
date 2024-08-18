@@ -14,11 +14,11 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
   },
   vite: {
-    ssr: {
-      noExternal: [
-        'tdesign-react',
-      ],
-    },
+    build: { sourcemap: true },
+    ssr: { noExternal: ['tdesign-react'] },
+  },
+  experimental: {
+    clientPrerender: true,
   },
   integrations: [
     react({ include: ['**/react/*'] }),
