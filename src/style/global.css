@@ -1,0 +1,13 @@
+@import "katex/dist/katex.min.css";
+@import "tdesign-react/dist/tdesign.min.css";
+
+@import "./tdesign-theme.css";
+@import "./starlight-theme.css";
+
+:root,
+:root[theme-mode="light"],:root[data-theme="light"] {
+  --skeleton-animation-gradient: rgba(0, 0, 0, 0.04);
+}
+:root[theme-mode="dark"],:root[data-theme="dark"] {
+  --skeleton-animation-gradient: rgba(255, 255, 255, 0.06);
+}

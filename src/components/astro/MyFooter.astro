@@ -1,0 +1,22 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Footer.astro';
+
+import { getCategory } from '@/utils/content';
+
+const { slug, pagination } = Astro.props;
+
+// 显示在 footer 中的页面必须与当前页面的分类相同
+function showHref(href?: string) {
+  return getCategory(slug) === getCategory(href);
+}
+
+const prev = showHref(pagination?.prev?.href) ? pagination.prev : undefined;
+const next = showHref(pagination?.next?.href) ? pagination.next : undefined;
+---
+
+{
+  <Default {...Astro.props} pagination={{ prev, next }}>
+    <slot />
+  </Default>
+}

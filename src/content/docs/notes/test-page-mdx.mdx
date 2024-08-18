@@ -1,0 +1,46 @@
+---
+title: MDX 排版样张
+tags:
+  - MDX
+  - test
+---
+
+import { Comment, Skeleton, Rate, Slider, Collapse, DatePicker } from 'tdesign-react';
+
+import {WrapperTest} from "@/components/react/WrapperTest";
+
+export const { Panel } = Collapse;
+
+<main className="not-content" flex="~ col gap-8">
+  <Comment
+    avatar="https://tdesign.gtimg.com/site/avatar.jpg"
+    author="萨尔维亚蒂"
+    datetime="C.D. 1638"
+    content="你们威尼斯人在著名的兵工厂里进行的经常性活动，特别是包含力学的那部分工作，对好学的人提出了一个广阔的研究领域。
+    因为在这部分工作中，各种类型的仪器和机器被许多手工艺人不断制造出来，在他们中间一定有人因为继承经验或利用自己的观察，在解释问题时变得高度熟练和非常聪明。"
+  />
+
+  <div flex="~ justify-around items-center">
+    <div className="i-logos-react" />
+    <div className="i-logos-unocss" />
+    <div className="i-logos-bun" />
+    <div className="i-carbon-assembly text-cyan-400" />
+    <div className="i-carbon-sun dark:i-carbon-moon" />
+    <div className="i-twemoji-grinning-face-with-smiling-eyes hover:i-twemoji-face-with-tears-of-joy" />
+  </div>
+
+  <div flex="~ row gap-6 items-start">
+    <Skeleton theme="avatar" animation="flashed" />
+    <div flex-1>
+      <Skeleton theme="paragraph" animation="flashed" />
+    </div>
+  </div>
+
+  <Rate defaultValue={2.5} allowHalf client:load />
+
+  <Slider layout="horizontal" client:load />
+
+  <DatePicker client:load />
+
+  <WrapperTest client:load />
+</main>

@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+import { PostsPage } from '@/components/react/PostsPage';
+import { getAllTags, getCategory, getMetadata } from '@/utils/content';
+
+const allNotes = (await getCollection('docs' as const, ({ slug }) => getCategory(slug) === '/notes'));
+const tags = getAllTags(allNotes);
+const trimmedPosts = await Promise.all(allNotes.map(getMetadata));
+
+const frontmatter = {
+  title: 'NOTES',
+  tableOfContents: false,
+  noFooter: true,
+};
+---
+
+<StarlightPage frontmatter={frontmatter} hasSidebar={false}>
+  <PostsPage tags={tags} posts={trimmedPosts} client:only="react" />
+</StarlightPage>

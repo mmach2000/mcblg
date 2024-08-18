@@ -1,0 +1,38 @@
+name: Lint the project
+
+on:
+  push:
+    branches: [ astro ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  astro-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+      - name: Install Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun i
+      - name: Run astro check
+        run: bunx astro check
+
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+      - name: Install Bun.js
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun i
+      - name: Run eslint
+        run: bunx eslint .
