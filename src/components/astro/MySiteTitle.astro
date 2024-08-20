@@ -13,7 +13,7 @@ const { slug } = Astro.props;
 const label = getLabel(slug);
 ---
 
-<div flex="~ row gap-6">
+<div flex="~ row gap-6" data-vtbot-replace="site-title">
 {
   Object.entries(navbarItems).map(([name, href]) => (
     <a

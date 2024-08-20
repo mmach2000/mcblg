@@ -3,16 +3,16 @@ import { fade } from 'astro:transitions';
 import type { Props } from '@astrojs/starlight/props';
 
 import StarlightHead from '@astrojs/starlight/components/Head.astro';
-import HeadWithTransform from 'astro-vtbot/components/starlight/Base.astro';
+import HeadVT from 'astro-vtbot/components/starlight/Base.astro';
 import ProgressBar from 'astro-vtbot/components/ProgressBar.astro';
 ---
 
-<HeadWithTransform {...Astro.props} transition:animate={fade({ duration: '0.2s' })}>
+<HeadVT {...Astro.props} replaceSidebarContent transition:animate={fade({ duration: '0.2s' })}>
   <ProgressBar />
   <StarlightHead {...Astro.props}>
     <slot />
   </StarlightHead>
-</HeadWithTransform>
+</HeadVT>
 
 <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?version=4.8.0" />
 
