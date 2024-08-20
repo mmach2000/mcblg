@@ -4,8 +4,8 @@ import { useStore } from '@nanostores/react';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { withLeadingSlash } from 'ufo';
 
-import { useEffect } from 'react';
 import { $urlQueryStore, setQuery } from '@/store/url-query-store.ts';
+import { IS_DEV } from '@/utils/env.ts';
 
 interface Post {
   slug: string;
@@ -120,9 +120,9 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
 }
 
 export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
-  useEffect(() => {
-    console.log(posts);
-  }, []);
+  if (IS_DEV) {
+    console.log('posts:', posts);
+  }
 
   return (
     <div className="not-content" mx-auto max-w-5xl>

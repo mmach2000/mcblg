@@ -1,0 +1,32 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import { getLabel } from '@/utils/content';
+
+const navbarItems: Record<string, `/${string}`> = {
+  HOME: '/',
+  POSTS: '/posts',
+  SERIES: '/series',
+  NOTES: '/notes',
+};
+
+const { slug } = Astro.props;
+const label = getLabel(slug);
+
+console.log('slug', slug);
+console.log('getLabel(slug)', getLabel(slug));
+---
+
+<div flex="~ row gap-6">
+{
+  Object.entries(navbarItems).map(([name, href]) => (
+    <a
+      href={href}
+      decoration-none
+      text="sm gray-900 dark:gray-300"
+      font={label === href ? '600' : ''}
+    >
+      {name}
+    </a>
+  ))
+}
+</div>

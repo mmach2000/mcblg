@@ -27,11 +27,6 @@ export default defineConfig({
     starlight({
       title: 'Reveries',
       favicon: 'logo-min.svg',
-      logo: {
-        light: 'public/logo-rect-min-dark.svg',
-        dark: 'public/logo-rect-min.svg',
-        replacesTitle: true,
-      },
       social: {
         github: 'https://github.com/withastro/starlight',
       },
@@ -46,28 +41,14 @@ export default defineConfig({
       components: {
         Head: './src/components/astro/MyHead.astro',
         Footer: './src/components/astro/MyFooter.astro',
+        SiteTitle: './src/components/astro/MySiteTitle.astro',
       },
 
-      plugins: [starlightUtils({
-        multiSidebar: {
-          switcherStyle: 'hidden',
-        },
-        navLinks: {
-          leading: {
-            useSidebarLabelled: '__NavBar',
-          },
-        },
-      })],
+      plugins: [
+        starlightUtils({ multiSidebar: { switcherStyle: 'hidden' } }),
+      ],
 
       sidebar: [
-        {
-          label: '__NavBar',
-          items: [
-            { label: 'POSTS', link: '/posts' },
-            { label: 'SERIES', link: '/series' },
-            { label: 'NOTES', link: '/notes' },
-          ],
-        },
         { label: 'Posts', autogenerate: { directory: '/posts' } },
         { label: 'Series', autogenerate: { directory: '/series' } },
         { label: 'Notes', autogenerate: { directory: '/notes' } },
