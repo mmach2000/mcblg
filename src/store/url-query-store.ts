@@ -17,8 +17,6 @@ function historyListener() {
   if (isBrowser) {
     const query = getQuery(window.location.href);
     $urlQueryStore.set(query);
-    console.log(window.location);
-    console.log($urlQueryStore.get());
   }
 }
 
