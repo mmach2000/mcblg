@@ -1,11 +1,13 @@
-import { CheckTag } from 'tdesign-react';
-import { computed } from 'nanostores';
-import { useStore } from '@nanostores/react';
+import queryString from 'query-string';
+import { atom, useAtom } from 'jotai';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { withLeadingSlash } from 'ufo';
+import { Button, CheckTag, Link } from 'tdesign-react';
+import { IllustrationNoResult, IllustrationNoResultDark } from '@douyinfe/semi-illustrations';
 
-import { $urlQueryStore, setQuery } from '@/store/url-query-store.ts';
+import { Empty } from '@/components/react/Empty.tsx';
 import { IS_DEV } from '@/utils/env.ts';
+import { SERIALIZATION_OPTION, locationAtom } from '@/store/jotai/location.ts';
 
 interface Post {
   slug: string;
@@ -14,40 +16,47 @@ interface Post {
   words: number;
 }
 
-interface QueryStore {
-  include?: string[] | string;
-  exclude?: string[] | string;
-}
+const filterAtom = atom(
+  (get) => {
+    const rawSearchParams = get(locationAtom).searchParams;
+    const searchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), SERIALIZATION_OPTION);
+    const include = (searchParams?.include ? [searchParams.include].flat() : []) as string[];
+    const exclude = (searchParams?.exclude ? [searchParams.exclude].flat() : []) as string[];
+    return { include, exclude };
+  },
+  (_get, set, update: { include?: string[]; exclude?: string[] }) => {
+    const searchParams = new URLSearchParams(queryString.stringify(update, SERIALIZATION_OPTION));
+    set(locationAtom, prev => ({ ...prev, searchParams }));
+  },
+);
 
-const $tagFilter = computed($urlQueryStore, (queryStore: QueryStore) => {
-  const include = queryStore.include ? [queryStore.include].flat() : [];
-  const exclude = queryStore.exclude ? [queryStore.exclude].flat() : [];
-  return { include, exclude };
-});
-
-function CheckTagsCloud({ tags }: { tags: string[] }) {
-  const tagFilter = useStore($tagFilter);
+function TagsCloud({ tags }: { tags: string[] }) {
+  const [parent] = useAutoAnimate();
+  const [filter, setFilter] = useAtom(filterAtom);
 
   function propsFactory(tag: string) {
-    if (tagFilter.include.includes(tag)) {
+    if (filter.include.includes(tag)) {
       return {
         theme: 'success' as const,
         icon: <span i-lucide:filter mr-2 />,
         onClick: () => {
           // include -> exclude
-          setQuery({
-            include: tagFilter.include.filter(t => t !== tag),
-            exclude: [tag, ...tagFilter.exclude],
+          setFilter({
+            include: filter.include.filter(t => t !== tag),
+            exclude: [tag, ...filter.exclude],
           });
         },
       };
-    } else if (tagFilter.exclude.includes(tag)) {
+    } else if (filter.exclude.includes(tag)) {
       return {
         theme: 'danger' as const,
         icon: <span i-lucide:filter-x mr-2 />,
         onClick: () => {
           // exclude -> default
-          setQuery({ exclude: tagFilter.exclude.filter(t => t !== tag) });
+          setFilter({
+            include: filter.include,
+            exclude: filter.exclude.filter(t => t !== tag),
+          });
         },
       };
     } else {
@@ -56,47 +65,46 @@ function CheckTagsCloud({ tags }: { tags: string[] }) {
         icon: <span i-lucide:tag mr-2 />,
         onClick: () => {
           // default -> include
-          setQuery({ include: [tag, ...tagFilter.include] });
+          setFilter({
+            include: [tag, ...filter.include],
+            exclude: filter.exclude,
+          });
         },
       };
     }
   }
 
   return (
-    <div flex="~ gap-2 wrap" mb-3 mt--7 md="mt-0 mb-5">
-      {
-        tags.map((tag) => {
-          return (
-            <CheckTag
-              key={tag}
-              {...propsFactory(tag)}
-            >
-              {/* TODO: fix the evil -2px */}
-              <span font-mono mb="[-2px]">
-                {tag}
-              </span>
-            </CheckTag>
-          )
-          ;
-        })
-      }
+    <div flex="~ gap-2 wrap" mb-3 mt--1 md="mt-0 mb-5" ref={parent}>
+      { tags.map(tag => (
+        <CheckTag key={tag} {...propsFactory(tag)}>
+          <span font-mono mb="[-2px]">
+            {tag}
+          </span>
+        </CheckTag>
+      )) }
+      {(filter.include.length > 0 || filter.exclude.length > 0) && (
+        <Button
+          size="small"
+          theme="default"
+          variant="outline"
+          onClick={() => setFilter({})}
+          icon={<span i-lucide:refresh-ccw mr-2 />}
+        >
+          <span font-mono mb="[-2px]">
+            重置筛选
+          </span>
+        </Button>
+      )}
     </div>
   );
 }
 
-function FilteredPosts({ posts }: { posts: Post[] }) {
+function Posts({ posts }: { posts: Post[] }) {
   const [parent] = useAutoAnimate();
-  const tagFilter = useStore($tagFilter);
-
-  const filteredPosts = posts.filter((post) => {
-    const include = tagFilter.include.every(tag => post.tags?.includes(tag));
-    const exclude = tagFilter.exclude.some(tag => post.tags?.includes(tag));
-    return include && !exclude;
-  });
-
   return (
     <ol ref={parent} list-none p-0>
-      {filteredPosts.map((post) => {
+      {posts.map((post) => {
         const wordCount = `${post.words} words`;
         return (
           <li key={post.slug}>
@@ -119,6 +127,43 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
   );
 }
 
+function FilteredPosts({ posts }: { posts: Post[] }) {
+  const [parent] = useAutoAnimate();
+  const [filter, setFilter] = useAtom(filterAtom);
+
+  const filteredPosts = posts.filter((post) => {
+    const isInclude = filter.include.every(tag => post.tags?.includes(tag));
+    const isExclude = filter.exclude.some(tag => post.tags?.includes(tag));
+    return isInclude && !isExclude;
+  });
+
+  return (
+    <div ref={parent}>
+      {filteredPosts.length
+        ? <Posts posts={filteredPosts} />
+        : (
+            <Empty
+              title="暂未找到匹配的筛选结果"
+              description={(
+                <span>
+                  试试
+                  {' '}
+                  {/* eslint-disable-next-line react/prefer-shorthand-boolean */}
+                  <Link onClick={() => setFilter({})} theme="primary" size="large" underline={true}>
+                    重置筛选条件
+                  </Link>
+                </span>
+              )}
+              image={IllustrationNoResult}
+              palette={['#e7eff2', '#0073aa']}
+              darkModeImage={IllustrationNoResultDark}
+              className="mt-8"
+            />
+          )}
+    </div>
+  );
+}
+
 export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
   if (IS_DEV) {
     console.log('posts:', posts);
@@ -126,7 +171,7 @@ export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
 
   return (
     <div className="not-content" mx-auto max-w-5xl>
-      <CheckTagsCloud tags={tags} />
+      <TagsCloud tags={tags} />
       <FilteredPosts posts={posts} />
     </div>
   );
