@@ -9,7 +9,7 @@ import starlightUtils from '@lorenzo_lewis/starlight-utils';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mmach2000.github.io',
+  site: 'https://mcblg.pages.dev',
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
