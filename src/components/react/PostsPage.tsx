@@ -12,7 +12,7 @@ import {
 
 import { format } from 'date-fns';
 import { Empty } from '@/components/react/Empty.tsx';
-import { IS_DEV } from '@/utils/constants.ts';
+import { IS_DEV, SORT_NAMES } from '@/utils/constants.ts';
 import { QUERY_STRING_OPTION, locationAtom } from '@/store/jotai/location.ts';
 
 interface Post {
@@ -23,14 +23,6 @@ interface Post {
   ctime: Date;
   mtime: Date;
 }
-
-const NAME_DICT = {
-  ctime: '创建时间',
-  mtime: '修改时间',
-  words: '字数',
-  desc: '降序',
-  asc: '升序',
-};
 
 const SORT_METHODS = ['ctime', 'mtime', 'words'] as const;
 const SORT_ORDERS = ['asc', 'desc'] as const;
@@ -153,8 +145,8 @@ function SortPanel() {
 
   const options = SORT_METHODS.flatMap((key: SortMethod, idx, arr) => {
     return [
-      { content: `${NAME_DICT[key]}${NAME_DICT.asc}`, value: { sort: key, order: 'asc' } },
-      { content: `${NAME_DICT[key]}${NAME_DICT.desc}`, value: { sort: key, order: 'desc' }, divider: idx !== arr.length - 1 },
+      { content: `${SORT_NAMES[key]}${SORT_NAMES.asc}`, value: { sort: key, order: 'asc' } },
+      { content: `${SORT_NAMES[key]}${SORT_NAMES.desc}`, value: { sort: key, order: 'desc' }, divider: idx !== arr.length - 1 },
     ];
   });
 
@@ -162,8 +154,8 @@ function SortPanel() {
     <Dropdown options={options} onClick={data => setSortOption(data.value as { sort: SortMethod; order: SortOrder })}>
       <Button variant="outline" size="small">
         <span flex="~ items-center">
-          {NAME_DICT[sortOption.sort]}
-          {NAME_DICT[sortOption.order]}
+          {SORT_NAMES[sortOption.sort]}
+          {SORT_NAMES[sortOption.order]}
           <span i-lucide:chevron-down ml-1 />
         </span>
       </Button>
