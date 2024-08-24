@@ -142,33 +142,35 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
     return isInclude && !isExclude;
   });
 
-  const empty = posts.length ? (
-    <Empty
-      title="暂未找到匹配的筛选结果"
-      description={(
-        <span>
-          试试
-          {' '}
-          {/* eslint-disable-next-line react/prefer-shorthand-boolean */}
-          <Link onClick={() => setFilter({})} theme="primary" size="large" underline={true}>
-            重置筛选条件
-          </Link>
-        </span>
-      )}
-      image={IllustrationNoResult}
-      palette={['#e7eff2', '#0073aa']}
-      darkModeImage={IllustrationNoResultDark}
-      className="mt-8"
-    />
-  ) : (
-    <Empty
-      title="博主太懒了，一篇也没有写！"
-      image={IllustrationIdle}
-      palette={['#e7eff2', '#0073aa']}
-      darkModeImage={IllustrationIdleDark}
-      className="mt-8"
-    />
-  );
+  const empty = posts.length
+    ? (
+        <Empty
+          title="暂未找到匹配的筛选结果"
+          description={(
+            <span>
+              试试
+              {' '}
+              {/* eslint-disable-next-line react/prefer-shorthand-boolean */}
+              <Link onClick={() => setFilter({})} theme="primary" size="large" underline={true}>
+                重置筛选条件
+              </Link>
+            </span>
+          )}
+          image={IllustrationNoResult}
+          palette={['#e7eff2', '#0073aa']}
+          darkModeImage={IllustrationNoResultDark}
+          className="mt-8"
+        />
+      )
+    : (
+        <Empty
+          title="博主太懒了，一篇也没有写！"
+          image={IllustrationIdle}
+          palette={['#e7eff2', '#0073aa']}
+          darkModeImage={IllustrationIdleDark}
+          className="mt-8"
+        />
+      );
 
   return (
     <div ref={parent}>
