@@ -3,7 +3,6 @@ import type { Props } from '@astrojs/starlight/props';
 import { getLabel } from '@/utils/content';
 
 const navbarItems: Record<string, `/${string}`> = {
-  HOME: '/',
   POSTS: '/posts',
   SERIES: '/series',
   NOTES: '/notes',
@@ -13,17 +12,20 @@ const { slug } = Astro.props;
 const label = getLabel(slug);
 ---
 
-<div flex="~ row gap-6" data-vtbot-replace="site-title">
-{
-  Object.entries(navbarItems).map(([name, href]) => (
-    <a
-      href={href}
-      decoration-none
-      text="sm gray-900 dark:gray-300"
-      font={label === href ? '600' : ''}
-    >
-      {name}
-    </a>
-  ))
-}
+<div flex="~ row gap-6 items-center" data-vtbot-replace="site-title">
+  <a href="/" flex="~ row items-center">
+    <img src="/logo.svg" alt="博客logo，链接到博客主页" />
+  </a>
+  {
+    Object.entries(navbarItems).map(([name, href]) => (
+      <a
+        href={href}
+        decoration-none
+        text="sm gray-900 dark:gray-300"
+        font={label === href ? '600' : ''}
+      >
+        {name}
+      </a>
+    ))
+  }
 </div>

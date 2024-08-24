@@ -5,7 +5,6 @@ import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import starlightUtils from '@lorenzo_lewis/starlight-utils';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,7 +15,7 @@ export default defineConfig({
   },
   vite: {
     build: { sourcemap: true },
-    ssr: { noExternal: ['tdesign-react'] },
+    ssr: { noExternal: ['tdesign-react', 'react-tweet'] },
   },
   experimental: {
     clientPrerender: true,
@@ -25,33 +24,25 @@ export default defineConfig({
     react({ include: ['**/react/*'] }),
     UnoCSS(),
     starlight({
-      title: 'Reveries',
-      favicon: 'logo-min.svg',
+      title: 'mc\'s blog',
+      favicon: 'logo-square.svg',
+      locales: { root: { label: '简体中文', lang: 'zh-CN' } },
       social: {
-        github: 'https://github.com/withastro/starlight',
-      },
-      locales: {
-        root: {
-          label: '简体中文',
-          lang: 'zh-CN',
-        },
+        github: 'https://github.com/mmach2000/mcblg',
       },
 
       customCss: ['./src/style/global.css'],
       components: {
         Head: './src/components/astro/MyHead.astro',
         Footer: './src/components/astro/MyFooter.astro',
+        Sidebar: './src/components/astro/MySidebar.astro',
         SiteTitle: './src/components/astro/MySiteTitle.astro',
       },
 
-      plugins: [
-        starlightUtils({ multiSidebar: { switcherStyle: 'hidden' } }),
-      ],
-
       sidebar: [
-        { label: 'Posts', autogenerate: { directory: '/posts' } },
-        { label: 'Series', autogenerate: { directory: '/series' } },
-        { label: 'Notes', autogenerate: { directory: '/notes' } },
+        { label: 'Posts', autogenerate: { directory: '/posts' }, collapsed: true },
+        { label: 'Series', autogenerate: { directory: '/series' }, collapsed: true },
+        { label: 'Notes', autogenerate: { directory: '/notes' }, collapsed: true },
       ],
     }),
     partytown({ config: { forward: ['dataLayer.push'] } }),

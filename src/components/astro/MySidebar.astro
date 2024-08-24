@@ -1,0 +1,30 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/Sidebar.astro';
+
+import { getCategory } from '@/utils/content';
+import { SERIES_NAMES } from '@/utils/constants';
+
+const { slug } = Astro.props;
+const pageCategory = getCategory(slug);
+
+// 默认显示全局 Sidebar
+let displaySidebar = Astro.props.sidebar;
+
+if (pageCategory === '/posts' || pageCategory === '/notes') {
+  // 显示 Posts 和 Notes 两组页面
+  displaySidebar = Astro.props.sidebar.filter(entry => entry.label === 'Posts' || entry.label === 'Notes');
+} else if (pageCategory === '/series') {
+  // 显示 Series 并替换 Series 名称
+  const seriesSidebar = Astro.props.sidebar.find(entry => entry.label === 'Series');
+  if (seriesSidebar?.type === 'group') {
+    displaySidebar = seriesSidebar.entries.map((entry) => {
+      return entry.type === 'link' ? entry : { ...entry, label: SERIES_NAMES[entry.label] ?? entry.label };
+    });
+  }
+}
+---
+
+{
+  displaySidebar && <Default {...Astro.props} sidebar={displaySidebar} />
+}

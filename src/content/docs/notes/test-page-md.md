@@ -1,8 +1,7 @@
 ---
 title: Markdown 排版样张
 tags:
-  - markdown
-  - test
+  - 本博客
 ---
 
 ## 链接

@@ -3,11 +3,16 @@ import { atom, useAtom } from 'jotai';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { withLeadingSlash } from 'ufo';
 import { Button, CheckTag, Link } from 'tdesign-react';
-import { IllustrationNoResult, IllustrationNoResultDark } from '@douyinfe/semi-illustrations';
+import {
+  IllustrationIdle,
+  IllustrationIdleDark,
+  IllustrationNoResult,
+  IllustrationNoResultDark,
+} from '@douyinfe/semi-illustrations';
 
 import { Empty } from '@/components/react/Empty.tsx';
-import { IS_DEV } from '@/utils/env.ts';
-import { SERIALIZATION_OPTION, locationAtom } from '@/store/jotai/location.ts';
+import { IS_DEV } from '@/utils/constants.ts';
+import { QUERY_STRING_OPTION, locationAtom } from '@/store/jotai/location.ts';
 
 interface Post {
   slug: string;
@@ -19,13 +24,13 @@ interface Post {
 const filterAtom = atom(
   (get) => {
     const rawSearchParams = get(locationAtom).searchParams;
-    const searchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), SERIALIZATION_OPTION);
+    const searchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), QUERY_STRING_OPTION);
     const include = (searchParams?.include ? [searchParams.include].flat() : []) as string[];
     const exclude = (searchParams?.exclude ? [searchParams.exclude].flat() : []) as string[];
     return { include, exclude };
   },
   (_get, set, update: { include?: string[]; exclude?: string[] }) => {
-    const searchParams = new URLSearchParams(queryString.stringify(update, SERIALIZATION_OPTION));
+    const searchParams = new URLSearchParams(queryString.stringify(update, QUERY_STRING_OPTION));
     set(locationAtom, prev => ({ ...prev, searchParams }));
   },
 );
@@ -137,29 +142,37 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
     return isInclude && !isExclude;
   });
 
+  const empty = posts.length ? (
+    <Empty
+      title="暂未找到匹配的筛选结果"
+      description={(
+        <span>
+          试试
+          {' '}
+          {/* eslint-disable-next-line react/prefer-shorthand-boolean */}
+          <Link onClick={() => setFilter({})} theme="primary" size="large" underline={true}>
+            重置筛选条件
+          </Link>
+        </span>
+      )}
+      image={IllustrationNoResult}
+      palette={['#e7eff2', '#0073aa']}
+      darkModeImage={IllustrationNoResultDark}
+      className="mt-8"
+    />
+  ) : (
+    <Empty
+      title="博主太懒了，一篇也没有写！"
+      image={IllustrationIdle}
+      palette={['#e7eff2', '#0073aa']}
+      darkModeImage={IllustrationIdleDark}
+      className="mt-8"
+    />
+  );
+
   return (
     <div ref={parent}>
-      {filteredPosts.length
-        ? <Posts posts={filteredPosts} />
-        : (
-            <Empty
-              title="暂未找到匹配的筛选结果"
-              description={(
-                <span>
-                  试试
-                  {' '}
-                  {/* eslint-disable-next-line react/prefer-shorthand-boolean */}
-                  <Link onClick={() => setFilter({})} theme="primary" size="large" underline={true}>
-                    重置筛选条件
-                  </Link>
-                </span>
-              )}
-              image={IllustrationNoResult}
-              palette={['#e7eff2', '#0073aa']}
-              darkModeImage={IllustrationNoResultDark}
-              className="mt-8"
-            />
-          )}
+      {filteredPosts.length ? <Posts posts={filteredPosts} /> : empty}
     </div>
   );
 }

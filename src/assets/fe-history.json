@@ -1,0 +1,30 @@
+{
+  "__typename": "Tweet",
+  "lang": "en",
+  "favorite_count": 13722,
+  "created_at": "2023-12-20T14:08:49.000Z",
+  "display_text_range": [0, 1000],
+  "entities": {
+    "hashtags": [],
+    "urls": [],
+    "user_mentions": [],
+    "symbols": []
+  },
+  "id_str": "1737475143222317123",
+  "text": "The untold history of web development:\n\n1990: HTML invented\n1994: CSS invented to fix HTML\n1995: JS invented to fix HTML/CSS\n2006: jQuery invented to fix JS\n2010: AngularJS invented to fix jQuery\n2013: React invented to fix AngularJS\n2014: Vue invented to fix React &amp; Angular\n2016: Angular 2 invented to fix AngularJS &amp; React\n2019: Svelte 3 invented to fix React, Angular, Vue\n2019: React hooks invented to fix React\n2020: Vue 3 invented to fix React hooks\n2020: Solid invented to fix React, Angular, Svelte, Vue\n2020: HTMX 1.0 invented to fix React, Angular, Svelte, Vue, Solid\n2021: React suspense invented to fix React, again\n2023: Svelte Runes invented to fix Svelte\n2024: jQuery still used on 75% of websites",
+  "user": {
+    "id_str": "850333483339730945",
+    "name": "Fireship",
+    "profile_image_url_https": "https://pbs.twimg.com/profile_images/1436819851566219267/HEffZjvP_normal.jpg",
+    "screen_name": "fireship_dev",
+    "is_blue_verified": true,
+    "profile_image_shape": "Circle"
+  },
+  "conversation_count": 484,
+  "news_action_type": "conversation",
+  "isEdited": false,
+  "isStaleEdit": false,
+  "note_tweet": {
+    "id": "Tm90ZVR3ZWV0UmVzdWx0czoxNzM3NDc1MTQzMTI1ODQ4MDY0"
+  }
+}

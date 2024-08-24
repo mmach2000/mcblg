@@ -1,6 +1,4 @@
 @import "katex/dist/katex.min.css";
-/*@import "tdesign-react/dist/tdesign.min.css";*/
-/*@import "tdesign-react/es/style/index.css";*/
 
 @import "./tdesign-theme.css";
 @import "./starlight-theme.css";
@@ -13,6 +11,14 @@
   --skeleton-animation-gradient: rgba(255, 255, 255, 0.06);
 }
 
+/* 配置 view-transition 进度条颜色 */
 .swup-progress-bar {
   background-color: var(--sl-color-accent);
+}
+
+/* 缩小 react-tweet-embed 字体 */
+.react-tweet-theme {
+  margin-inline: auto!important;
+  --tweet-body-font-size: 1.1rem !important;
+  --tweet-body-line-height: 1.3rem !important;
 }

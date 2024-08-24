@@ -3,7 +3,8 @@ import type { CollectionEntry } from 'astro:content';
 
 import wc from 'words-count';
 import { trim, unique } from 'moderndash';
-import { IS_DEV } from '@/utils/env.ts';
+
+import { IS_DEV } from '@/utils/constants.ts';
 
 /**
  * get category from a slug or href
