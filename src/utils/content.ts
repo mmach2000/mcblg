@@ -1,10 +1,7 @@
-import fs from 'node:fs/promises';
 import type { CollectionEntry } from 'astro:content';
 
 import wc from 'words-count';
 import { trim, unique } from 'moderndash';
-
-import { IS_DEV } from '@/utils/constants.ts';
 
 /**
  * get category from a slug or href
@@ -40,20 +37,15 @@ export function getLabel(slugOrHref?: string): `/${string}` | undefined {
  * get only metadata of a content
  */
 export async function getMetadata(content: CollectionEntry<'docs'>) {
-  const path = `src/content/docs/${content.id}`;
-  const ret = {
+  return {
     title: content.data.title,
     tags: content.data?.tags,
-    mtime: (await fs.stat(path)).mtime,
+    ctime: content.data?.ctime ? new Date(content.data.ctime) : new Date(),
+    mtime: content.data?.mtime ? new Date(content.data.mtime) : new Date(),
     slug: content.slug,
     // @ts-expect-error - mixed default export and named export
     words: wc.default(content.body),
   };
-  if (IS_DEV) {
-    type DevRet = typeof ret & { raw: typeof content };
-    (ret as DevRet).raw = content;
-  }
-  return ret;
 }
 
 /**

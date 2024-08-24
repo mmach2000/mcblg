@@ -10,6 +10,7 @@ import {
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
 
+import { format } from 'date-fns';
 import { Empty } from '@/components/react/Empty.tsx';
 import { IS_DEV } from '@/utils/constants.ts';
 import { QUERY_STRING_OPTION, locationAtom } from '@/store/jotai/location.ts';
@@ -19,6 +20,8 @@ interface Post {
   title: string;
   tags?: string[];
   words: number;
+  ctime: Date;
+  mtime: Date;
 }
 
 const filterAtom = atom(
@@ -111,6 +114,7 @@ function Posts({ posts }: { posts: Post[] }) {
     <ol ref={parent} list-none p-0>
       {posts.map((post) => {
         const wordCount = `${post.words} words`;
+        const createTime = format(post.ctime, 'yyyy/MM/dd');
         return (
           <li key={post.slug}>
             <a
@@ -120,9 +124,9 @@ function Posts({ posts }: { posts: Post[] }) {
             >
               <span text="md:lg gray-900 dark:gray-100 hover-op">{post.title}</span>
               <span flex="~ gap-1">
-                <span text="sm gray-700 dark:gray-200 hover-op" font="mono">{wordCount}</span>
-                <span text="sm gray-600 dark:gray-200 hover-op" font="mono">·</span>
-                <span text="sm gray-500 dark:gray-300 hover-op" font="mono">{post.tags?.join(', ')}</span>
+                <span text="sm gray-700 dark:gray-200 hover-op" font-mono>{createTime}</span>
+                <span text="sm gray-600 dark:gray-200 hover-op" font-mono>·</span>
+                <span text="sm gray-500 dark:gray-300 hover-op" font-mono>{wordCount}</span>
               </span>
             </a>
           </li>
