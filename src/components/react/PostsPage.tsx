@@ -115,7 +115,7 @@ function TagsCloud({ tags }: { tags: string[] }) {
   }
 
   return (
-    <div flex="~ gap-2 wrap 1" mb-3 mt--1 md="mt-0 mb-5" ref={parent}>
+    <div flex="~ gap-2 wrap 1" ref={parent}>
       { tags.map(tag => (
         <CheckTag key={tag} {...propsFactory(tag)}>
           <span font-mono mb="[-2px]">
@@ -255,8 +255,8 @@ export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
 
   return (
     <div className="not-content" mx-auto max-w-5xl>
-      <div flex="~ gap-3 md:gap-5">
-        <TagsCloud tags={tags} />
+      <div flex="~ gap-3" mb-3 mt--1 md="mt-0 mb-5">
+        {tags.length > 0 && <TagsCloud tags={tags} />}
         <SortPanel />
       </div>
       <FilteredPosts posts={posts} />
