@@ -4,7 +4,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": ".",
-    "paths": { "@/*": ["src/*"] }
+    "paths": { "@/*": ["src/*"] },
+    "types": ["vite-plugin-base64-import/types"]
   },
   "exclude": ["public", "dist"]
 }

@@ -1,10 +1,12 @@
-import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import UnoCSS from 'unocss/astro';
 import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+
+import { defineConfig } from 'astro/config';
+import { base64Import } from 'vite-plugin-base64-import';
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +18,8 @@ export default defineConfig({
   vite: {
     build: { sourcemap: true },
     ssr: { noExternal: ['tdesign-react', 'react-tweet'] },
+    optimizeDeps: { exclude: ['@resvg/resvg-js'] },
+    plugins: [base64Import()],
   },
   experimental: {
     clientPrerender: true,
