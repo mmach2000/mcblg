@@ -15,7 +15,7 @@ export function SatoriGraph({ title, content }: { title: string; content: string
         </span>
       </div>
       <div
-        tw="flex flex-1 px-10 text-8 overflow-hidden wrap text-transparent bg-clip-text"
+        tw="flex flex-1 px-10 text-8 overflow-hidden flex-wrap text-transparent bg-clip-text"
         style={{
           fontFamily: 'Noto Sans SC',
           backgroundClip: 'text',

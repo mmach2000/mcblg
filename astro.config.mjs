@@ -4,6 +4,7 @@ import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import cloudflare from '@astrojs/cloudflare';
 
 import { defineConfig } from 'astro/config';
 import { base64Import } from 'vite-plugin-base64-import';
@@ -11,6 +12,8 @@ import { base64Import } from 'vite-plugin-base64-import';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://mcblg.pages.dev',
+  output: 'hybrid',
+  adapter: cloudflare(),
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

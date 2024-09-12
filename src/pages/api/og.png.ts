@@ -5,39 +5,41 @@ import { fetch } from 'ofetch';
 import { memoize } from 'moderndash';
 import { SatoriGraph } from '@/components/react/SatoriGraph.tsx';
 
-const FONT_FILES: Record<string, Record<string, string>> = {
-  Inter: {
-    600: 'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
-  },
-  FiraCode: {
-    500: 'https://fonts.gstatic.com/s/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_A9sFVfxN87gsj0.ttf',
-  },
-  NotoSansSC: {
-    400: 'https://fonts.gstatic.com/s/notosanssc/v37/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.ttf',
-    600: 'https://fonts.gstatic.com/s/notosanssc/v37/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxNbPzS5HE.ttf',
-  },
+const FONT_FILES: Record<string, string> = {
+  inter600: 'https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
+  firaCode500: 'https://fonts.gstatic.com/s/firacode/v22/uU9eCBsR6Z2vfE9aq3bL0fxyUs4tcw4W_A9sFVfxN87gsj0.ttf',
+  notoSansSC400: 'https://fonts.gstatic.com/s/notosanssc/v37/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.ttf',
+  notoSansSC600: 'https://fonts.gstatic.com/s/notosanssc/v37/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaGwHCnYxNbPzS5HE.ttf',
 };
 
-const getFont = memoize(async (font: string, weight: string) => {
-  const response = await fetch(FONT_FILES[font][weight]);
-  return response.arrayBuffer();
+const getFonts = memoize(async () => {
+  const fonts = Promise.all(
+    Object.entries(FONT_FILES).map(async ([key, value]) => {
+      const response = await fetch(value);
+      return [key, await response.arrayBuffer()] as [string, ArrayBuffer];
+    }),
+  );
+  return Object.fromEntries(await fonts);
 });
 
-export const GET: APIRoute = async ({ params }) => {
-  const height = Number(params.height ?? 630);
-  const width = Number(params.width ?? 1200);
+export const GET: APIRoute = async ({ request }) => {
+  const params = new URL(request.url).searchParams;
 
-  const firaCode = await getFont('FiraCode', '500');
-  const inter = await getFont('Inter', '600');
-  const notoSansSC400 = await getFont('NotoSansSC', '400');
-  const notoSansSC600 = await getFont('NotoSansSC', '600');
+  console.log(request);
 
-  const svg = await satori(
-    SatoriGraph({ title: params.title ?? '', content: params.title ?? '' }),
+  const height = Number(params.get('height') ?? 630);
+  const width = Number(params.get('width') ?? 1200);
+  const title = params.get('title') ?? '';
+  const content = params.get('content') ?? '';
+
+  const { inter600, firaCode500, notoSansSC400, notoSansSC600 } = await getFonts();
+
+  const svgString = await satori(
+    SatoriGraph({ title, content }),
     {
       fonts: [
-        { name: 'Inter', data: inter, style: 'normal' },
-        { name: 'Fira Code', data: firaCode, style: 'normal' },
+        { name: 'Inter', data: inter600, style: 'normal' },
+        { name: 'Fira Code', data: firaCode500, style: 'normal' },
         { name: 'Noto Sans SC', data: notoSansSC400, style: 'normal', weight: 400 },
         { name: 'Noto Sans SC', data: notoSansSC600, style: 'normal', weight: 600 },
       ],
@@ -46,19 +48,7 @@ export const GET: APIRoute = async ({ params }) => {
     },
   );
 
-  const resvg = new Resvg(svg, {
-    fitTo: {
-      mode: 'width',
-      value: width,
-    },
-  });
+  const svgImage = new Resvg(svgString, { fitTo: { mode: 'width', value: width } });
 
-  const image = resvg.render();
-
-  return new Response(image.asPng(), {
-    headers: {
-      'Content-Type': 'image/png',
-      'Cache-Control': 'public, max-age=31536000, immutable',
-    },
-  });
+  return new Response(svgImage.render().asPng(), { headers: { 'Content-Type': 'image/png' } });
 };
