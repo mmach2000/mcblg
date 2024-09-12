@@ -1,7 +1,7 @@
-import queryString from 'query-string';
-import { atom, useAtom } from 'jotai';
+import { format } from 'date-fns';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { withLeadingSlash } from 'ufo';
+import { useAtom, useAtomValue } from 'jotai';
 import { Button, CheckTag, Dropdown, Link } from 'tdesign-react';
 import {
   IllustrationIdle,
@@ -10,10 +10,9 @@ import {
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
 
-import { format } from 'date-fns';
-import { Empty } from '@/components/react/Empty.tsx';
-import { IS_DEV, SORT_NAMES } from '@/utils/constants.ts';
-import { QUERY_STRING_OPTION, locationAtom } from '@/store/jotai/location.ts';
+import { Empty } from '@/components/react/Empty';
+import { SORT_NAMES } from '@/utils/constants';
+import { createQueryAtom, getFromSearch } from '@/store/jotai/location';
 
 interface Post {
   slug: string;
@@ -36,67 +35,34 @@ const COMPARE_FNS: Record<SortMethod, (a: Post, b: Post) => number> = {
   words: (a, b) => b.words - a.words,
 };
 
-const filterAtom = atom(
-  (get) => {
-    const rawSearchParams = get(locationAtom).searchParams;
-    const searchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), QUERY_STRING_OPTION);
-    const include = (searchParams?.include ? [searchParams.include].flat() : []) as string[];
-    const exclude = (searchParams?.exclude ? [searchParams.exclude].flat() : []) as string[];
-    return { include, exclude };
-  },
-  (get, set, update: { include?: string[]; exclude?: string[] }) => {
-    const rawSearchParams = get(locationAtom).searchParams;
-    const oldSearchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), QUERY_STRING_OPTION);
-    const newSearchParams = { ...oldSearchParams, ...update };
-    const searchParams = new URLSearchParams(queryString.stringify(newSearchParams, QUERY_STRING_OPTION));
-    set(locationAtom, prev => ({ ...prev, searchParams }));
-  },
-);
-
-const sortAtom = atom(
-  (get) => {
-    const rawSearchParams = get(locationAtom).searchParams;
-    const searchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), QUERY_STRING_OPTION);
-    const sort = (SORT_METHODS.includes(String(searchParams?.sort) as SortMethod) ? searchParams?.sort : 'ctime') as SortMethod;
-    const order = (SORT_ORDERS.includes(String(searchParams?.order) as SortOrder) ? searchParams?.order : 'desc') as SortOrder;
-    return { sort, order };
-  },
-  (get, set, update: { sort?: SortMethod; order?: SortOrder }) => {
-    const rawSearchParams = get(locationAtom).searchParams;
-    const oldSearchParams = rawSearchParams && queryString.parse(rawSearchParams.toString(), QUERY_STRING_OPTION);
-    const newSearchParams = { ...oldSearchParams, ...update };
-    const searchParams = new URLSearchParams(queryString.stringify(newSearchParams, QUERY_STRING_OPTION));
-    set(locationAtom, prev => ({ ...prev, searchParams }));
-  },
-);
+const includeAtom = createQueryAtom<string[]>('include', []);
+const excludeAtom = createQueryAtom<string[]>('exclude', []);
+const sortAtom = createQueryAtom<[SortMethod]>('sort', ['ctime']);
+const orderAtom = createQueryAtom<[SortOrder]>('order', ['desc']);
 
 function TagsCloud({ tags }: { tags: string[] }) {
   const [parent] = useAutoAnimate();
-  const [filter, setFilter] = useAtom(filterAtom);
+  const [include, setInclude] = useAtom(includeAtom);
+  const [exclude, setExclude] = useAtom(excludeAtom);
 
   function propsFactory(tag: string) {
-    if (filter.include.includes(tag)) {
+    if (include.includes(tag)) {
       return {
         theme: 'success' as const,
         icon: <span i-lucide:filter mr-2 />,
         onClick: () => {
           // include -> exclude
-          setFilter({
-            include: filter.include.filter(t => t !== tag),
-            exclude: [tag, ...filter.exclude],
-          });
+          setInclude(include.filter(t => t !== tag));
+          setExclude([tag, ...exclude]);
         },
       };
-    } else if (filter.exclude.includes(tag)) {
+    } else if (exclude.includes(tag)) {
       return {
         theme: 'danger' as const,
         icon: <span i-lucide:filter-x mr-2 />,
         onClick: () => {
           // exclude -> default
-          setFilter({
-            include: filter.include,
-            exclude: filter.exclude.filter(t => t !== tag),
-          });
+          setExclude(exclude.filter(t => t !== tag));
         },
       };
     } else {
@@ -105,10 +71,7 @@ function TagsCloud({ tags }: { tags: string[] }) {
         icon: <span i-lucide:tag mr-2 />,
         onClick: () => {
           // default -> include
-          setFilter({
-            include: [tag, ...filter.include],
-            exclude: filter.exclude,
-          });
+          setInclude([tag, ...include]);
         },
       };
     }
@@ -123,12 +86,15 @@ function TagsCloud({ tags }: { tags: string[] }) {
           </span>
         </CheckTag>
       )) }
-      {(filter.include.length > 0 || filter.exclude.length > 0) && (
+      {(include.length > 0 || exclude.length > 0) && (
         <Button
           size="small"
           theme="default"
           variant="outline"
-          onClick={() => setFilter({ include: [], exclude: [] })}
+          onClick={() => {
+            setInclude([]);
+            setExclude([]);
+          }}
           icon={<span i-lucide:refresh-ccw mr-2 />}
         >
           <span font-mono mb="[-2px]">
@@ -141,21 +107,31 @@ function TagsCloud({ tags }: { tags: string[] }) {
 }
 
 function SortPanel() {
-  const [sortOption, setSortOption] = useAtom(sortAtom);
+  // const [sortOption, setSortOption] = useAtom(sortAtom);
+  const [[sort], setSort] = useAtom(sortAtom);
+  const [[order], setOrder] = useAtom(orderAtom);
 
-  const options = SORT_METHODS.flatMap((key: SortMethod, idx, arr) => {
-    return [
-      { content: `${SORT_NAMES[key]}${SORT_NAMES.asc}`, value: { sort: key, order: 'asc' } },
-      { content: `${SORT_NAMES[key]}${SORT_NAMES.desc}`, value: { sort: key, order: 'desc' }, divider: idx !== arr.length - 1 },
-    ];
-  });
+  const options = SORT_METHODS.flatMap(key =>
+    SORT_ORDERS.map(order => ({
+      content: `${SORT_NAMES[key]}${SORT_NAMES[order]}`,
+      value: { sort: key, order },
+      divider: true,
+    })));
+  options.at(-1)!.divider = false;
 
   return (
-    <Dropdown options={options} onClick={data => setSortOption(data.value as { sort: SortMethod; order: SortOrder })}>
+    <Dropdown
+      options={options}
+      onClick={(data) => {
+        const value = data.value as { sort: SortMethod; order: SortOrder };
+        setSort([value.sort]);
+        setOrder([value.order]);
+      }}
+    >
       <Button variant="outline" size="small">
         <span flex="~ items-center">
-          {SORT_NAMES[sortOption.sort]}
-          {SORT_NAMES[sortOption.order]}
+          {SORT_NAMES[sort]}
+          {SORT_NAMES[order]}
           <span i-lucide:chevron-down ml-1 />
         </span>
       </Button>
@@ -193,17 +169,19 @@ function Posts({ posts }: { posts: Post[] }) {
 
 function FilteredPosts({ posts }: { posts: Post[] }) {
   const [parent] = useAutoAnimate();
-  const [filter, setFilter] = useAtom(filterAtom);
-  const [sort] = useAtom(sortAtom);
+  const [include, setInclude] = useAtom(includeAtom);
+  const [exclude, setExclude] = useAtom(excludeAtom);
+  const [sort] = useAtomValue(sortAtom);
+  const [order] = useAtomValue(orderAtom);
 
   const filteredPosts = posts.filter((post) => {
-    const isInclude = filter.include.every(tag => post.tags?.includes(tag));
-    const isExclude = filter.exclude.some(tag => post.tags?.includes(tag));
+    const isInclude = include.every(tag => post.tags?.includes(tag));
+    const isExclude = exclude.some(tag => post.tags?.includes(tag));
     return isInclude && !isExclude;
   });
 
-  const sortedPosts = filteredPosts.sort(COMPARE_FNS[sort.sort]);
-  if (sort.order === 'asc') {
+  const sortedPosts = filteredPosts.sort(COMPARE_FNS[sort]);
+  if (order === 'asc') {
     sortedPosts.reverse();
   }
 
@@ -219,7 +197,10 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
                 underline
                 size="large"
                 theme="primary"
-                onClick={() => setFilter({ include: [], exclude: [] })}
+                onClick={() => {
+                  setInclude([]);
+                  setExclude([]);
+                }}
               >
                 重置筛选条件
               </Link>
@@ -249,10 +230,6 @@ function FilteredPosts({ posts }: { posts: Post[] }) {
 }
 
 export function PostsPage({ tags, posts }: { tags: string[]; posts: Post[] }) {
-  if (IS_DEV) {
-    console.log('posts:', posts);
-  }
-
   return (
     <div className="not-content" mx-auto max-w-5xl>
       <div flex="~ gap-3" mb-3 mt--1 md="mt-0 mb-5">

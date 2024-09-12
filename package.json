@@ -12,12 +12,12 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@astrojs/partytown": "^2.1.1",
+    "@astrojs/partytown": "2.1.2",
     "@astrojs/react": "^3.6.2",
-    "@astrojs/starlight": "^0.25.5",
+    "@astrojs/starlight": "0.27.1",
     "@douyinfe/semi-illustrations": "^2.65.0",
     "@formkit/auto-animate": "^0.8.2",
-    "astro": "^4.14.5",
+    "astro": "4.15.4",
     "browser-or-node": "^3.0.0",
     "jotai": "^2.9.3",
     "jotai-location": "^0.5.5",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.1",
-    "@astrojs/check": "^0.8.3",
+    "@astrojs/check": "0.9.3",
     "@eslint-react/eslint-plugin": "^1.12.1",
     "@iconify/json": "^2.2.241",
     "@types/node": "^22.5.0",
@@ -54,6 +54,7 @@
     "starlight-image-zoom": "^0.7.0",
     "typescript": "^5.5.4",
     "unocss": "^0.62.2",
+    "vite-plugin-base64-import": "^1.0.1",
     "words-count": "^2.0.2"
   },
   "lint-staged": {
