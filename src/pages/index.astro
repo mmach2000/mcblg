@@ -6,6 +6,9 @@ import { IS_DEV } from '@/utils/constants';
 import { PostsPage } from '@/components/react/PostsPage';
 import { getAllTags, getMetadata } from '@/utils/content';
 
+export const prerender = false;
+const url = Astro.request.url;
+
 const allNotes = (await getCollection('docs' as const, ({ data }) => IS_DEV || !data.draft));
 const tags = getAllTags(allNotes);
 const trimmedPosts = await Promise.all(allNotes.map(getMetadata));
@@ -18,5 +21,5 @@ const frontmatter = {
 ---
 
 <StarlightPage frontmatter={frontmatter} hasSidebar={false}>
-  <PostsPage tags={tags} posts={trimmedPosts} client:only="react" />
+  <PostsPage tags={tags} posts={trimmedPosts} initialUrl={url} client:load />
 </StarlightPage>

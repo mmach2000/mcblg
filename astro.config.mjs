@@ -2,9 +2,9 @@ import react from '@astrojs/react';
 import UnoCSS from 'unocss/astro';
 import partytown from '@astrojs/partytown';
 import starlight from '@astrojs/starlight';
+import cloudflare from '@astrojs/cloudflare';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import cloudflare from '@astrojs/cloudflare';
 
 import { defineConfig } from 'astro/config';
 import { base64Import } from 'vite-plugin-base64-import';
@@ -20,7 +20,7 @@ export default defineConfig({
   },
   vite: {
     build: { sourcemap: true },
-    ssr: { noExternal: ['tdesign-react', 'react-tweet'] },
+    ssr: { noExternal: ['tdesign-react', 'react-tweet', '@douyinfe/semi-illustrations'] },
     optimizeDeps: { exclude: ['@resvg/resvg-js'] },
     plugins: [base64Import()],
   },

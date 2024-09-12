@@ -54,7 +54,6 @@
     "rehype-mermaid": "^2.1.0",
     "remark-math": "^6.0.0",
     "satori": "^0.10.14",
-    "sharp": "^0.33.5",
     "starlight-image-zoom": "^0.7.0",
     "typescript": "^5.5.4",
     "unocss": "^0.62.2",
