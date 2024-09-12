@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { Resvg } from '@resvg/resvg-js';
+import { Resvg } from '@resvg/resvg-wasm';
 import satori from 'satori';
 import { fetch } from 'ofetch';
 import { memoize } from 'moderndash';
