@@ -12,7 +12,7 @@ import {
 
 import { Empty } from '@/components/react/Empty';
 import { SORT_NAMES } from '@/utils/constants';
-import { createQueryAtom, getFromSearch } from '@/store/jotai/location';
+import { createQueryAtom } from '@/store/jotai/location';
 
 interface Post {
   slug: string;
