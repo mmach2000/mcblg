@@ -22,3 +22,15 @@
   --tweet-body-font-size: 1.1rem !important;
   --tweet-body-line-height: 1.3rem !important;
 }
+
+/* 引用最后一行右对齐 */
+.sl-markdown-content blockquote > p:last-child:not(:where(.not-content *)) {
+  margin-top: 0;
+  text-align: right;
+}
+
+/* 中文段落设置 */
+.sl-markdown-content:lang(zh) > p:not(:where(.not-content *)) {
+  text-align: justify;
+  text-indent: 2em;
+}

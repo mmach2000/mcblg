@@ -47,6 +47,7 @@
     "husky": "^9.1.5",
     "less": "^4.2.0",
     "lint-staged": "^15.2.9",
+    "pangu-cli": "^0.1.0",
     "rehype-katex": "^7.0.1",
     "rehype-mermaid": "^2.1.0",
     "remark-math": "^6.0.0",

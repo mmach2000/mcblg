@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'APL386 Unicode';
+  src:
+    local('APL386 Unicode'),
+    url('/font/APL386_Unicode_Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --__sl-font-mono: 'APL386 Unicode', monospace;
+}

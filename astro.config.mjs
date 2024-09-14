@@ -29,7 +29,7 @@ export default defineConfig({
     UnoCSS(),
     starlight({
       title: 'mc\'s blog',
-      favicon: 'logo-square.svg',
+      favicon: 'img/logo-square.svg',
       locales: { root: { label: '简体中文', lang: 'zh-CN' } },
       social: {
         github: 'https://github.com/mmach2000/mcblg',

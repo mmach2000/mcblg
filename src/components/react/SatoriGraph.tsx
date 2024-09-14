@@ -1,4 +1,4 @@
-import logo from '../../../public/logo-square-96.png?base64';
+import logo from '../../../public/img/logo-square-96.png?base64';
 
 declare module 'react' {
   interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
