@@ -13,3 +13,10 @@ export const SORT_NAMES = {
   desc: '降序',
   asc: '升序',
 };
+
+export const QUERY_KEYS = {
+  include: 'i',
+  exclude: 'e',
+  sort: 's',
+  order: 'o',
+};

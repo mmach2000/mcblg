@@ -1,0 +1,18 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+import PageInfo from '@/components/astro/PageInfo.astro';
+
+import { getContinuum } from '@/utils/content';
+
+const { author, ctime, mtime, tags } = Astro.props.entry.data;
+
+const showInfo = Boolean(getContinuum(Astro.props.slug));
+---
+
+<Default {...Astro.props} />
+
+{
+  showInfo && <PageInfo author={author} ctime={ctime} mtime={mtime} tags={tags} />
+}

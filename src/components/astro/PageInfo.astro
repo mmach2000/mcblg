@@ -1,0 +1,48 @@
+---
+import { format } from 'date-fns';
+import { QUERY_KEYS } from '@/utils/constants';
+
+interface Props {
+  author?: string;
+  ctime?: string;
+  mtime?: string;
+  tags?: string[];
+}
+
+const { author, ctime: rawCtime, mtime: rawMtime, tags } = Astro.props;
+
+const ctime = rawCtime ? new Date(rawCtime) : new Date();
+const mtime = rawMtime ? new Date(rawMtime) : ctime;
+
+const ctimeDisplay = format(ctime, 'yyyy/MM/dd');
+const mtimeDisplay = format(mtime, 'yyyy/MM/dd');
+---
+
+<div class="not-content" font-mono flex="~ row gap-2 wrap">
+  {
+    author && (
+      <span text="sm gray-600 dark:gray-200 op60 dark:op60">{author}</span>
+      <span text="sm gray-600 dark:gray-200 op50 dark:op50">·</span>
+    )
+  }
+  <span text="sm gray-600 dark:gray-200 op60 dark:op60">
+    <abbr title={`创建时间：${ctimeDisplay}${rawMtime ? `\n最后修改时间：${mtimeDisplay}` : ''}`}>
+      <time datetime={rawCtime}>{ctimeDisplay}</time>
+    </abbr>
+  </span>
+  {
+    tags && (tags.map(tag => (
+      <span text="sm gray-600 dark:gray-200 op50 dark:op50">·</span>
+      <a
+        target="_blank"
+        class="group decoration-dotted"
+        flex="~ row items-center"
+        text="sm gray-600 dark:gray-200"
+        href={`/all?${QUERY_KEYS.include}=${tag}`}
+      >
+        <div text-hover-op i-lucide-tag mr-1 mt--0.5 />
+        <span text-hover-op>{tag}</span>
+      </a>
+    )))
+  }
+</div>

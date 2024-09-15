@@ -11,7 +11,7 @@ import {
 } from '@douyinfe/semi-illustrations';
 
 import { Empty } from '@/components/react/Empty';
-import { SORT_NAMES } from '@/utils/constants';
+import { QUERY_KEYS, SORT_NAMES } from '@/utils/constants';
 import { createQueryAtom } from '@/store/jotai/location';
 
 interface Post {
@@ -35,10 +35,10 @@ const COMPARE_FNS: Record<SortMethod, (a: Post, b: Post) => number> = {
   words: (a, b) => b.words - a.words,
 };
 
-const includeAtom = createQueryAtom<string[]>('include', []);
-const excludeAtom = createQueryAtom<string[]>('exclude', []);
-const sortAtom = createQueryAtom<[SortMethod]>('sort', ['ctime']);
-const orderAtom = createQueryAtom<[SortOrder]>('order', ['desc']);
+const includeAtom = createQueryAtom<string[]>(QUERY_KEYS.include, []);
+const excludeAtom = createQueryAtom<string[]>(QUERY_KEYS.exclude, []);
+const sortAtom = createQueryAtom<[SortMethod]>(QUERY_KEYS.sort, ['ctime']);
+const orderAtom = createQueryAtom<[SortOrder]>(QUERY_KEYS.order, ['desc']);
 
 function TagsCloud({ tags }: { tags: string[] }) {
   const [parent] = useAutoAnimate();

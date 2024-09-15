@@ -54,6 +54,7 @@ export default defineConfig({
     transformerAttributifyJsx(),
   ],
   shortcuts: {
-    'text-hover-op': 'ease-out duration-200 hover:transition-all op60 group-hover:op100',
+    'text-hover-ease': 'ease-out duration-200 hover:transition-all',
+    'text-hover-op': 'text-hover-ease op60 group-hover:op100',
   },
 });

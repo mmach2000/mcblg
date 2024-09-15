@@ -40,6 +40,7 @@ export default defineConfig({
         Head: './src/components/astro/MyHead.astro',
         Footer: './src/components/astro/MyFooter.astro',
         Sidebar: './src/components/astro/MySidebar.astro',
+        PageTitle: './src/components/astro/MyPageTitle.astro',
         SiteTitle: './src/components/astro/MySiteTitle.astro',
       },
 

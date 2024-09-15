@@ -27,6 +27,10 @@
 .sl-markdown-content:lang(zh) > p:not(:where(.not-content *)) {
   text-indent: 2em;
 }
+.sl-markdown-content:lang(zh) > ol:not(:where(.not-content *)),
+.sl-markdown-content:lang(zh) > ul:not(:where(.not-content *)) {
+  padding-left: 2em;
+}
 
 @media (min-width: 768px) {
   .sl-markdown-content:lang(zh) > p:not(:where(.not-content *)) {
