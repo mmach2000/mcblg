@@ -31,6 +31,11 @@
 
 /* 中文段落设置 */
 .sl-markdown-content:lang(zh) > p:not(:where(.not-content *)) {
-  text-align: justify;
   text-indent: 2em;
+}
+
+@media (min-width: 768px) {
+  .sl-markdown-content:lang(zh) > p:not(:where(.not-content *)) {
+    text-align: justify;
+  }
 }

@@ -1,6 +1,6 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
-import { getLabel } from '@/utils/content';
+import { getTopRoute } from '@/utils/content';
 
 const navbarItems: Record<string, `/${string}`> = {
   POSTS: '/posts',
@@ -9,7 +9,7 @@ const navbarItems: Record<string, `/${string}`> = {
 };
 
 const { slug } = Astro.props;
-const label = getLabel(slug);
+const label = getTopRoute(slug);
 ---
 
 <div flex="~ row gap-6 items-center" data-vtbot-replace="site-title">

@@ -2,11 +2,11 @@
 import type { Props } from '@astrojs/starlight/props';
 import Default from '@astrojs/starlight/components/Sidebar.astro';
 
-import { getCategory } from '@/utils/content';
+import { getTopRoute } from '@/utils/content';
 import { SERIES_NAMES } from '@/utils/constants';
 
 const { slug } = Astro.props;
-const pageCategory = getCategory(slug);
+const pageCategory = getTopRoute(slug);
 
 // 默认显示全局 Sidebar
 let displaySidebar = Astro.props.sidebar;

@@ -4,37 +4,47 @@ import wc from 'words-count';
 import { trim, unique } from 'moderndash';
 
 /**
- * get category from a slug or href
+ * Get ‘continuum’ label from a slug or href.
+ * Pages with the same continuum label are considered to be in the same series,
+ * and are linked together by footer navigation.
+ *
  * - /notes/example/ → /notes
  * - notes/example → /notes
- * - /notes → /
- * - / → /
+ * - /series/example → /example
+ * - /notes → undefined
+ * - / → undefined
  */
-export function getCategory(slugOrHref?: string): `/${string}` | undefined {
+export function getContinuum(slugOrHref?: string): `/${string}` | undefined {
   if (slugOrHref === undefined || slugOrHref === null)
     return;
   const slug = trim(slugOrHref, '/');
   const parts = slug.split('/');
-  return parts.length > 1 ? `/${parts[0]}` : '/';
+  if (parts.length <= 1) {
+    return undefined;
+  } else if (parts[0] === 'series') {
+    return `/${parts[1]}`;
+  } else {
+    return `/${parts[0]}`;
+  }
 }
 
 /**
- * get category from a slug or href
+ * Get the top route from a slug or href
  * - /notes/example/ → /notes
  * - notes/example → /notes
  * - /notes → /notes
  * - / → /
  */
-export function getLabel(slugOrHref?: string): `/${string}` | undefined {
+export function getTopRoute(slugOrHref?: string): `/${string}` | undefined {
   if (slugOrHref === undefined || slugOrHref === null)
     return;
   const slug = trim(slugOrHref, '/');
   const parts = slug.split('/');
-  return parts.length > 1 ? `/${parts[0]}` : `/${slug}`;
+  return `/${parts?.[0] ?? ''}`;
 }
 
 /**
- * get only metadata of a content
+ * Get only metadata of a content
  */
 export async function getMetadata(content: CollectionEntry<'docs'>) {
   return {
@@ -49,7 +59,7 @@ export async function getMetadata(content: CollectionEntry<'docs'>) {
 }
 
 /**
- * get a tag list
+ * Get a tag list
  */
 export function getAllTags(contents: CollectionEntry<'docs'>[]) {
   return unique(contents.flatMap(content => content.data.tags ?? []));
