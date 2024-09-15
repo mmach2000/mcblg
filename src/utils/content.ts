@@ -1,7 +1,7 @@
 import type { CollectionEntry } from 'astro:content';
 
-import wc from 'words-count';
 import { trim, unique } from 'moderndash';
+import wc from 'words-count';
 
 /**
  * Get ‘continuum’ label from a slug or href.
@@ -54,6 +54,7 @@ export async function getMetadata(content: CollectionEntry<'docs'>) {
     mtime: content.data?.mtime ? new Date(content.data.mtime) : new Date(),
     slug: content.slug,
     // @ts-expect-error - mixed default export and named export
+    // eslint-disable-next-line ts/no-unsafe-assignment,ts/no-unsafe-call
     words: wc.default(content.body),
   };
 }

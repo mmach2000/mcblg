@@ -5,7 +5,10 @@
     "jsxImportSource": "react",
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] },
-    "types": ["vite-plugin-base64-import/types"]
+    "types": ["vite-plugin-base64-import/types"],
+    "plugins": [
+      { "name": "@astrojs/ts-plugin" }
+    ]
   },
   "exclude": ["public", "dist"]
 }

@@ -1,8 +1,9 @@
-import { atomWithLocation } from 'jotai-location';
-import { atom } from 'jotai/index';
-import queryString from 'query-string';
+import type { WritableAtom } from 'jotai/vanilla';
 import { isBrowser } from 'browser-or-node';
+import { atom } from 'jotai/index';
+import { atomWithLocation } from 'jotai-location';
 import { isEqual } from 'moderndash';
+import queryString from 'query-string';
 
 const QUERY_STRING_OPTION = { arrayFormat: 'separator' as const, arrayFormatSeparator: '|' as const };
 
@@ -66,21 +67,23 @@ function subscribeQuery(callback: () => void) {
   return () => window.removeEventListener('popstate', callback);
 }
 
-export const locationAtom = atomWithLocation({
+export const allQueryAtom = atomWithLocation<QueryParams>({
   replace: true,
   getLocation: getQuery,
   applyLocation: applyQuery,
   subscribe: subscribeQuery,
 });
 
-export function createQueryAtom<T extends string[]>(key: string, defaultValue: T = [] as string[] as T) {
-  return atom(
-    get => (get(locationAtom)[key] ?? defaultValue) as T,
+export function createQueryAtom<T extends string[]>(key: string, defaultValue: T = [] as string[] as T, options?: { replace?: boolean }) {
+  return atom<T, [update: T], void>(
+    get => (get(allQueryAtom)[key] ?? defaultValue) as T,
     (get, set, update: T) => {
-      if (isEqual(get(locationAtom)[key], update)) {
+      const query = get(allQueryAtom);
+      if (isEqual(query[key], update)) {
         return;
       }
-      set(locationAtom, prev => ({ ...prev, [key]: update }));
+      // eslint-disable-next-line ts/no-unsafe-argument
+      set(allQueryAtom as WritableAtom<QueryParams, any, void>, { ...query, [key]: update }, { replace: options?.replace ?? false });
     },
   );
 }

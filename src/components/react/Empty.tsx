@@ -1,6 +1,6 @@
-import { Typography } from 'tdesign-react';
-import type { CSSProperties, ReactNode } from 'react';
 import type { IllustrationNoContent } from '@douyinfe/semi-illustrations';
+import type { CSSProperties, ReactNode } from 'react';
+import { Typography } from 'tdesign-react';
 
 interface EmptyProps {
   title: ReactNode;
@@ -30,7 +30,7 @@ export function Empty({ title, description, image: Image, darkModeImage: DarkMod
       {imageFragment}
       <Typography.Title level="h4">{title}</Typography.Title>
       {
-        description && <>{description}</>
+        Boolean(description) && <>{description}</>
       }
     </div>
   );

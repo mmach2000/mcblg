@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
-import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
-
-import { IS_DEV } from '../utils/constants';
 import { PostsPage } from '@/components/react/PostsPage';
 import { getAllTags, getMetadata, getTopRoute } from '@/utils/content';
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection } from 'astro:content';
+import { IS_DEV } from '../utils/constants';
 
 const allNotes = (await getCollection('docs' as const, ({ slug, data }) => getTopRoute(slug) === '/posts' && (IS_DEV || !data.draft)));
 const tags = getAllTags(allNotes);

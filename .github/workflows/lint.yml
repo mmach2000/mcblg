@@ -34,5 +34,7 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: bun i
+      - name: Generate Astro type definitions
+        run: bunx astro sync
       - name: Run eslint
         run: bunx eslint .

@@ -1,9 +1,9 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
-import Default from '@astrojs/starlight/components/Sidebar.astro';
+import { SERIES_NAMES } from '@/utils/constants';
 
 import { getTopRoute } from '@/utils/content';
-import { SERIES_NAMES } from '@/utils/constants';
+import Default from '@astrojs/starlight/components/Sidebar.astro';
 
 const { slug } = Astro.props;
 const pageCategory = getTopRoute(slug);

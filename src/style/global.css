@@ -1,13 +1,15 @@
-@import "katex/dist/katex.min.css";
+@import 'katex/dist/katex.min.css';
 
-@import "./tdesign-theme.css";
-@import "./starlight-theme.css";
+@import './tdesign-theme.css';
+@import './starlight-theme.css';
 
 :root,
-:root[theme-mode="light"],:root[data-theme="light"] {
+:root[theme-mode='light'],
+:root[data-theme='light'] {
   --skeleton-animation-gradient: rgba(0, 0, 0, 0.04);
 }
-:root[theme-mode="dark"],:root[data-theme="dark"] {
+:root[theme-mode='dark'],
+:root[data-theme='dark'] {
   --skeleton-animation-gradient: rgba(255, 255, 255, 0.06);
 }
 
@@ -18,9 +20,14 @@
 
 /* 缩小 react-tweet-embed 字体 */
 .react-tweet-theme {
-  margin-inline: auto!important;
+  margin-inline: auto !important;
   --tweet-body-font-size: 1.1rem !important;
   --tweet-body-line-height: 1.3rem !important;
+}
+
+/* 缩小 KaTeX 字体 */
+.katex {
+  font-size: 1.05em;
 }
 
 /* 中文段落设置 */

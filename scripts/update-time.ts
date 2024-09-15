@@ -1,8 +1,8 @@
 import { writeFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 
-import grayMatter from 'gray-matter';
 import { formatISO } from 'date-fns';
+import grayMatter from 'gray-matter';
 
 const now = formatISO(new Date());
 

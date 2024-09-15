@@ -1,11 +1,11 @@
-import react from '@astrojs/react';
-import UnoCSS from 'unocss/astro';
 import partytown from '@astrojs/partytown';
+import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-
 import { defineConfig } from 'astro/config';
+import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
+
+import UnoCSS from 'unocss/astro';
 import { base64Import } from 'vite-plugin-base64-import';
 
 // https://astro.build/config
