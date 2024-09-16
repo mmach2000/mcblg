@@ -1,5 +1,5 @@
 ---
-mtime: '2024-09-16T22:07:11+08:00'
+mtime: '2024-09-17T00:27:10+08:00'
 ctime: '2024-09-16T22:02:25+08:00'
 ---
 import OriginalText from "@/components/astro/OriginalText.astro"
@@ -40,7 +40,7 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 - 具有启发性。
 - 能够有效地隐藏细节。
 - 经济高效。
-- 适合用于形式化证明。
+- 适用于形式化证明。
 
 讨论这些特点时，我们会时刻关注符号系统的可执行性和无歧义性。
 为确保清晰无误，我们列出每个表达式的结果。
@@ -180,7 +180,7 @@ import OriginalText from "@/components/astro/OriginalText.astro"
   
   The foregoing suggests that `+/⍳5 ←→ (6×5)÷2` , and, more generally, that:
   
-  ```apl
+  ```apl title="A.1"
         +/⍳n ←→ ((n+1)×n)÷2
   ```
 </OriginalText>
@@ -227,7 +227,6 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 可以看出，`+/5⍴6 ←→ 6×5`，这一结果符合乘法作为加法重复的定义。
 
 这些现象表明，`+/⍳5 ←→ (6×5)÷2`。更一般地，我们有：
-
 <span id="eq:A.1"/>
 
 ```apl title="A.1"
@@ -579,6 +578,7 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 它的列除了能表示 0 到 7 的二进制数外，还能表示三元素集合的所有子集，以及三布尔值真值表的条目。
 显而易见，`n` 元素的通用的表达式是 `(n⍴2)⊤(⍳2n)-1`，也许我们需要为这个函数赋予一个临时名字。
 使用直接定义形式（见附录 B），我们可以将临时名字 `T` 赋给这个函数，如下所示：
+<span id="eq:A.2"/>
 
 ```apl title="A.2"
       T:(⍵⍴2)⊤(⍳2*⍵)-1
@@ -591,6 +591,7 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 中间的表达式最先执行；如果中间表达式的值为 0，则执行第一个表达式，否则执行最后一个表达式。
 这种形式在定义递归函数时尤为便利。
 例如，生成指定阶二项式系数的函数可以写作：
+<span id="eq:A.3"/>
 
 ```apl title="A.3"
       bc:(x,0)+(0,x←bc ⍵-1):⍵=0:1
@@ -640,7 +641,8 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 
 平时我们会将 operator（对应中文中的操作符）视作**函数**的同义词；
 但在数学中 operator 有着更为严格的定义，指的是将函数映射到函数的实体（对应中文中的**算子**）。
-一个典型的算子是导数算子 $\frac{\mathrm{d}}{\mathrm{d}x}$。
+一个典型的算子是导数算子 
+{/* $\frac{\mathrm{d}}{\mathrm{d}x}$。 */}
 
 我们已经见过两种算子：**归约算子** `/` 和**扫描算子** `\`；
 它们作用于不同的函数，得到了一系列相关的函数，如 `+/`、`×/` 和 `∧/`，这使得我们能够更简洁地表达问题。
@@ -733,8 +735,8 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 
 ```apl
       2 3 5∘.×⍳5
-2 4 6 8 10
-3 6 9 12 15
+2  4  6  8 10
+3  6  9 12 15
 5 10 15 20 25
 ```
 
@@ -772,29 +774,29 @@ import OriginalText from "@/components/astro/OriginalText.astro"
   <summary>
     负参数版本的函数表
   </summary>
-```apl
-      d←¯4 ¯3 ¯2 ¯1 0 1 2 3 4
-      d∘.!d
-  1  ¯3  3 ¯1 0 0 0 0 0
-  0   1 ¯2  1 0 0 0 0 0
-  0   0  1 ¯1 0 0 0 0 0
-  0   0  0  1 0 0 0 0 0
-  1   1  1  1 1 1 1 1 1
- ¯4  ¯3 ¯2 ¯1 0 1 2 3 4
- 10   6  3  1 0 0 1 3 6
-¯20 ¯10 ¯4 ¯1 0 0 0 1 4
- 35  15  5  1 0 0 0 0 1
-      d∘.×d
- 16  12  8  4 0 ¯4 ¯8 ¯12 ¯16
- 12   9  6  3 0 ¯3 ¯6  ¯9 ¯12
-  8   6  4  2 0 ¯2 ¯4  ¯6  ¯8
-  4   3  2  1 0 ¯1 ¯2  ¯3  ¯4
-  0   0  0  0 0  0  0   0   0
- ¯4  ¯3 ¯2 ¯1 0  1  2   3   4
- ¯8  ¯6 ¯4 ¯2 0  2  4   6   8
-¯12  ¯9 ¯6 ¯3 0  3  6   9  12
-¯16 ¯12 ¯8 ¯4 0  4  8  12  16
-```
+  ```apl
+        d←¯4 ¯3 ¯2 ¯1 0 1 2 3 4
+        d∘.!d
+    1  ¯3  3 ¯1 0 0 0 0 0
+    0   1 ¯2  1 0 0 0 0 0
+    0   0  1 ¯1 0 0 0 0 0
+    0   0  0  1 0 0 0 0 0
+    1   1  1  1 1 1 1 1 1
+   ¯4  ¯3 ¯2 ¯1 0 1 2 3 4
+   10   6  3  1 0 0 1 3 6
+  ¯20 ¯10 ¯4 ¯1 0 0 0 1 4
+   35  15  5  1 0 0 0 0 1
+        d∘.×d
+   16  12  8  4 0 ¯4 ¯8 ¯12 ¯16
+   12   9  6  3 0 ¯3 ¯6  ¯9 ¯12
+    8   6  4  2 0 ¯2 ¯4  ¯6  ¯8
+    4   3  2  1 0 ¯1 ¯2  ¯3  ¯4
+    0   0  0  0 0  0  0   0   0
+   ¯4  ¯3 ¯2 ¯1 0  1  2   3   4
+   ¯8  ¯6 ¯4 ¯2 0  2  4   6   8
+  ¯12  ¯9 ¯6 ¯3 0  3  6   9  12
+  ¯16 ¯12 ¯8 ¯4 0  4  8  12  16
+  ```
 </details>
 
 观察这些函数表的特征，我们还能得到函数的其他信息，并通过穷举法简洁地证明函数的某些性质。
@@ -838,31 +840,22 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 
 <OriginalText>
   **1.4 Economy**
-  
-  The utility of a language as a tool of thought increases with the range of topics it can treat,
-  but decreases with the amount of vocabulary and the complexity of grammatical rules which the user must keep in mind.
-  Economy of notation is therefore important.
-  
-  Economy requires that a large number of ideas be expressible in terms of a relatively small vocabulary.
-  A fundamental scheme for achieving this is the introduction of grammatical rules by which meaningful phrases
-  and sentences can be constructed by combining elements of the vocabulary.
-  
-  This scheme may be illustrated by the first example treated —
-  the relatively simple and widely useful notion of the sum of the first `n` integers was not introduced as a primitive,
-  but as a phrase constructed from two more generally useful notions,
-  the function `⍳` for the production of a vector of integers, and the function `+/` for the summation of the elements of a vector.
-  Moreover, the derived function `+/` is itself a phrase, summation being a derived function
-  constructed from the more general notion of the reduction operator applied to a particular function.
+
+  The utility of a language as a tool of thought increases with the range of topics it can treat, but decreases with the amount of vocabulary and the complexity of grammatical rules which the user must keep in mind. Economy of notation is therefore important.
+
+  Economy requires that a large number of ideas be expressible in terms of a relatively small vocabulary. A fundamental scheme for achieving this is the introduction of grammatical rules by which meaningful phrases and sentences can be constructed by combining elements of the vocabulary.
+
+  This scheme may be illustrated by the first example treated — the relatively simple and widely useful notion of the sum of the first `n` integers was not introduced as a primitive, but as a phrase constructed from two more generally useful notions, the function `⍳` for the production of a vector of integers, and the function `+/` for the summation of the elements of a vector. Moreover, the derived function `+/` is itself a phrase, summation being a derived function constructed from the more general notion of the reduction operator applied to a particular function.
 </OriginalText>
 
 ### 4. 经济性
 
 语言作为思维工具，能处理的主题范围越广，用途就越大；
-但词汇量和语法复杂性越大，使用起来就越困难。
+然而词汇量和语法复杂性越大，使用起来就越困难。
 因此，记号的经济性显得尤为重要。
 
-经济性意味着能够使用较少的词汇量表达丰富的思想。
-实现这一点的基本方法是引入语法规则，通过组合词汇来构建有意义的短语和句子。
+经济性意味着能用较少的词汇量表达丰富的思想。
+实现这一点的基本方法是引入语法规则，并通过组合词汇来构建有意义的短语和句子。
 
 前文所述的第一个例子，即“前 n 个整数的和”，就是如此。
 我们并没有直接引入这个概念，而是通过两个更普遍概念的组合表达出了这个概念：
@@ -870,117 +863,336 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 更进一步，`+/` 作为派生函数，也是由更通用的规约算子作用于特定函数得来的。
 
 <OriginalText>
-  Economy is also achieved by generality in the functions introduced.
-  For example, the definition of the factorial function denoted by `!` is not restricted to integers,
-  and the gamma function of `x` may therefore be written as `!x-1` .
-  Similiarly, the *relations* defined on all real arguments provide several important logical functions
-  when applied to boolean arguments:
-  exclusive-or (`≠`), material implication (`≤`), and equivalence
-  (`=`).
-  
-  The economy achieved for the matters treated thus far can be assessed by recalling the vocabulary introduced:<span/>
-  
-  ``` apl
-        ⍳   ⍴   ⌽   ⊤   ,
-        /   \   .>
-  
-        +-×÷*⍟!⌈⌊⍉
+  Economy is also achieved by generality in the functions introduced. For example, the definition of the factorial function denoted by `!` is not restricted to integers, and the gamma function of `x` may therefore be written as `!x-1`. Similiarly, the *relations* defined on all real arguments provide several important logical functions when applied to boolean arguments: exclusive-or (`≠`), material implication (`≤`), and equivalence (`=`).
+
+  The economy achieved for the matters treated thus far can be assessed by recalling the vocabulary introduced:
+
+  ```
+        ⍳   ⍴   ⌽   ⊤   , 
+        /   \   .  
+
+        +-×÷*⍟!⌈⌊⍉ 
         ∨∧~<≤=≥>≠
   ```
+
+  The five functions and three operators listed in the first two rows are of primary interest, the remaining familiar functions having been introduced to illustrate the versatility of the operators.
 </OriginalText>
 
-经济性还通过引入具有广泛适用性的函数来实现。例如，表示阶乘的！函数不仅限于整数，因此 x 的伽玛函数可以表示为!x-1。
-同样，定义在所有实数参数上的关系在布尔参数中提供了重要的逻辑函数，如异或（≠）、材料蕴涵（≤）和等价（=）。
-通过回顾引入的词汇，我们可以评估迄今为止的经济性：
-前两行的五个函数和三个运算符是主要关注的对象，其他熟悉的函数只是为了展示运算符的多功能性。
-
 实现经济性的另一种方式是让函数更为通用。
-例如，阶乘函数 `!` 的定义并不局限于整数，因此 `x` 的 gamma 函数可以写作 `!x-1`。
-同样地，定义在实数域上的关系运算符在同样适用于布尔运算：
-`≠` 表示异或，`≤` 表示实质蕴涵，`=` 表示等价。
+例如，阶乘函数 `!` 的定义并不局限于整数，换言之 `x` 的 gamma 函数可以写作 `!x-1`。
+同样地，定义在实数域上的**关系运算符**在同样适用于布尔运算：
+`≠` 可以表示异或，`≤` 可以表示实质蕴涵，`=` 可以表示等价。
 
 我们可以回顾前文引入的词汇，看一看是否满足经济性的要求：
 
 ```apl
       ⍳   ⍴   ⌽   ⊤   ,
-      /   \   .>
+      /   \   .
 
       +-×÷*⍟!⌈⌊⍉
       ∨∧~<≤=≥>≠
 ```
 
+我们主要关注前两行的 5 个函数和 3 个算子。
+其余函数更为人熟知，我们之所以引入它们，是为了展示算子的多功能性。
+
 <OriginalText>
-  The five functions and three operators listed in the first two rows are of primary interest,
-  the remaining familiar functions having been introduced to illustrate the versatility of the operators.
-  
-  A significant economy of symbols, as opposed to economy of functions,
-  is attained by allowing any symbol to represent both a *monadic* function
-  (i.e. a function of one argument) and a *dyadic* function,
-  in the same manner that the minus sign is commonly used for both subtraction and negation.
-  Because the two functions represented may,
-  as in the case of the minus sign, be related, the burden of remembering symbols is eased.
-  
-  For example, `x*y` and `*y` represent power and exponential, `x⍟y`
-  and `⍟y` represent base `x` logarithm and natural logarithm, `x÷y`
-  and `÷y` represent division and reciprocal,
-  and `x!y` and `!y` represent the binomial coefficient function and the factorial (that is, `x!y←→(!y)÷(!x)×(!y-x)`).
-  The symbol `⍴` used for the dyadic function of replication also represents a monadic function which gives the shape of the argument (that is, `x←→⍴x⍴y`),
-  the symbol `⌽` used for the monadic reversal function also represents the dyadic *rotate* function exemplified by `2⌽⍳5←→3 4 5 1 2`  ,
-  and by `¯2⌽⍳5←→4 5 1 2 3` , and finally, the comma represents not only catenation,
-  but also the monadic *ravel*, which produces a vector of the elements of its argument in “row-major” order.
-  For example:<span/>
-  
+  A significant economy of symbols, as opposed to economy of functions, is attained by allowing any symbol to represent both a *monadic* function (i.e. a function of one argument) and a *dyadic* function, in the same manner that the minus sign is commonly used for both subtraction and negation. Because the two functions represented may, as in the case of the minus sign, be related, the burden of remembering symbols is eased.
+
+  For example, `x*y` and `*y` represent power and exponential, `x⍟y` and `⍟y` represent base `x` logarithm and natural logarithm, `x÷y` and `÷y` represent division and reciprocal, and `x!y` and `!y` represent the binomial coefficient function and the factorial (that is, `x!y←→(!y)÷(!x)×(!y-x)`). The symbol `⍴` used for the dyadic function of replication also represents a monadic function which gives the shape of the argument (that is, `x←→⍴x⍴y`), the symbol `⌽` used for the monadic reversal function also represents the dyadic *rotate* function exemplified by `2⌽⍳5←→34512` , and by `¯2⌽⍳5←→45123`, and finally, the comma represents not only catenation, but also the monadic *ravel*, which produces a vector of the elements of its argument in “row-major” order. For example:
+
   ```apl
         T 2                       ,T 2
   0 0 1 1                   0 0 1 1 0 1 0 1
   0 1 0 1
   ```
-  
-  Simplicity of the grammatical rules of a notation is also important.
-  Because the rules used thus far have been those familiar in mathematical notation, they have not been made explicit,
-  but two simplifications in the order of execution should be remarked:
-  
-  1. All functions are treated alike, and there are no rules of precedence such as `×` being executed before `+` .
-  2. The rule that the right argument of a monadic function is the value of the entire expression to its right,
-  implicit in the order of execution of an expression such as `sin log !n` ,
-  is extended to dyadic functions.
-  
-  The second rule has certain useful consequences in reduction and scan.
-  Since `f/v` is equivalent to placing the function `f` between the elements of `v` ,
-  the expression `-/v` gives the alternating sum of the elements of `v` ,
-  and `÷/v` gives the alternating product.
-  Moreover, if `b` is a boolean vector, then `<\b` “isolates” the first 1 in `b` ,
-  since all elements following it become 0. For example.
-  
-  ```
-        <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
-  ```
-  
-  Syntactic rules are further simplified by adopting a single form for all dyadic functions,
-  which appear between their arguments, and for all monadic functions, which appear before their arguments.
-  This contrasts with the variety of rules in mathematics.
-  For example, the symbols for the monadic functions of negation, factorial, and magnitude precede, follow,
-  and surround their arguments, respectively.
-  Dyadic functions show even more variety.
 </OriginalText>
 
-与函数的经济性相比，符号的经济性通过允许一个符号同时表示单目函数（一个参数的函数）和双目函数来实现，这种做法类似于负号既用于减法也用于取反。因为这些函数可能（如负号的例子）是相关的，这样有助于简化符号的记忆负担。
+函数具有经济性，表示函数的符号也有经济性。
+符号的经济性体现在同一个符号既能作为**单目函数**（即只有一个参数的函数）使用，也能作为**双目函数**使用；
+正如减号既能用于减法，也能用于取反。
+我们将相互关联的两个函数用同一个符号表示（就像减号的例子一样），这样就减轻了记忆符号的负担。
 
-例如，xy 和 y 分别表示幂和指数，x⍟y 和⍟y 分别表示底 x 的对数和自然对数，x÷y 和÷y 分别表示除法和倒数，x!y 和!y 分别表示二项系数函数和阶乘（即 x!y←→(!y)÷(!x)×(!y-x)）。双目复制函数符号⍴也代表一个单目函数，该函数给出参数的形状（即 x←→⍴x⍴y），单目反转函数符号⌽也表示双目旋转函数，例如 2⌽⍳5←→3 4 5 1 2，以及¯2⌽⍳5←→4 5 1 2 3，最后，逗号不仅表示串联，还表示单目展开，即按“行主序”生成参数元素的向量。例如：
-
-r
-
-  T 2                       ,T 2
-
-0 0 1 1 0 0 1 1 0 1 0 1 0 1 0 1
-
-符号表示法中的语法规则简单性也至关重要。由于迄今为止使用的规则是数学中常见的规则，因此没有明确说明，但应注意两个简化的执行顺序规则： （1）所有函数均视为平等，没有优先级规则，比如×在 + 之前执行。 （2）单目函数的右侧参数是整个右边表达式的值，这一点在表达式 sin log !n 的执行顺序中隐含存在，并扩展到双目函数。
-
-第二条规则在归约和扫描中有用的效果。由于 f/v 等同于在 v 的元素之间放置函数 f，表达式-/v 给出 v 元素的交替和，而÷/v 给出交替积。此外，如果 b 是布尔向量，则`<\b`可以“隔离”b 中的第一个 1，因为其后的所有元素变为 0。例如：
+例如，`x*y` 表示 `x` 的 `y` 次幂，`*y` 则表示 $\rm e$ 的 `y` 次幂；
+`x⍟y` 表示以 `x` 为底的 `y` 的对数，`⍟y` 则表示 `y` 的自然对数；
+`x÷y` 表示 `x` 除以 `y`，`÷y` 则表示 `y` 的倒数；
+`x!y` 表示二项式系数函数，`!y` 则表示阶乘（换言之 `x!y←→(!y)÷(!x)×(!y-x)`）。
+另外，双目的 `⍴` 表示复制，单目的 `⍴` 则用于求参数的形状（换言之 `x←→⍴x⍴y`）；
+单目的 `⌽` 表示反转，双目的 `⌽` 则表示数组旋转，例如 `2⌽⍳5←→3 4 5 1 2`，以及 `¯2⌽⍳5←→4 5 1 2 3`；
+最后，逗号不仅表示串联，还表示单目的展开，即将参数的元素的每一行连接形成向量：
 
 ```apl
-  <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
+      T 2
+0 0 1 1
+0 1 0 1
+
+      ,T 2
+0 0 1 1 0 1 0 1
 ```
 
-通过为所有双目函数采用统一形式（出现在其参数之间），为所有单目函数采用另一种统一形式（出现在其参数之前），进一步简化了语法规则。这与数学中的规则多样性形成对比。例如，单目函数的负号、阶乘和大小的符号分别在其参数之前、之后和包围其参数。双目函数则显示出更多的变化。
+<OriginalText>
+  Simplicity of the grammatical rules of a notation is also important. Because the rules used thus far have been those familiar in mathematical notation, they have not been made explicit, but two simplifications in the order of execution should be remarked:
 
+  1. All functions are treated alike, and there are no rules of precedence such as `×` being executed before `+`.
+  2. The rule that the right argument of a monadic function is the value of the entire expression to its right, implicit in the order of execution of an expression such as `sin log !n`, is extended to dyadic functions.
+
+  The second rule has certain useful consequences in reduction and scan. Since `f/v` is equivalent to placing the function `f` between the elements of `v`, the expression `-/v` gives the alternating sum of the elements of `v`, and `÷/v` gives the alternating product. Moreover, if `b` is a boolean vector, then `<\b` “isolates” the first 1 in `b`, since all elements following it become 0. For example.<span/>
+
+  ```apl
+        <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
+  ```
+
+  Syntactic rules are further simplified by adopting a single form for all dyadic functions, which appear between their arguments, and for all monadic functions, which appear before their arguments. This contrasts with the variety of rules in mathematics. For example, the symbols for the monadic functions of negation, factorial, and magnitude precede, follow, and surround their arguments, respectively. Dyadic functions show even more variety.
+</OriginalText>
+
+最后，语法规则也需要简洁性。
+前文用到的语法规则都符合数学表达式的常见规则，因此没有明确说明。
+这里点出两条简化过的执行顺序规则：
+
+1. 所有函数都是平等的，没有优先级规则，比如 `×` 不会在 `+` 之前执行。
+2. 单目函数的右参数是其右侧整个表达式的值，参考 `sin log !n` 的执行顺序。这一规则也适用于双目函数。
+
+第二条规则结合规约和扫描算子，可以得到一些有用的产物：
+由于 `f/v` 等同于将函数 `f` 放在 `v` 的元素之间，表达式 `-/v` 可以表示 `v` 元素的交替和，
+而 `÷/v` 得出的则是交替积。
+另一方面，若 `b` 是布尔向量，那么 `<\b` 将找到 `b` 中的第一个 `1`，并将其后的所有元素都变为 `0`：<span />
+
+```apl
+      <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
+```
+
+为了进一步简化语法规则，我们采用了一种统一的形式：
+所有双目函数都出现在其参数之间，所有单目函数都出现在其参数之前。
+数学中的符号可没这么统一：取反、阶乘和取绝对值同属单目函数，
+取反的负号放在参数前，阶乘的阶乘号放在参数后，绝对值的竖线包围参数；
+双目函数就更多样了。
+
+<OriginalText>
+  **1.5 Amenability to Formal Proofs**
+
+  The importance of formal proofs and derivations is clear from their role in mathematics. [Section 4](https://www.jsoftware.com/papers/tot1.htm#4) is largely devoted to formal proofs, and we will limit the discussion here to the introduction of the forms used.
+
+  Proof by exhaustion consists of exhaustively examining all of a finite number of special cases. Such exhaustion can often be simply expressed by applying some outer product to arguments which include all elements of the relevant domain. For example, if `d←0 1`, then `d∘.∧d` gives all cases of application of the *and* function. Moreover, DeMorgan’s law can be proved exhaustively by comparing each element of the matrix `d∘.∧d` with each element of `~(~d)∘.∨(~d)` as follows:
+
+  ```apl
+        d∘.∧d                     ~(~d)∘.∨(~d)
+  0 0                       0 0 
+  0 1                       0 1 
+        (d∘.∧d)=(~(~d)∘.∨(~d))
+  1 1
+  1 1
+        ∧/,(d∘.∧d)=(~(~d)∘.∨(~d))
+  1
+  ```
+
+  Questions of associativity can be addressed similarly, the following expressions showing the associativity of *and* and the non-associativity of *not-and*:
+
+  ```apl
+        ∧/,((d∘.∧d)∘.∧d)=(d∘.∧(d∘.∧d))
+  1
+        ∧/,((d∘.⍲d)∘.⍲d)=(d∘.⍲(d∘.⍲d))
+  0
+  ```
+</OriginalText>
+
+### 5. 适用于形式化证明
+
+形式化证明和数学推导的重要性不言自明。
+我们将会在第四节详细讨论形式化证明，这里仅仅介绍我们使用的形式。
+
+穷举证明指的是对有限个特例逐个检查，在我们的符号系统里往往有一种简单的表达方式：
+将某种外积应用于一个包含了所有这些特例的参数。
+例如，想要给出逻辑与的所有情况，只需令 `d←0 1`，然后计算 `d∘.∧d` 即可。
+更进一步，可以通过比较矩阵 `d∘.∧d` 和 `~(~d)∘.∨(~d)` 的每一个元素来穷举地证明德-摩根定律：
+
+```apl
+      d∘.∧d
+0 0
+0 1
+      ~(~d)∘.∨(~d)
+0 0
+0 1
+      (d∘.∧d)=(~(~d)∘.∨(~d))
+1 1
+1 1
+      ∧/,(d∘.∧d)=(~(~d)∘.∨(~d))
+1
+```
+
+结合律问题也可以这样处理。
+以下表达式告诉我们，逻辑与满足结合律，逻辑与非不满足结合律：
+
+```apl
+      ∧/,((d∘.∧d)∘.∧d)=(d∘.∧(d∘.∧d))
+1
+      ∧/,((d∘.⍲d)∘.⍲d)=(d∘.⍲(d∘.⍲d))
+0
+```
+
+<OriginalText>
+  A proof by a sequence of identities is presented by listing a sequence of expressions, annotating each expression with the supporting evidence for its equivalence with its predecessor. For example, a formal proof of the identity [A.1](#eqA.1) suggested by the first example treated would be presented as follows:
+
+  ```apl
+  +/⍳n	
+  +/⌽⍳n                 + is associative and commutative
+  ((+/⍳n)+(+/⌽⍳n))÷2    (x+x)÷2←→x
+  (+/((⍳n)+(⌽⍳n)))÷2    + is associative and commutative
+  (+/((n+1)⍴n))÷2       Lemma
+  ((n+1)×n)÷2           Definition of ×
+  ```
+
+  The fourth annotation above concerns an identity which, after observation of the pattern in the special case `(⍳5)+(⌽⍳5)`, might be considered obvious or might be considered worthy of formal proof in a separate lemma.
+</OriginalText>
+
+另一种证明方式就是等式推理。
+等式推理指的是列出一系列表达式，并证明每个表达式等价于前一个表达式。
+例如，前文中等式 [A.1](#eqA.1) 的形式证明如下：
+
+```apl
++/⍳n	
++/⌽⍳n                 加法满足结合律和交换律
+((+/⍳n)+(+/⌽⍳n))÷2    (x+x)÷2←→x
+(+/((⍳n)+(⌽⍳n)))÷2    加法满足结合律和交换律
+(+/((n+1)⍴n))÷2       引理
+((n+1)×n)÷2           乘法的定义
+```
+
+这里 `(⍳n)+(⌽⍳n)←→(n+1)⍴n` 一步既可以通过观察特殊情况 `(⍳5)+(⌽⍳5)` 得到，也可以单独列为引理证明。
+
+<OriginalText>
+  Inductive proofs proceed in two steps: 1) some identity (called the *induction hypothesis*) is assumed true for a fixed integer value of some parameter `n` and this assumption is used to prove that the identity also holds for the value `n+1`, and 2) the identity is shown to hold for some integer value `k`. The conclusion is that the identity holds for all integer values of `n` which equal or exceed `k`.
+
+  Recursive definitions often provide convenient bases for inductive proofs. As an example we will use the recursive definition of the binomial coefficient function `bc` given by [A.3](#eq:A.3) in an inductive proof showing that the sum of the binomial coefficients of order `n` is `2*n`. As the induction hypothesis we assume the identity:
+
+  ```apl
+        +/bc n ←→ 2*n
+  ```
+
+  and proceed as follows:
+
+  ```apl
+  +/bc n+1	
+  +/(x,0)+(0,x←bc n)  A.3
+  (+/x,0)+(+/0,x)     + is associative and commutative
+  (+/x)+(+/x)         0+y←→y
+  2×+/x               y+y←→2×y
+  2×+/bc n            Definition of x
+  2×2*n               Inductive hypothesis
+  2*n+1               Property of Power (*)
+  ```
+
+  It remains to show that the induction hypothesis is true for some integer value of `n`. From the recursive definition A.3, the value of `bc 0` is the value of the rightmost expression, namely `1`. Consequently, `+/bc 0` is `1`, and therefore equals `2*0`.
+</OriginalText>
+
+第三种证明方式是归纳证明。
+归纳证明分两步：一是证明若某等式（称作**归纳假设**）对固定整数值 `n` 成立，则对 `n+1` 也成立；
+二是证明该等式对某个整数值 `k` 成立。
+证明得到的结论就是该等式对所有大于等于 `k` 的整数值 `n` 都成立。
+
+递归定义往往能为归纳证明提供便利。
+接下来我们借助二项式系数函数 `bc` 的递归定义 [A.3](#eq:A.3) 来证明二项式系数和为 `2*n`。
+首先提出归纳假设：
+
+```apl
+      +/bc n ←→ 2*n
+```
+
+然后下面的步骤进行证明：
+
+```apl
++/bc n+1
++/((x,0)+(0,x←bc n))  A.3
+(+/x,0)+(+/0,x)       加法满足结合律和交换律
+(+/x)+(+/x)           0+y←→y
+2×+/x                 y+y←→2×y
+2×+/bc n              x 的定义
+2×2*n                 归纳假设
+2*n+1                 幂运算 (*) 的性质
+```
+
+这之后还需要证明某个整数 `n` 满足归纳假设。
+由 A.3 的递归定义可知，`bc 0` 的值为最右边的表达式，即 `1`。
+故 `+/bc 0` 为 `1`，因此等于 `2*0`。
+
+<OriginalText>
+  We will conclude with a proof that DeMorgan’s law for scalar arguments, represented by:
+
+  ```apl title="A.4"
+      a^b ←→ ~(~a)∨(~b)
+  ```
+
+  and proved by exhaustion, can indeed be extended to vectors of arbitrary length as indicated earlier by the putative identity:
+
+  ```apl title="A.5"
+      ^/v ←→ ~∨/~v
+  ```
+
+  As the induction hypothesis we will assume that A.5 is true for vectors of length `(⍴v)-1`.
+
+  We will first give formal recursive definitions of the derived functions *and*\-reduction and *or*\-reduction (`^/` and `∨/`), using two new primitives, *indexing*, and *drop*. Indexing is denoted by an expression of the form `x[i]`, where `i` is a single index or array of indices of the vector `x`. For example, if `x←2 3 5 7`, then `x[2]` is `3`, and `x[2 1]` is `3 2`. Drop is denoted by `k↓x` and is defined to drop `|k` (i.e., the magnitude of `k`) elements from `x`, from the head if `k>0` and from the tail if `k<0`. For example, `2↓x` is `5 7` and `¯2↓x` is `2 3`. The *take* function (to be used later) is denoted by `↑` and is defined analogously. For example, `3↑x` is `2 3 5` and `¯3↑x` is `3 5 7`.
+
+  The following functions provide formal definitions of *and*\-reduction and *or*\-reduction:
+
+  ```apl
+        andred:⍵[1]^andred 1↓⍵:0=⍴⍵:1 	A.6
+        orred :⍵[1]∨ orred 1↓⍵:0=⍴⍵:0 	A.7
+  ```
+
+  The inductive proof of [A.5](#eq:A.5) proceeds as follows:
+
+  ```apl
+  ^/v 	
+  (v[1])^(^/1↓v)       A.6
+  ~(~v[1])∨(~^/1↓v)    A.4
+  ~(~v[1])∨(~~∨/~1↓v)  A.5
+  ~(~v[1])∨(∨/~1↓v)    ~~x←→x
+  ~∨/(~v[1]),(~1↓v)    A.7
+  ~∨/~(v[1]),(1↓v)     ∨ distributes over ,
+  ~∨/~v                Definition of , (catenation)
+  ```
+</OriginalText>
+
+我们已经证明了标量参数的德-摩根定律，即：<span id="eq:A.4"/>
+
+```apl title="A.4"
+    a^b ←→ ~(~a)∨(~b)
+```
+
+也通过穷举法验证了德-摩根定律可以扩展到任意长度的向量，表示为：<span id="eq:A.5"/>
+
+```apl title="A.5"
+    ^/v ←→ ~∨/~v
+```
+
+接下来我们来证明 [A.5](#eq:A.5)。
+首先是归纳假设，假定 A.5 对长度为 `(⍴v)-1` 的向量成立。
+
+在推进证明之前，我们先给出**逻辑与-归约**和**逻辑或-归约**的形式化定义。
+这两个定义需要用到新的原语：**索引**和**排除**。
+索引用 `x[i]` 表示，其中 `i` 是向量 `x` 的单个索引或索引数组。
+例如，如果 `x←2 3 5 7`，那么 `x[2]` 是 `3`，`x[2 1]` 是 `3 2`。
+排除用 `k↓x` 表示，表示从 `x` 中删除 `|k`（即 k 的绝对值）个元素后剩余的部分；
+若 `k>0` 则从头部删除，若 `k<0` 则从尾部删除。
+例如，`2↓x` 是 `5 7`，`¯2↓x` 是 `2 3`。
+之后会用到的**截取函数**用 `↑` 表示，定义与排除相似：
+例如，`3↑x` 是 `2 3 5`，`¯3↑x` 是 `3 5 7`。
+
+有了这些新函数，我们就能给出**逻辑与-归约**和**逻辑或-归约**的形式化定义：<span id="eq:A.6"/><span id="eq:A.7"/>
+
+```apl title="A.6 & A.7"
+      andred:⍵[1]^andred 1↓⍵:0=⍴⍵:1
+      orred :⍵[1]∨ orred 1↓⍵:0=⍴⍵:0
+```
+
+那么 [A.5](#eq:A.5) 的归纳证明如下：
+
+```apl
+^/v 	
+(v[1])^(^/1↓v)       A.6
+~(~v[1])∨(~^/1↓v)    A.4
+~(~v[1])∨(~~∨/~1↓v)  A.5
+~(~v[1])∨(∨/~1↓v)    ~~x←→x
+~∨/(~v[1]),(~1↓v)    A.7
+~∨/~(v[1]),(1↓v)     ~对,满足分配律
+~∨/~v                连接 (,) 的定义
+```
