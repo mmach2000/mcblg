@@ -1,0 +1,986 @@
+---
+mtime: '2024-09-16T22:07:11+08:00'
+ctime: '2024-09-16T22:02:25+08:00'
+---
+import OriginalText from "@/components/astro/OriginalText.astro"
+
+
+<OriginalText>
+  **1\. Important Characteristics of Notation**
+  
+  In addition to the executability and universality emphasized in the introduction, a good notation should embody characteristics familiar to any user of mathematical notation:
+  
+  -   Ease of expressing constructs arising in problems.
+  -   Suggestivity.
+  -   Ability to subordinate detail.
+  -   Economy.
+  -   Amenability to formal proofs.
+  
+  The foregoing is not intended as an exhaustive list, but will be used to shape the subsequent discussion.
+  
+  Unambiguous executability of the notation introduced remains important, and will be emphasized by displaying below an expression the explicit result produced by it. To maintain the distinction between expressions and results, the expressions will be indented as they automatically are on APL computers. For example, the *integer* function denoted by `⍳` produces a vector of the first `n` integers when applied to the argument `n` , and the *sum reduction* denoted by `+/` produces the sum of the elements of its vector argument, and will be shown as follows:<span/>
+  
+  ```apl
+        ⍳5
+  1 2 3 4 5
+        +/⍳5
+  15
+  ```
+  
+  We will use one non-executable bit of notation: the symbol `←→` appearing between two expressions asserts their equivalance.
+</OriginalText>
+
+## 第一节 符号系统所需的显著特点
+
+熟悉数学符号的人都能体会到数学符号系统的优点所在，
+而我们的符号系统也应具备这些优点，同时兼备引言部分所述的统一性和可执行性。
+我们在此列出数学符号系统的一些特点，以便引出后续讨论：
+
+- 便于表述问题中产生的各种构造。
+- 具有启发性。
+- 能够有效地隐藏细节。
+- 经济高效。
+- 适合用于形式化证明。
+
+讨论这些特点时，我们会时刻关注符号系统的可执行性和无歧义性。
+为确保清晰无误，我们列出每个表达式的结果。
+表达式有缩进，结果无缩进（就像 APL 机的输出一样）。
+例如，**整数**函数 `⍳` 接收一个参数 `n` 时，会生成包含前 `n` 个整数的向量；
+而**求和-归约** `+/` 接收一个向量作为参数，并给出向量中所有元素的和。
+这二者表示如下：
+
+```apl
+      ⍳5
+1 2 3 4 5
+      +/⍳5
+15
+```
+
+此外，我们还会使用一种不可执行的符号：`←→`，用以表示两个表达式之间的等价关系。
+
+<OriginalText>
+  **1.1 Ease of Expressing Constructs Arising in Problems**
+  
+  If it is to be effective as a tool of thought, a notation must allow convenient expression not only of notions arising directly from a problem, but also of those arising in subsequent analysis, generalization, and specialization.
+  
+  Consider, for example, the crystal structure illustrated by Figure 1, in which successive layers of atoms lie not directly on top of one another, but lie “close-packed” between those below them. The numbers of atoms in successive rows from the top in Figure 1 are therefore given by `⍳5` , and the total number is given by `+/⍳5` .
+  
+  ```text
+  Fig. 1.
+  
+      ○
+     ○ ○
+    ○ ○ ○
+   ○ ○ ○ ○
+  ○ ○ ○ ○ ○
+  ```
+  
+  The three-dimensional structure of such a crystal is also close-packed; the atoms in the plane lying above Figure 1 would lie between the atoms in the plane below it, and would have a base row of four atoms. The complete three-dimensional structure corresponding to Figure 1 is therefore a tetrahedron whose planes have bases of lengths `1` , `2` , `3` , `4` , and `5` . The numbers in successive planes are therefore the *partial* sums of the vector `⍳5` , that is, the sum of the first element, the sum of the first two elements, etc. Such partial sums of a vector `v` are denoted by `+\v` , the function `+\` being called *sum scan*. Thus:<span/>
+  
+  ```apl
+        +\⍳5
+  1 3 6 10 15
+        +/+\⍳5
+  35
+  ```
+  
+  The final expression gives the total number of atoms in the tetrahedron.
+</OriginalText>
+
+### 1. 便于表述问题中产生的各种构造
+
+要使符号系统成为真正有效的思维工具，它不仅应当便于表达原问题中直接产生的构造，
+还应能顺畅地表述在后续分析问题、泛化和特化问题中出现的各种构造。
+
+以图 1 中所示的晶体结构为例，其中同一层的原子并非直接叠加在上一层的原子之上，而是“紧密堆积”在下层原子之间的空隙中。
+因此，图 1 中从上往下各行的原子数目由 `⍳5` 表示，原子总数则由 `+/⍳5` 计算得出。
+
+<figure>
+  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 17 18"
+       mx-auto role="img" aria-labelledby="svg-crystal-title svg-crystal-desc">
+    <title id="svg-crystal-title">晶体结构</title>
+    <desc id="svg-crystal-desc">小圆圈组成的三角形，从上到下分别有 1、2、3、4、5 个小圆圈</desc>
+    <g fill="none" stroke="var(--sl-color-text)" stroke-width=".3" transform="translate(-.14 .05)">
+      <circle cx="8.6" cy=".9" r=".8"/>
+      <circle cx="10.5" cy="4.9" r=".8"/>
+      <circle cx="6.7" cy="4.9" r=".8"/>
+      <circle cx="12.4" cy="8.8" r=".8"/>
+      <circle cx="8.6" cy="8.8" r=".8"/>
+      <circle cx="4.8" cy="8.8" r=".8"/>
+      <circle cx="14.3" cy="12.8" r=".8"/>
+      <circle cx="10.5" cy="12.8" r=".8"/>
+      <circle cx="6.7" cy="12.8" r=".8"/>
+      <circle cx="2.9" cy="12.8" r=".8"/>
+      <circle cx="16.2" cy="16.8" r=".8"/>
+      <circle cx="12.4" cy="16.8" r=".8"/>
+      <circle cx="8.6" cy="16.8" r=".8"/>
+      <circle cx="4.8" cy="16.8" r=".8"/>
+      <circle cx=".9" cy="16.8" r=".8"/>
+    </g>
+  </svg>
+  <figcaption text-center id="fig-crystal">
+    图 1
+  </figcaption>
+</figure>
+
+让我们继续考虑这种紧密堆积晶体的三维结构。
+图 1 上方一层中的原子会堆积在图 1 原子的间隙上，形成一个底边有 4 个原子的三角形层。
+可以想见，与图 1 对应的完整三维结构是一个四面体，各层底边的长度依次为 1、2、3、4、5。
+因此，各层的原子数是向量 `⍳5` 的“部分和”，即第一个元素的总和、前两个元素的总和等。
+我们将向量 `v` 的部分和向量记作 `+\v`，其中 `+\` 函数称为**求和-扫描**。
+因此：
+
+```apl
+      +\⍳5
+1 3 6 10 15
+      +/+\⍳5
+35
+```
+
+最终的表达式 `+/+\⍳5` 表达的就是四面体中原子的总数。
+
+<OriginalText>
+  The sum `+/⍳5` can be represented graphically in other ways, such as shown on the left of Figure 2. Combined with the inverted pattern on the right, this representation suggests that the sum may be simply related to the number of units in a rectangle, that is, to a product.
+  
+  ```text
+     Fig. 2.
+  
+   ⎕    ⎕⎕⎕⎕⎕
+   ⎕⎕    ⎕⎕⎕⎕
+   ⎕⎕⎕    ⎕⎕⎕
+   ⎕⎕⎕⎕    ⎕⎕
+   ⎕⎕⎕⎕⎕    ⎕
+  ```
+  
+  The lengths of the rows of the figure formed by pushing together the two parts of Figure 2 are given by adding the vector `⍳5` to the same vector reversed. Thus:
+  
+  ```apl
+        ⍳6
+  1 2 3 4 5 6
+        ⍳5
+  1 2 3 4 5
+        ⌽⍳5
+  5 4 3 2 1
+        (⍳5)+(⌽⍳5)
+  6 6 6 6 6
+  ```
+  
+  This pattern of `5` repetitions of `6` may be expressed as `5⍴6` , and we have:
+  
+  ```apl
+        5⍴6
+  6 6 6 6 6
+        +/5⍴6
+  30
+        6×5
+  30
+  ```
+  
+  The fact that `+/5⍴6 ←→ 6×5` follows from the definition of multiplication as repeated addition.
+  
+  The foregoing suggests that `+/⍳5 ←→ (6×5)÷2` , and, more generally, that:
+  
+  ```apl
+        +/⍳n ←→ ((n+1)×n)÷2
+  ```
+</OriginalText>
+
+图 2 的左侧图形给出了表示 `+/⍳5` 的另一种方式，而右侧则是将左侧图形颠倒后形成的对称图案。
+这种表示方式暗示了 `+/⍳5` 可能与矩形中单元的个数——也就是某种乘积——有关。
+
+<figure>
+  <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" version="1.1" viewBox="0 0 18 19.2"
+       aria-label="⎕ ⎕⎕⎕⎕⎕ 换行 ⎕⎕ ⎕⎕⎕⎕ 换行 ⎕⎕⎕ ⎕⎕⎕ 换行 ⎕⎕⎕⎕ ⎕⎕ 换行 ⎕⎕⎕⎕⎕ ⎕" mx-auto role="img">
+    <path transform="translate(-.13 .1)" fill="none" stroke="var(--sl-color-text)" stroke-width=".3"
+          d="M-.23.1h1.4v2.6h-1.4zM9.3.1h1.4v2.6H9.3Zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zM-.23 4.07h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm9.52 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zM-.23 8.04h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm9.53 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zM-.23 12.01h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm9.52 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zM-.23 15.98h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm1.91 0h1.4v2.6h-1.4zm1.9 0h1.4v2.6h-1.4zm9.53 0h1.4v2.6h-1.4z"/>
+  </svg>
+  <figcaption text-center id="fig-rect">
+    图 2
+  </figcaption>
+</figure>
+
+将两部分拼合在一起，各行长度的向量就等于向量 `⍳5` 与反转的 `⍳5` 之和。
+确切地说：
+
+```apl
+      ⍳6
+1 2 3 4 5 6
+      ⍳5
+1 2 3 4 5
+      ⌽⍳5
+5 4 3 2 1
+      (⍳5)+(⌽⍳5)
+6 6 6 6 6
+```
+
+我们使用 `5⍴6` 这种简洁的方式来表示 `6` 重复 5 次，因此：
+
+```apl
+      5⍴6
+6 6 6 6 6
+      +/5⍴6
+30
+      6×5
+30
+```
+
+可以看出，`+/5⍴6 ←→ 6×5`，这一结果符合乘法作为加法重复的定义。
+
+这些现象表明，`+/⍳5 ←→ (6×5)÷2`。更一般地，我们有：
+
+<span id="eq:A.1"/>
+
+```apl title="A.1"
+      +/⍳n ←→ ((n+1)×n)÷2
+```
+
+<OriginalText>
+  **1.2 Suggestivity**
+  
+  A notation will be said to be *suggestive* if the forms of the expressions arising in one set of problems suggest related expressions which find application in other problems. We will now consider related uses of the functions introduced thus far, namely:
+  
+  ```apl
+        ⍳   ⌽   ⍴   +/   +\
+  ```
+  
+  The example:
+  
+  ```apl
+        5⍴2
+  2 2 2 2 2
+        ×/5⍴2
+  32
+  ```
+  
+  suggests that `×/m⍴n ←→ n*m` , where `*` represents the power function. The similiarity between the definitions of power in terms of times, and of times in terms of plus may therefore be exhibited as follows:
+  
+  ```apl
+        +/m⍴n ←→ n×m
+        ×/m⍴n ←→ n*m
+  ```
+</OriginalText>
+
+### 2. 具有启发性
+
+具有**启发性**的符号系统能够“举一反三”，从一个领域的表达式中引出其他相关的表达式，而这些表达式又能在其他问题中得到应用。
+下面讨论我们目前用到的函数（即 `⍳`、`⌽`、`⍴`、`+/`、`+\`）之间的关联性。
+
+举个例子：
+
+```apl
+      5⍴2
+2 2 2 2 2
+      ×/5⍴2
+32
+```
+
+这个例子表明，`×/m⍴n ←→ n*m`，其中 `*` 表示幂函数。
+这折射出幂函数（用乘法定义）与乘法（用加法定义）之间的相似性，这种相似性可以表示为：
+
+```apl
+      +/m⍴n ←→ n×m
+      ×/m⍴n ←→ n*m
+```
+
+<OriginalText>
+  Similar expressions for partial sums and partial products may be developed as follows:
+  
+  ```apl
+        ×\5⍴2
+  2 4 8 16 32
+        2*⍳5
+  2 4 8 16 32
+  
+        +\m⍴n ←→ n×⍳m
+        ×\m⍴n ←→ n*⍳m
+  ```
+  
+  Because they can be represented by a triangle as in Figure 1, the sums `+\⍳5` are called *triangular* numbers. They are a special case of the *figurate* numbers obtained by repeated applications of sum scan, beginning either with `+\⍳n` , or with `+\n⍴1` . Thus:
+  
+  ```apl
+        5⍴1                       +\+\5⍴1
+  1 1 1 1 1                 1 3 6 10 15
+  
+        +\5⍴1                     +\+\+\5⍴1
+  1 2 3 4 5                 1 4 10 20 35
+  ```
+  
+  Replacing sums over the successive integers by products yields the factorials as follows:
+  
+  ```apl
+        ⍳5
+  1 2 3 4 5
+        ×/⍳5                      ×\⍳5
+  120                       1 2 6 24 120
+        !5                        !⍳5
+  120                       1 2 6 24 120
+  ```
+</OriginalText>
+
+部分和与部分积之间也有这种相似性：
+
+```apl
+      ×\5⍴2
+2 4 8 16 32
+      2*⍳5
+2 4 8 16 32
+```
+
+```apl
+      +\m⍴n ←→ n×⍳m
+      ×\m⍴n ←→ n*⍳m
+```
+
+第二个例子是几何数。
+形如 `+\⍳5` 的部分和也叫**三角形数**，因为它们可以用图 1 中的三角形表示。
+三角形数是**几何数**的一种特殊情况，其他几何数可以通过对 `+\⍳n` 或者 `+\n⍴1` 反复应用求和-扫描得到。
+也就是：
+
+```apl
+      5⍴1
+1 1 1 1 1
+      +\5⍴1
+1 2 3 4 5
+      +\+\5⍴1
+1 3 6 10 15
+      +\+\+\5⍴1
+1 4 10 20 35
+```
+
+将式子中的和换成积，我们得到的就是阶乘：
+
+```apl
+      ⍳5
+1 2 3 4 5
+      ×/⍳5
+120
+      !5
+120
+      !⍳5
+1 2 6 24 120
+```
+
+<OriginalText>
+  Part of the suggestive power of a language resides in the ability to represent identities in brief, general, and easily remembered forms. We will illustrate this by expressing *dualities* between functions in a form which embraces DeMorgan’s laws, multiplication by the use of logarithms, and other less familiar identities.
+  
+  If `v` is a vector of positive numbers, then the product `×/v` may be obtained by taking the natural logarithms of each element of `v` (denoted by `⍟v`), summing them (`+/⍟v`), and applying the exponential function (`*+/⍟v`). Thus:
+  
+  ```apl
+        ×/v ←→ *+/⍟v
+  ```
+  
+  Since the exponential function `*` is the inverse of the natural logarithm `⍟` , the general form suggested by the right side of the identity is:
+  
+  ```apl
+        ig f/g v
+  ```
+  
+  where `ig` is the function inverse to `g` .
+  
+  Using `∧` and `∨` to denote the functions *and* and *or*, and `~` to denote the self-inverse function of logical negation, we may express DeMorgan’s laws for an arbitrary number of elements by:
+  
+  ```apl
+        ∧/b ←→ ~∨/~b
+        ∨/b ←→ ~^/~b
+  ```
+  
+  The elements of `b` are, of course, restricted to the boolean values `0` and `1` . Using the relation symbols to denote *functions* (for example, `x<y` yields `1` if `x` is less than `y` and `0` otherwise) we can express further dualities, such as:<span/>
+  
+  ```apl
+        ≠/b ←→ ~=/~b
+        =/b ←→ ~≠/~b
+  ```
+  
+  Finally, using `⌈` and `⌊` to denote the *maximum* and *minimum* functions, we can express dualities which involve arithmetic negation:<span/>
+  
+  ```apl
+        ⌈/v ←→ -⌊/-v
+        ⌊/v ←→ -⌈/-v
+  ```
+  
+  It may also be noted that scan (`f\`) may replace reduction (`f/`) in any of the foregoing dualities.
+</OriginalText>
+
+具有启发性的符号系统使我们能够用简洁、通用且容易记忆的形式来表达恒等式。
+我们将通过一个表达式来说明这一点，这个表达式说明了函数间的**对偶性**，涵盖了德-摩根定律、用对数求乘积以及其他不太常见的恒等式。
+
+若 `v` 是整数组成的向量，则我们可以通过对数求出 `×/v`。
+具体来说，我们可以通过 `⍟v` 求出 `v` 中每个元素的自然对数，通过 `+/⍟v` 将这些对数求和，最后通过 exp 函数 `*+/⍟v` 求出乘积。
+换句话说：
+
+```apl
+      ×/v ←→ *+/⍟v
+```
+
+考虑到指数函数 `*` 是自然对数函数 `⍟` 的逆函数，我们可以将上述等式的右边推广为：
+
+```apl
+      ig f/g v
+```
+
+其中 `ig` 是 `g` 的逆函数。
+
+用 `∧`、`∨`、`~` 来表示逻辑上的**与**、**或**、**非**，注意到逻辑非是自身的逆函数，
+那么任意数量命题的德-摩根定律就可以表示为：
+
+```apl
+      ∧/b ←→ ~∨/~b
+      ∨/b ←→ ~∧/~b
+```
+
+当然，此处向量 `b` 的元素被限制为布尔值 `0` 和 `1`。
+再加上关系符号（这里，关系符号都是返回 `0` 或 `1` 的**函数**），我们就能表达更多的对偶性：
+
+```apl
+      ≠/b ←→ ~=/~b
+      =/b ←→ ~≠/~b
+```
+
+最后，用 `⌈` 和 `⌊` 表示**最大值**和**最小值**函数，我们就可以表达算术取反的对偶性：
+
+```apl
+      ⌈/v ←→ -⌊/-v
+      ⌊/v ←→ -⌈/-v
+```
+
+此外，上述所有的对偶性中，都可以用扫描 `f\` 替代归约 `f/`。
+
+<OriginalText>
+  **1.3 Subordination of Detail**
+  
+  As Babbage remarked in the passage cited by Cajori, brevity facilitates reasoning. Brevity is achieved by subordinating detail, and we will here consider three important ways of doing this: the use of arrays, the assignment of names to functions and variables, and the use of operators.
+  
+  We have already seen examples of the brevity provided by one-dimensional arrays (vectors) in the treatment of duality, and further subordination is provided by matrices and other arrays of higher rank, since functions defined on vectors are extended systematically to arrays of higher rank.
+  
+  In particular, one may specify the axis to which a function applies. For example, `⌽[1]m` acts along the first axis of a matrix `m` to reverse each of the columns, and `⌽[2]m` reverses each row; `m,[1]n` catenates columns (placing `m` above `n`), and `m,[2]n` catenates rows; and `+/[1]m` sums columns and `+/[2]m` sums rows. If no axis is specified, the function applies along the last axis. Thus `+/m` sums rows. Finally, reduction and scan along the *first* axis may be denoted by the symbols `⌿` and `⍀` .
+</OriginalText>
+
+### 3. 有效地隐藏细节
+
+正如前文引述的巴比奇所言，简洁性能极大地助力推理的过程。
+实现简洁性的方法就是将细节摆在次要位置。
+接下来我们将讨论 3 种隐藏细节的重要方法：使用数组、为函数和变量命名、使用算子。
+
+前文已经展示了处理对偶性时一维数组（即向量）所带来的简洁性。
+而矩阵和其他高维数组则进一步提供了简化的可能，
+这是因为在向量上定义的函数可以系统地扩展到这些更高维数组上。
+
+在应用函数时，我们可以指定函数作用于矩阵的哪一个轴，这一点在处理高维数组时尤为重要。
+例如，`⌽[1]m` 作用于矩阵 `m` 的第一个轴，从而反转每一列；而 `⌽[2]m` 则会反转每一行；
+`m,[1]n` 会将 `m` 和 `n` 的列连接在一起（将 `m` 放在 `n` 上面），`m,[2]n` 则连接将行连接在一起；
+`+/[1]m` 对 `m` 的列进行求和，`+/[2]m` 对行进行求和。
+如果没有指定轴，函数将沿最后一个轴进行操作。
+因此，`+/m` 就是对 `m` 的行进行求和。
+最后，沿**第一个轴**的归约和扫描操作可以用符号 `⌿` 和 `⍀` 来表示。
+
+<OriginalText>
+  Two uses of names may be distinguished: *constant* names which have fixed referents are used for entities of very general utility, and ad hoc names are assigned (by means of the symbol `←`) to quantities of interest in a narrower context. For example, the constant (name) `144` has a fixed referent, but the names `crate` , `layer` , and `row` assigned by the expressions
+  
+  ```apl
+        crate ← 144
+        layer ← crate÷8
+        row ← layer÷3
+  ```
+  
+  are ad hoc, or *variable* names. Constant names for vectors are also provided, as in `2 3 5 7 11` for a numeric vector of five elements, and in `'abode'` for a character vector of five elements.
+</OriginalText>
+
+名字可以划分为两类：**固定名字**和**临时名字**（也叫**变量名字**）。
+固定名字用于广泛使用的固定对象；
+临时名字则用符号 `←` 指定，用于特定场景下我们感兴趣的量。
+例如，下面代码中的 `144` 就是一个固定名字，而 `crate`、`layer` 和 `row` 则是临时名字：
+
+```apl
+      crate ← 144
+      layer ← crate÷8
+      row ← layer÷3
+```
+
+向量也有固定名字，例如 `2 3 5 7 11` 表示一个长度为 5 的数字向量，而 `'abode'` 则表示一个长度为 5 的字符向量。
+
+<OriginalText>
+  Analogous distinctions are made in the names of functions. Constant names such as + , × , and * are assigned to so-called primitive functions of general utility. The detailed definitions, such as +/m⍴n for n×m and */mc for n*m , are subordinated by the constant names × and * .
+  
+  Less familiar examples of constant function names are provided by the comma which catenates its arguments as illustrated by:
+  
+  ```apl
+        (⍳5),(⌽⍳5) ←→ 1 2 3 4 5 5 4 3 2 1
+  ```
+  
+  and by the base-representation function ⊤ , which produces a representation of its right argument in the radix specified by its left argument. For example:
+  
+  ```apl
+        2 2 2 ⊤ 3 ←→ 0 1 1
+        2 2 2 ⊤ 4 ←→ 1 0 0
+  
+        bn←2 2 2 ⊤ 0 1 2 3 4 5 6 7
+        bn
+  0 0 0 0 1 1 1 1
+  0 0 1 1 0 0 1 1
+  0 1 0 1 0 1 0 1
+  
+        bn,⌽bn
+  0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0
+  0 0 1 1 0 0 1 1 1 1 0 0 1 1 0 0
+  0 1 0 1 0 1 0 1 1 0 1 0 1 0 1 0
+  ```
+</OriginalText>
+
+这样的划分在函数上也成立。
+用途广泛的**基本函数**，例如 `+`、`×` 和 `*`，都被赋予了固定名字。
+而像 `+/m⍴n` 和 `*/mc` 之类的详细定义则依赖于 `×` 和 `*` 这样的固定名字。
+
+我们的符号系统还有一些函数，这些函数相比而言不太常见，但同样拥有固定名字。
+比如用于**连接**参数的逗号函数 `,`：
+
+```apl
+      (⍳5),(⌽⍳5) ←→ 1 2 3 4 5 5 4 3 2 1
+```
+
+再比如**进制表示**函数 `⊤`，它接收左参数作为（可变的）进位基数，右参数作为需要转换的数：
+
+```apl
+      2 2 2 ⊤ 3 ←→ 0 1 1
+      2 2 2 ⊤ 4 ←→ 1 0 0
+```
+
+```apl
+      bn←2 2 2 ⊤ 0 1 2 3 4 5 6 7
+      bn
+0 0 0 0 1 1 1 1
+0 0 1 1 0 0 1 1
+0 1 0 1 0 1 0 1
+
+      bn,⌽bn
+0 0 0 0 1 1 1 1 1 1 1 1 0 0 0 0
+0 0 1 1 0 0 1 1 1 1 0 0 1 1 0 0
+0 1 0 1 0 1 0 1 1 0 1 0 1 0 1 0
+```
+
+<OriginalText>
+  The matrix `bn` is an important one, since it can be viewed in several ways. In addition to representing the binary numbers, the columns represent all subsets of a set of three elements, as well as the entries in a truth table for three boolean arguments. The general expression for `n` elements is easily seen to be `(n⍴2)⊤(⍳2*n)-1` , and we may wish to assign an ad hoc name to this function. Using the direct definition form ([Appendix B](https://www.jsoftware.com/papers/tot1.htm#axb)), the name `T` is assigned to this function as follows:
+  
+  ```apl title="A.2"
+        T:(⍵⍴2)⊤(⍳2*⍵)-1
+  ```
+  
+  The symbol `⍵` represents the argument of the function; in the case of two arguments the left is represented by `⍺` . Following such a definition of the function `T` , the expression `T 3` yields the boolean matrix `bn` shown above.
+  
+  Three expressions, separated by colons, are also used to define a function as follows: the middle expression is executed first; if its value is zero the first expression is executed, if not, the last expression is executed. This form is convenient for recursive definitions, in which the function is used in its own definition. For example, a function which produces binomial coefficients of an order specified by its argument may be defined recursively as follows:
+  
+  ```apl title="A.3"
+        bc:(x,0)+(0,x←bc ⍵-1):⍵=0:1
+  ```
+  
+  Thus `bc 0 ←→ 1` and `bc 1 ←→ 1 1` and `bc 4 ←→ 1 4 6 4 1` .
+</OriginalText>
+
+矩阵 `bn` 值得关注，因为它有多种解读方式。
+它的列除了能表示 0 到 7 的二进制数外，还能表示三元素集合的所有子集，以及三布尔值真值表的条目。
+显而易见，`n` 元素的通用的表达式是 `(n⍴2)⊤(⍳2n)-1`，也许我们需要为这个函数赋予一个临时名字。
+使用直接定义形式（见附录 B），我们可以将临时名字 `T` 赋给这个函数，如下所示：
+
+```apl title="A.2"
+      T:(⍵⍴2)⊤(⍳2*⍵)-1
+```
+
+其中 `⍵` 代表函数的参数。如果函数有两个参数，那么用 `⍺` 表示左参数，`⍵` 表示右参数。
+定义函数 `T` 后，表达式 `T 3` 将得到上述的布尔矩阵 `bn`。
+
+定义函数的另一种方式是使用冒号分隔的三个表达式。
+中间的表达式最先执行；如果中间表达式的值为 0，则执行第一个表达式，否则执行最后一个表达式。
+这种形式在定义递归函数时尤为便利。
+例如，生成指定阶二项式系数的函数可以写作：
+
+```apl title="A.3"
+      bc:(x,0)+(0,x←bc ⍵-1):⍵=0:1
+```
+
+可以验证，`bc 0 ←→ 1`，`bc 1 ←→ 1 1`，`bc 4 ←→ 1 4 6 4 1`。
+
+<OriginalText>
+  The term *operator*, used in the strict sense defined in mathematics rather than loosely as a synonym for *function*, refers to an entity which applies to functions to produce functions; an example is the derivative operator.
+  
+  We have already met two operators, *reduction*, and *scan*, denoted by `/` and `\` , and seen how they contribute to brevity by applying to different functions to produce families of related functions such as `+/` and `×/` and `^/` . We will now illustrate the notion further by introducing the *inner product* operator denoted by a period. A function (such as `+/`) produced by an operator will be called a *derived* function.
+  
+  If `p` and `q` are two vectors, then the inner product `+.×` is defined by:
+  
+  ```apl
+        p+.×q ←→ +/p×q
+  ```
+  
+  and analogous definitions hold for function pairs other than `+` and `×` . For example:
+  
+  ```apl
+        p←2 3 5
+        q←2 1 2
+        p+.×q
+  17
+        p×.*q
+  300
+        p⌊.+q
+  4
+  ```
+  
+  Each of the foregoing expressions has at least one useful interpretation: `p+.×q` is the total cost of order quantities `q` for items whose prices are given by `p` ; because `p` is a vector of primes, `p×.*q` is the number whose prime decomposition is given by the exponents `q` ; and if `p` gives distances from a source to transhipment points and `q` gives distances from the transhipment points to the destination, then `p⌊.+q` gives the minimum distance possible.
+  
+  The function `+.×` is equivalent to the inner product or dot product of mathematics, and is extended to matrices as in mathematics. Other cases such as `×.*` are extended analogously. For example, if `T` is the function defined by [A.2](https://www.jsoftware.com/papers/tot1.htm#A.2), then:
+  
+  ```apl
+        T 3
+  0 0 0 0 1 1 1 1
+  0 0 1 1 0 0 1 1
+  0 1 0 1 0 1 0 1
+        p+.×T 3                   p×.*T 3
+  0 5 3 8 2 7 5 10          1 5 3 15 2 10 6 30
+  ```
+  
+  These examples bring out an important point: if `b` is boolean, then `p+.×b` produces sums over subsets of `p` specified by 1’s in `b` , and `p×.*b` produces products over subsets.
+</OriginalText>
+
+平时我们会将 operator（对应中文中的操作符）视作**函数**的同义词；
+但在数学中 operator 有着更为严格的定义，指的是将函数映射到函数的实体（对应中文中的**算子**）。
+一个典型的算子是导数算子 $\frac{\mathrm{d}}{\mathrm{d}x}$。
+
+我们已经见过两种算子：**归约算子** `/` 和**扫描算子** `\`；
+它们作用于不同的函数，得到了一系列相关的函数，如 `+/`、`×/` 和 `∧/`，这使得我们能够更简洁地表达问题。
+这种由算子生成的函数称为**派生函数**。
+现在我们将通过引入**内积算子**（用点号 `.` 表示）来进一步说明算子的概念。
+
+若 `p` 和 `q` 是两个向量，则二者的内积 `+.×` 定义为：
+
+```apl
+      p+.×q ←→ +/p×q
+```
+
+类似的定义也适用于其他函数对：
+
+```apl
+      p←2 3 5
+      q←2 1 2
+      p+.×q
+17
+      p×.*q
+300
+      p⌊.+q
+4
+```
+
+这些函数都至少有一种有用的含义：
+`p+.×q` 是给定价格向量 `p` 和订单数量向量 `q` 时的总成本；
+若 `p` 是质数向量，则 `q` 是 `p×.*q` 质因数分解中各项的指数；
+若 `p` 表示源点到各中转点的距离，`q` 表示各中转点到目的地的距离，则 `p⌊.+q` 是原点到目的地的最短距离。
+
+函数 `+.×` 相当于数学中的内积或点积。
+和数学中一样，这个函数也可以扩展到矩阵上。
+其他函数，如 `×.*`，也可以类似地扩展。
+例如，如果 T 是由 [A.2](#A.2) 定义的函数，那么：
+
+```apl
+      T 3
+0 0 0 0 1 1 1 1
+0 0 1 1 0 0 1 1
+0 1 0 1 0 1 0 1
+      p+.×T 3
+0 5 3 8 2 7 5 10
+      p×.*T 3
+1 5 3 15 2 10 6 30
+```
+
+这些例子引出了一个重要的特征：
+若 `b` 是布尔向量，则 `p+.×b` 表示 `p` 的子集和，而 `p×.*b` 则表示 `p` 的子集积，
+其中被求和或求乘积的子集由 `b` 中的 `1` 指定。
+
+<OriginalText>
+  The phrase `∘.×` is a special use of the inner product operator to produce a derived function which yields products of each element of its left argument with each element of its right. For example:
+  
+  ```apl
+        2 3 5∘.×⍳5
+  2  4  6  8 10
+  3  6  9 12 15
+  5 10 15 20 25
+  ```
+  
+  The function `∘.×` is called *outer product*, as it is in tensor analysis, and functions such as `∘.+` and `∘.*` and `∘.<` are defined analogously, producing “function tables” for the particular functions. For example:<span/>
+  
+  ```apl
+        d←0 1 2 3
+        d∘.⌈d                     d∘.≥d                   d∘.!d
+  0 1 2 3                   1 0 0 0                 1 1 1 1
+  1 1 2 3                   1 1 0 0                 0 1 2 3
+  2 2 2 3                   1 1 1 0                 0 0 1 3
+  3 3 3 3                   1 1 1 1                 0 0 0 1
+  ```
+  
+  The symbol `!` denotes the binomial coefficient function, and the table `d∘.!d` is seen to contain Pascal’s triangle with its apex at the left; if extended to negative arguments (as with `d←¯3 ¯2 ¯1 0 1 2 3`) it will be seen to contain the triangular and higher-order figurate numbers as well. This extension to negative arguments is interesting for other functions as well. For example, the table `d∘.×d` consists of four quadrants separated by a row and a column of zeros, the quadrants showing clearly the rule of signs for multiplication.
+  
+  Patterns in these function tables exhibit other properties of the functions, allowing brief statements of proofs by exhaustion. For example, commutativity appears as a symmetry about the diagonal. More precisely, if the result of the transpose function `⍉` (which reverses the order of the axes of its argument) applied to a table `t←d∘.f d` agrees with `t` , then the function `f` is commutative on the domain. For example, `t=⍉t←d∘.⌈d` produces a table of 1’s because `⌈` is commutative.
+  
+  Corresponding tests of associativity require rank `3` tables of the form `d∘.f(d∘.f d)` and `(d∘.f d)∘.f d` . For example:<span/>
+  
+  ```apl
+        d←0 1
+  d∘.∧(d∘.∧d)    (d∘.∧d)∘.∧d    d∘.≤(d∘.≤d)    (d∘.≤d)∘.≤d
+     0 0            0 0            1 1             0 1
+     0 0            0 0            1 1             0 1
+  
+     0 0            0 0            1 1             1 1
+     0 1            0 1            0 1             0 1
+  ```
+</OriginalText>
+
+内积算子的另一种特殊用法是 `∘.×`，它将左参数的每个元素与右参数的每个元素相乘，例如：
+
+```apl
+      2 3 5∘.×⍳5
+2 4 6 8 10
+3 6 9 12 15
+5 10 15 20 25
+```
+
+和张量分析中一样，这个函数称为**外积**；类似地，`∘.+`、`∘.*` 和 `∘.<` 都能生成特定函数的“函数表”：
+<span />
+
+```apl
+      d←0 1 2 3
+      d∘.⌈d
+0 1 2 3
+1 1 2 3
+2 2 2 3
+3 3 3 3
+
+      d∘.≥d
+1 0 0 0
+1 1 0 0
+1 1 1 0
+1 1 1 1
+
+      d∘.!d
+1 1 1 1
+0 1 2 3
+0 0 1 3
+0 0 0 1
+```
+
+其中，`!` 表示二项式系数函数。
+可以看出，表 `d∘.!d` 实际上是帕斯卡三角形的一部分，左上角是顶点；
+如果将其扩展到负参数（如 `d←¯3 ¯2 ¯1 0 1 2 3`），它还将包含三角形数等图形数。
+这种负参数的扩展对其他函数也同样适用。
+例如，表 `d∘.×d` 由四个象限组成，中间由一行 `0` 和一列 `0` 分隔，这四个象限清晰地展示了乘法的符号规则。
+
+<details>
+  <summary>
+    负参数版本的函数表
+  </summary>
+```apl
+      d←¯4 ¯3 ¯2 ¯1 0 1 2 3 4
+      d∘.!d
+  1  ¯3  3 ¯1 0 0 0 0 0
+  0   1 ¯2  1 0 0 0 0 0
+  0   0  1 ¯1 0 0 0 0 0
+  0   0  0  1 0 0 0 0 0
+  1   1  1  1 1 1 1 1 1
+ ¯4  ¯3 ¯2 ¯1 0 1 2 3 4
+ 10   6  3  1 0 0 1 3 6
+¯20 ¯10 ¯4 ¯1 0 0 0 1 4
+ 35  15  5  1 0 0 0 0 1
+      d∘.×d
+ 16  12  8  4 0 ¯4 ¯8 ¯12 ¯16
+ 12   9  6  3 0 ¯3 ¯6  ¯9 ¯12
+  8   6  4  2 0 ¯2 ¯4  ¯6  ¯8
+  4   3  2  1 0 ¯1 ¯2  ¯3  ¯4
+  0   0  0  0 0  0  0   0   0
+ ¯4  ¯3 ¯2 ¯1 0  1  2   3   4
+ ¯8  ¯6 ¯4 ¯2 0  2  4   6   8
+¯12  ¯9 ¯6 ¯3 0  3  6   9  12
+¯16 ¯12 ¯8 ¯4 0  4  8  12  16
+```
+</details>
+
+观察这些函数表的特征，我们还能得到函数的其他信息，并通过穷举法简洁地证明函数的某些性质。
+例如，交换律表现为函数表关于对角线的对称性：
+若转置函数 `⍉`（用于反转参数的轴顺序）应用于表 `t←d∘.f d` 后得到的结果与 `t` 相同，
+则说明函数 `f` 在定义域 `d` 上满足交换律。
+例如，`t=⍉t←d∘.⌈d` 得到的是一个全部为 `1` 的表，因为 `⌈` 满足交换律。
+
+测试结合律则需要形如 `d∘.f(d∘.f d)` 和 `(d∘.f d)∘.f d` 的三维矩阵：
+
+```apl
+      d←0 1
+      d∘.∧(d∘.∧d)
+0 0
+0 0
+
+0 0
+0 1
+
+      (d∘.∧d)∘.∧d
+0 0
+0 0
+
+0 0
+0 1
+
+      d∘.≤(d∘.≤d)
+1 1
+1 1
+
+1 1
+0 1
+
+      (d∘.≤d)∘.≤d
+0 1
+0 1
+
+1 1
+0 1
+```
+
+<OriginalText>
+  **1.4 Economy**
+  
+  The utility of a language as a tool of thought increases with the range of topics it can treat,
+  but decreases with the amount of vocabulary and the complexity of grammatical rules which the user must keep in mind.
+  Economy of notation is therefore important.
+  
+  Economy requires that a large number of ideas be expressible in terms of a relatively small vocabulary.
+  A fundamental scheme for achieving this is the introduction of grammatical rules by which meaningful phrases
+  and sentences can be constructed by combining elements of the vocabulary.
+  
+  This scheme may be illustrated by the first example treated —
+  the relatively simple and widely useful notion of the sum of the first `n` integers was not introduced as a primitive,
+  but as a phrase constructed from two more generally useful notions,
+  the function `⍳` for the production of a vector of integers, and the function `+/` for the summation of the elements of a vector.
+  Moreover, the derived function `+/` is itself a phrase, summation being a derived function
+  constructed from the more general notion of the reduction operator applied to a particular function.
+</OriginalText>
+
+### 4. 经济性
+
+语言作为思维工具，能处理的主题范围越广，用途就越大；
+但词汇量和语法复杂性越大，使用起来就越困难。
+因此，记号的经济性显得尤为重要。
+
+经济性意味着能够使用较少的词汇量表达丰富的思想。
+实现这一点的基本方法是引入语法规则，通过组合词汇来构建有意义的短语和句子。
+
+前文所述的第一个例子，即“前 n 个整数的和”，就是如此。
+我们并没有直接引入这个概念，而是通过两个更普遍概念的组合表达出了这个概念：
+`⍳` 用于生成整数向量，`+/` 用于对向量元素求和。
+更进一步，`+/` 作为派生函数，也是由更通用的规约算子作用于特定函数得来的。
+
+<OriginalText>
+  Economy is also achieved by generality in the functions introduced.
+  For example, the definition of the factorial function denoted by `!` is not restricted to integers,
+  and the gamma function of `x` may therefore be written as `!x-1` .
+  Similiarly, the *relations* defined on all real arguments provide several important logical functions
+  when applied to boolean arguments:
+  exclusive-or (`≠`), material implication (`≤`), and equivalence
+  (`=`).
+  
+  The economy achieved for the matters treated thus far can be assessed by recalling the vocabulary introduced:<span/>
+  
+  ``` apl
+        ⍳   ⍴   ⌽   ⊤   ,
+        /   \   .>
+  
+        +-×÷*⍟!⌈⌊⍉
+        ∨∧~<≤=≥>≠
+  ```
+</OriginalText>
+
+经济性还通过引入具有广泛适用性的函数来实现。例如，表示阶乘的！函数不仅限于整数，因此 x 的伽玛函数可以表示为!x-1。
+同样，定义在所有实数参数上的关系在布尔参数中提供了重要的逻辑函数，如异或（≠）、材料蕴涵（≤）和等价（=）。
+通过回顾引入的词汇，我们可以评估迄今为止的经济性：
+前两行的五个函数和三个运算符是主要关注的对象，其他熟悉的函数只是为了展示运算符的多功能性。
+
+实现经济性的另一种方式是让函数更为通用。
+例如，阶乘函数 `!` 的定义并不局限于整数，因此 `x` 的 gamma 函数可以写作 `!x-1`。
+同样地，定义在实数域上的关系运算符在同样适用于布尔运算：
+`≠` 表示异或，`≤` 表示实质蕴涵，`=` 表示等价。
+
+我们可以回顾前文引入的词汇，看一看是否满足经济性的要求：
+
+```apl
+      ⍳   ⍴   ⌽   ⊤   ,
+      /   \   .>
+
+      +-×÷*⍟!⌈⌊⍉
+      ∨∧~<≤=≥>≠
+```
+
+<OriginalText>
+  The five functions and three operators listed in the first two rows are of primary interest,
+  the remaining familiar functions having been introduced to illustrate the versatility of the operators.
+  
+  A significant economy of symbols, as opposed to economy of functions,
+  is attained by allowing any symbol to represent both a *monadic* function
+  (i.e. a function of one argument) and a *dyadic* function,
+  in the same manner that the minus sign is commonly used for both subtraction and negation.
+  Because the two functions represented may,
+  as in the case of the minus sign, be related, the burden of remembering symbols is eased.
+  
+  For example, `x*y` and `*y` represent power and exponential, `x⍟y`
+  and `⍟y` represent base `x` logarithm and natural logarithm, `x÷y`
+  and `÷y` represent division and reciprocal,
+  and `x!y` and `!y` represent the binomial coefficient function and the factorial (that is, `x!y←→(!y)÷(!x)×(!y-x)`).
+  The symbol `⍴` used for the dyadic function of replication also represents a monadic function which gives the shape of the argument (that is, `x←→⍴x⍴y`),
+  the symbol `⌽` used for the monadic reversal function also represents the dyadic *rotate* function exemplified by `2⌽⍳5←→3 4 5 1 2`  ,
+  and by `¯2⌽⍳5←→4 5 1 2 3` , and finally, the comma represents not only catenation,
+  but also the monadic *ravel*, which produces a vector of the elements of its argument in “row-major” order.
+  For example:<span/>
+  
+  ```apl
+        T 2                       ,T 2
+  0 0 1 1                   0 0 1 1 0 1 0 1
+  0 1 0 1
+  ```
+  
+  Simplicity of the grammatical rules of a notation is also important.
+  Because the rules used thus far have been those familiar in mathematical notation, they have not been made explicit,
+  but two simplifications in the order of execution should be remarked:
+  
+  1. All functions are treated alike, and there are no rules of precedence such as `×` being executed before `+` .
+  2. The rule that the right argument of a monadic function is the value of the entire expression to its right,
+  implicit in the order of execution of an expression such as `sin log !n` ,
+  is extended to dyadic functions.
+  
+  The second rule has certain useful consequences in reduction and scan.
+  Since `f/v` is equivalent to placing the function `f` between the elements of `v` ,
+  the expression `-/v` gives the alternating sum of the elements of `v` ,
+  and `÷/v` gives the alternating product.
+  Moreover, if `b` is a boolean vector, then `<\b` “isolates” the first 1 in `b` ,
+  since all elements following it become 0. For example.
+  
+  ```
+        <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
+  ```
+  
+  Syntactic rules are further simplified by adopting a single form for all dyadic functions,
+  which appear between their arguments, and for all monadic functions, which appear before their arguments.
+  This contrasts with the variety of rules in mathematics.
+  For example, the symbols for the monadic functions of negation, factorial, and magnitude precede, follow,
+  and surround their arguments, respectively.
+  Dyadic functions show even more variety.
+</OriginalText>
+
+与函数的经济性相比，符号的经济性通过允许一个符号同时表示单目函数（一个参数的函数）和双目函数来实现，这种做法类似于负号既用于减法也用于取反。因为这些函数可能（如负号的例子）是相关的，这样有助于简化符号的记忆负担。
+
+例如，xy 和 y 分别表示幂和指数，x⍟y 和⍟y 分别表示底 x 的对数和自然对数，x÷y 和÷y 分别表示除法和倒数，x!y 和!y 分别表示二项系数函数和阶乘（即 x!y←→(!y)÷(!x)×(!y-x)）。双目复制函数符号⍴也代表一个单目函数，该函数给出参数的形状（即 x←→⍴x⍴y），单目反转函数符号⌽也表示双目旋转函数，例如 2⌽⍳5←→3 4 5 1 2，以及¯2⌽⍳5←→4 5 1 2 3，最后，逗号不仅表示串联，还表示单目展开，即按“行主序”生成参数元素的向量。例如：
+
+r
+
+  T 2                       ,T 2
+
+0 0 1 1 0 0 1 1 0 1 0 1 0 1 0 1
+
+符号表示法中的语法规则简单性也至关重要。由于迄今为止使用的规则是数学中常见的规则，因此没有明确说明，但应注意两个简化的执行顺序规则： （1）所有函数均视为平等，没有优先级规则，比如×在 + 之前执行。 （2）单目函数的右侧参数是整个右边表达式的值，这一点在表达式 sin log !n 的执行顺序中隐含存在，并扩展到双目函数。
+
+第二条规则在归约和扫描中有用的效果。由于 f/v 等同于在 v 的元素之间放置函数 f，表达式-/v 给出 v 元素的交替和，而÷/v 给出交替积。此外，如果 b 是布尔向量，则`<\b`可以“隔离”b 中的第一个 1，因为其后的所有元素变为 0。例如：
+
+```apl
+  <\0 0 1 1 0 1 1 ←→ 0 0 1 0 0 0 0
+```
+
+通过为所有双目函数采用统一形式（出现在其参数之间），为所有单目函数采用另一种统一形式（出现在其参数之前），进一步简化了语法规则。这与数学中的规则多样性形成对比。例如，单目函数的负号、阶乘和大小的符号分别在其参数之前、之后和包围其参数。双目函数则显示出更多的变化。
+

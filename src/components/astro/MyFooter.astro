@@ -1,7 +1,6 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import { getContinuum } from '@/utils/content';
-
 import Default from '@astrojs/starlight/components/Footer.astro';
 
 const { slug, pagination } = Astro.props;
@@ -15,8 +14,6 @@ const prev = showHref(pagination?.prev?.href) ? pagination.prev : undefined;
 const next = showHref(pagination?.next?.href) ? pagination.next : undefined;
 ---
 
-{
-  <Default {...Astro.props} pagination={{ prev, next }}>
-    <slot />
-  </Default>
-}
+<Default {...Astro.props} pagination={{ prev, next }}>
+  <slot />
+</Default>
