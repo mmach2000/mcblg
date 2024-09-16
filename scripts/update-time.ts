@@ -3,6 +3,7 @@ import { parseArgs } from 'node:util';
 
 import { formatISO } from 'date-fns';
 import grayMatter from 'gray-matter';
+import { trimStart } from 'moderndash';
 
 const now = formatISO(new Date());
 
@@ -14,7 +15,7 @@ function updateTime(path: string) {
     file.data.ctime = now;
   }
 
-  const updated = grayMatter.stringify(file.content, file.data);
+  const updated = grayMatter.stringify(trimStart(file.content, '\n'), file.data);
   writeFileSync(path, updated);
 }
 
