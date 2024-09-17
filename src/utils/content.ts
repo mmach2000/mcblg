@@ -53,6 +53,24 @@ export function getTopRoute(slugOrHref?: string): `/${string}` | undefined {
 }
 
 /**
+ * Get series of a series page
+ * - /series/example → example
+ * - /series/a/b → a
+ * - /notes/example → undefined
+ * - /series → undefined
+ * - / → undefined
+ */
+export function getSeries(slugOrHref?: string): string | undefined {
+  if (slugOrHref === undefined || slugOrHref === null)
+    return;
+  const slug = trim(slugOrHref, '/');
+  const parts = slug.split('/');
+  if (parts.length >= 2 && parts[0] === 'series') {
+    return parts[1];
+  }
+}
+
+/**
  * Get only metadata of a content
  */
 export async function getMetadata(content: CollectionEntry<'docs'>): Promise<PostMetadata> {

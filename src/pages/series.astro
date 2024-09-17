@@ -1,5 +1,5 @@
 ---
-import { PostsPage } from '@/components/react/catalog/PostsPage';
+import { SeriesPage } from '@/components/react/pages/SeriesPage';
 import { IS_DEV } from '@/utils/constants';
 
 import { getAllTags, getMetadata, getTopRoute } from '@/utils/content';
@@ -18,5 +18,5 @@ const frontmatter = {
 ---
 
 <StarlightPage frontmatter={frontmatter} hasSidebar={false}>
-  <PostsPage tags={tags} posts={seriesMetadata} client:only="react" />
+  <SeriesPage tags={tags} posts={seriesMetadata} client:only="react" />
 </StarlightPage>

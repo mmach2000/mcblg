@@ -26,7 +26,6 @@ export default antfu({
   rules: {
     'no-console': 'off',
     'ts/strict-boolean-expressions': 'off',
-    'react-hooks/exhaustive-deps': 'off',
     'react-refresh/only-export-components': 'off',
     'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
   },
