@@ -11,7 +11,7 @@ function SeriesCard({ name, posts }: { name: string; posts: PostMetadata[] }) {
   const [parent] = useAutoAnimate();
 
   return (
-    <div flex="~ col gap-3" border="~ solid gray-300 dark:gray-700" break-inside-avoid px-4 py-3 mb-4>
+    <div flex="~ col gap-3" border="~ solid gray-300 dark:gray-700" break-inside-avoid p="x-4 y-[13px]" mb-4>
       <h2 text="[24px]">
         {SERIES_NAMES[name] ?? name}
       </h2>

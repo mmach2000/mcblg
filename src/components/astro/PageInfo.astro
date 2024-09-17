@@ -1,6 +1,6 @@
 ---
-import { QUERY_KEYS } from '@/utils/constants';
 import { format } from 'date-fns';
+import { QUERY_KEYS } from '../../utils/constants';
 
 interface Props {
   author?: string;
@@ -26,7 +26,7 @@ const mtimeDisplay = format(mtime, 'yyyy/MM/dd');
     )
   }
   <span text="sm gray-600 dark:gray-200 op60 dark:op60">
-    <abbr title={`创建时间：${ctimeDisplay}${rawMtime ? `\n最后修改时间：${mtimeDisplay}` : ''}`}>
+    <abbr title={`发布时间：${ctimeDisplay}${rawMtime ? `\n最后修改时间：${mtimeDisplay}` : ''}`}>
       <time datetime={rawCtime}>{ctimeDisplay}</time>
     </abbr>
   </span>
