@@ -1,9 +1,8 @@
 ---
-mtime: '2024-09-17T00:27:10+08:00'
+mtime: '2024-09-17T13:14:29+08:00'
 ctime: '2024-09-16T22:02:25+08:00'
 ---
 import OriginalText from "@/components/astro/OriginalText.astro"
-
 
 <OriginalText>
   The importance of nomenclature, notation, and language as tools of thought has long been recognized. In chemistry and in botany, for example, the establishment of systems of nomenclature by Lavoisier and Linnaeus did much to stimulate and to channel later investigation. Concerning language, George Boole in his *Laws of Thought* \[1, p.24\] asserted “That language is an instrument of human reason, and not merely a medium for the expression of thought, is a truth generally admitted.”
@@ -20,13 +19,13 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 </OriginalText>
 
 众所周知，命名体系、符号系统和语言都是承载思想的重要工具。
-例如，拉瓦锡和林奈分别建立了化学领域和植物学领域的命名体系，二者都极大地激发和引导了后续的研究工作。
+例如，拉瓦锡和林奈分别建立了化学领域和植物学领域的命名体系，这两者都极大地激发和引导了后续的研究工作。
 语言的意义同样深远：正如乔治 · 布尔在《思维规律的研究》中所言，
 “语言不仅仅是表达思想的媒介，更是人类理性的工具，这一真理早已为世人所公认。”
 
-种种语言中，数学符号无疑是最著名且最为成熟的思维工具，其在数学领域中的重要性不言而喻，
-这一点在卡乔里《数学符号史》中由引述的数学家名言得以充分阐释。
-这些名言值得仔细品读，以下两条摘录虽不足以囊括全貌，却已足以勾勒出其地位：
+种种语言中，数学符号无疑是最著名且最为成熟的思维工具，其在数学领域中的重要性不言而喻。
+卡乔里在《数学符号史》中引述了许多数学家的名言来佐证这一点，这些名言值得仔细品读。
+以下两条摘录虽不足以囊括全貌，却已足以勾勒出数学符号的重要之处所在：
 
 > 优良的数学符号减轻了大脑的额外负担，使其能够集中精力解决更为复杂的问题，从而有效地提升了人类的智力。
 > 
@@ -48,21 +47,23 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 
 尽管如此，数学符号作为思维工具仍有其不足之处。
 数学符号不够统一：同一符号在不同主题、不同作者、甚至不同语境中都可能有不同的含义。
-相比之下，编程语言作为指挥计算机的工具，具备了统一性、可执行性和无歧义性的显著优势。
-可执行性使得我们能够借助计算机，对用编程语言表达的思想进行广泛而深入的实验；而无歧义性则使得精确的思维实验成为可能。
-然而大多数编程语言在其他方面却明显不如数学符号，因此数学家很少将编程语言作为思维工具。
+相比之下，编程语言具有统一性、可执行性和无歧义性的显著优势，这是因为编程语言的设计初衷是指导计算机工作。
+如果某个想法是用编程语言表达的，那么我们就能借助计算机，对其进行广泛而深入的实验，这就是可执行性的优势；
+无歧义性则使得精确的思维实验成为可能。
+然而在其他方面，大多数编程语言却明显不如数学符号，因此数学家很少将编程语言作为思维工具。
 
-本文的核心论点在于，我们能够将编程语言和数学符号二者所长，融于一种统一而连贯的符号系统之中。
+本文的核心论点在于，我们能够集编程语言和数学符号二者所长，将其融于一种统一而连贯的符号系统之中。
 这种符号系统既继承了编程语言的统一性和可执行性，又兼具数学符号的种种优点。
 下面分四节详细阐述这一论点：
 
-1. 第一节将提炼数学符号系统的显著特点，并借助一系列简单的问题说明如何在一种可执行的语言中实现这些特点。
+1. 第一节将提炼数学符号系统的显著特点，并借助一系列简单的问题，
+说明这些特点如何在我们的可执行符号系统中得以体现。
 
-2. 第二、三节将继续使用这一符号系统探讨一些更深的主题。
+2. 第二、三节将继续使用这一符号系统，来探讨一些更深的主题。
 第二节将探讨多项式的相关问题，而第三节将探讨函数的不同表示（包括全排列和有向图）之间的转换。
 我们选择这些主题，主要是因为它们既实用，又有很多人感兴趣。
 这些问题虽然属于数学范畴，却与计算机编程有着直接的联系。
-随着编程科学逐渐发展为一门独立的数学学科，这种联系将变得越来越重要。
+随着编程逐渐发展为一门独立的数学学科，这种联系将变得越来越重要。
 
 3. 第四节则展示了若干恒等式和形式证明的例子，其中许多形式证明是前几节非正式证明的形式化版本。
 
@@ -78,10 +79,11 @@ import OriginalText from "@/components/astro/OriginalText.astro"
   Readers having access to some machine embodiment of APL may wish to translate the function definitions given here in *direct definition* form \[5, p.10\] (using `⍺` and `⍵` to represent the left and right arguments) to the *canonical* form required for execution. A function for performing this translation automatically is given in [Appendix B](https://www.jsoftware.com/papers/tot1.htm#axb).
 </OriginalText>
 
-本文所采用的“可执行语言”正是 APL。起初，这种记法并不是一门编程语言，而是一系列试图在书写和教学中引入准确而清晰的表述方式的尝试。
+本文所采用的“可执行语言”正是 APL。
+起初，这种符号系统并不是一门编程语言，而是一系列试图在书写和教学中引入准确而清晰的表述方式的尝试。
 在多年的使用和发展后，APL 才被实现为一种编程语言。
 
-尽管许多读者对 APL 并不熟悉，我还是决定不单独开设章节介绍 APL，而是在需要时在具体的上下文中逐步导入。
+尽管许多读者对 APL 并不熟悉，我还是决定不单独开设章节介绍 APL，而是按照需要在具体的上下文中逐步介绍之。
 这就像数学课程中逐步介绍数学符号一样（与此相反，编程语言往往单独开设课程进行教学）。
 我的观点是，好的思维工具应当能在相关的上下文中轻松介绍。
 这种导入方法还有一个优点：读者可以评估 APL 各方面的相对难度。
@@ -94,4 +96,4 @@ import OriginalText from "@/components/astro/OriginalText.astro"
 可以使用附录 B 中给出的函数将本文用**直接定义形式**（direct definition form）给出的函数定义
 （使用 `⍺` 和 `⍵` 来表示左右参数）转换为执行所需的**规范形式**（canonical form）[^no-need]。
 
-[^no-need]: 译注：现如今 APL 实现（如 Dyalog APL 等）往往通过 dfn（dynamic-function）来定义含有 `⍺` 和 `⍵` 的函数，因此不再需要转换。
+[^no-need]: 译注：现如今 APL 实现（如 Dyalog APL 等）往往通过 dfn（dynamic function/direct function）来定义含有 `⍺` 和 `⍵` 的函数，请读者自行查阅相关文档。

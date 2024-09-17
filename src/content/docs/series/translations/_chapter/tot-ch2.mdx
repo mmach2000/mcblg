@@ -1,0 +1,309 @@
+---
+mtime: '2024-09-17T13:14:29+08:00'
+ctime: '2024-09-17T13:14:29+08:00'
+---
+import OriginalText from "@/components/astro/OriginalText.astro"
+
+
+<OriginalText>
+  **2\. Polynomials**
+
+  If `c` is a vector of coefficients and `x` is a scalar, then the polynomial in `x` with coefficients `c` may be written simply as `+/c×x*¯1+⍳⍴c` , or `+/(x*¯1+⍳⍴c)×c` , or `(x*¯1+⍳⍴c)+.×c` . However, to apply to a non-scalar array of arguments `x` , the power function `*` should be replaced by the power table `∘.*` as shown in the following definition of the polynomial function:
+
+  ```apl title="B.1"
+        P:(⍵∘.*¯1+⍳⍴⍺)+.×⍺
+  ```
+
+  For example, `1 3 3 1 P 0 1 2 3 4 5 ←→ 1 8 27 64 125` . If `⍴⍺` is replaced by `1↑⍴⍺` , then the function applies also to matrices and higher dimensional arrays of sets of coefficients representing (along the leading axis of `⍺`) collections of coefficients of different polynomials.
+
+  This definition shows clearly that the polynomial is a linear function of the coefficient vector. Moreover, if `⍺` and `⍵` are vectors of the same shape, then the pre-multiplier `⍵∘.*¯1+⍳⍴⍺` is the Vandermonde matrix of `⍵` and is therefore invertible if the elements of `⍵` are distinct. Hence if `c` and `x` are vectors of the same shape, and if `y←c P x` , then the inverse (curve-fitting) problem is clearly solved by applying the matrix inverse function `⌹` to the Vandermonde matrix and using the identity:
+
+  ```apl
+        c ←→ (⌹x∘.*¯1+⍳⍴x)+.×y
+  ```
+</OriginalText>
+
+## 第二节 多项式
+
+令 `c` 表示系数向量，`x` 是标量，则 `x` 关于系数 `c` 的多项式可以简洁地表示为 `+/c×x*¯1+⍳⍴c`，
+或者 `+/(x*¯1+⍳⍴c)×c`，或者 `(x*¯1+⍳⍴c)+.×c`。
+若要将 `x` 扩展到向量，则需将幂函数 `*` 改为幂函数表 `∘.*`，亦即：
+
+```apl title="B.1"
+      P:(⍵∘.*¯1+⍳⍴⍺)+.×⍺
+```
+
+例如，`1 3 3 1 P 0 1 2 3 4 5 ←→ 1 8 27 64 125 216`
+（解释：$5^0 + 3\times 5^1 + 3\times 5^2 + 1\times 5^3 = 216$）。
+若将 `⍴⍺` 替换为 `1↑⍴⍺`，则该函数也适用于矩阵或更高维的数组（其中多项式系数应用于主轴）。
+
+这个定义清晰地表明，多项式与系数向量间满足线性关系。
+此外，若 `⍺` 和 `⍵` 形状相同，则 `⍵∘.*¯1+⍳⍴⍺` 是 `⍵` 的范德蒙矩阵；
+若 `⍵` 的元素各不相同，则该矩阵可逆。
+因此令 `y←c P x`，则多项式求值的逆问题——多项式拟合，就可以通过对范德蒙矩阵求逆（使用求逆函数 `⌹`）解决：
+
+```apl
+      c ←→ (⌹x∘.*¯1+⍳⍴x)+.×y
+```
+
+<OriginalText>
+  **2.1 Products of Polynomials**
+
+  The “product of two polynomials `b` and `c`” is commonly taken to mean the coefficient vector `d` such that:
+
+  ```apl
+        d P x ←→ (b P x)×(c P x)
+  ```
+
+  It is well-known that `d` can be computed by taking products over all pairs of elements from `b` and `c` and summing over subsets of these products associated with the same exponent in the result. These products occur in the function table `b∘.×c` , and it is easy to show informally that the powers of `x` associated with the elements of `b∘.×c` are given by the addition table `e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)` . For example:
+
+  ```apl
+        x←2
+        b←3 1 2 3
+        c←2 0 3
+        e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+        b∘.×c          e            x×e
+  6 0 9           0 1 2         0 2  4 
+  2 0 3           1 2 3         2 4  6 
+  4 0 6           2 3 4         4 6  8 
+  6 0 9           3 4 5         6 8 10 
+        +/,(b∘.×c)×x*e
+  518
+        (b P x)×(c P x)
+  518
+  ```
+
+  The foregoing suggests the following identity, which will be established formally in Section 4:
+
+  ```apl title="B.2"
+        (b P x)×(c P x) ←→ +/,(b∘.×c)×x*(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+  ```
+
+  Moreover, the pattern of the exponent table `e` shows that elements of `b∘.×c` lying on diagonals are associated with the same power, and that the coefficient vector of the product polynomial is therefore given by sums over these diagonals. The table `b∘.×c` therefore provides an excellent organization for the manual computation of products of polynomials. In the present example these sums give the vector `d←6 2 13 9 6 9` , and `d P x` may be seen to equal `(b P x)×(c P x)` .
+
+  Sums over the required diagonals of `b∘.×c` can also be obtained by bordering it by zeros, skewing the result by rotating successive rows by successive integers, and then summing the columns. We thus obtain a definition for the polynomial product function as follows:
+
+  ```apl
+        pp:+⌿(1-⍳⍴⍺)⌽⍺∘.×⍵,1↓0×⍺
+  ```
+</OriginalText>
+
+### 1. 多项式乘法
+
+多项式 `b` 和 `c` 的乘积通常指的是系数向量 `d`，使得：
+
+```apl
+      d P x ←→ (b P x)×(c P x)
+```
+
+众所周知，求 `d` 有一种简单的方法：将 `b` 和 `c` 中的每一对元素相乘，
+然后对次数相同的乘积求和，所得的就是 `d`。
+每一对元素的乘积可以表示为 `b∘.×c`，
+而易得其中每个元素对应的次数表 `e` 可以表示为 `e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)`：
+
+```apl
+      x←2
+      b←3 1 2 3
+      c←2 0 3
+      e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+      b∘.×c
+6 0 9
+2 0 3
+4 0 6
+6 0 9
+      e
+0 1 2
+1 2 3
+2 3 4
+3 4 5
+      x*e
+1  2  4
+2  4  8
+4  8 16
+8 16 32
+      +/,(b∘.×c)×x*e
+518
+      (b P x)×(c P x)
+518
+```
+
+这一系列推导表明了以下恒等式，我们将在第 4 节正式证明这一等式：<span id="eq:B.2" />
+
+```apl title="B.2"
+      (b P x)×(c P x) ←→ +/,(b∘.×c)×x*(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+```
+
+更进一步，观察指数表 `e` 可以发现 `b∘.×c` 中对角线上的元素次数相同，
+因此 `d` 等于 `b∘.×c` 中对角线上的元素之和。
+因此，`b∘.×c` 对于 `d` 的手动计算很有帮助。
+通过求和可以得出，在上面的例子中，`d←6 2 13 9 6 9`，可以验证 `d P x` 等于 `(b P x)×(c P x)`。
+
+我们也可以在 APL 中表示这种对角线求和，只需在 `b∘.×c` 的周围补 `0`，
+然后通过旋转将对角线凑到一起，最后对列求和。
+这一系列操作可以得到多项式乘法函数的定义：
+
+```apl
+      pp:+⌿(1-⍳⍴⍺)⌽⍺∘.×⍵,1↓0×⍺
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+```apl
+      b←3 1 2 3
+      c←2 0 3
+      e←((¯1+⍳⍴b)∘.+(¯1+⍳⍴c))
+      c,1↓0×b               ⍝ 补至最高次为⍴b+⍴c-1
+2 0 3 0 0 0
+      b∘.×c,1↓0×b           ⍝ 补 0 后的乘积表
+6 0 9 0 0 0
+2 0 3 0 0 0
+4 0 6 0 0 0
+6 0 9 0 0 0
+      ee←e,((⍴b),(⍴b)-1)⍴¯1
+      ee                    ⍝ 这里列出补 -1 的次数表作为对比
+0 1 2 ¯1 ¯1 ¯1
+1 2 3 ¯1 ¯1 ¯1
+2 3 4 ¯1 ¯1 ¯1
+3 4 5 ¯1 ¯1 ¯1
+      (1-⍳⍴b)               ⍝ 所需的旋转次数
+0 ¯1 ¯2 ¯3
+      (1-⍳⍴b)⌽b∘.×c,1↓0×b   ⍝ 旋转乘积表
+6 0 9 0 0 0
+0 2 0 3 0 0
+0 0 4 0 6 0
+0 0 0 6 0 9
+      (1-⍳⍴b)⌽ee            ⍝ 旋转次数表，可见相同次数凑到了一起
+ 0  1  2 ¯1 ¯1 ¯1
+¯1  1  2  3 ¯1 ¯1
+¯1 ¯1  2  3  4 ¯1
+¯1 ¯1 ¯1  3  4  5
+      +⌿(1-⍳⍴b)⌽b∘.×c,1↓0×b ⍝ 对列求和
+6 2 13 9 6 9
+```
+</details>
+
+<OriginalText>
+  We will now develop an alternative method based upon the simple observation that if `b pp c` produces the product of polynomials `b` and `c` , then `pp` is linear in both of its arguments. Consequently,
+
+  ```apl
+        pp:⍺+.×a+.×⍵
+  ```
+
+  where `a` is an array to be determined. `a` must be of rank `3` , and must depend on the exponents of the left argument `(¯1+⍳⍴⍺)` , of the result `(¯1+⍳⍴1↓⍺,⍵)` , and of the right argument. The “deficiencies” of the right exponent are given by the difference table `(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵` , and comparison of these values with the left exponents yields `a` . Thus
+
+  ```apl
+        a←(¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵
+  ```
+
+  and
+
+  ```apl
+        pp:⍺+.×((¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵)+.×⍵
+  ```
+
+  Since `⍺+.×a` is a matrix, this formulation suggests that if `d←b pp c` , then `c` might be obtained from `d` by pre-multiplying it by the inverse matrix `(⌹b+.×a)` , thus providing division of polynomials. Since `b+.×a` is not square (having more rows than columns), this will not work, but by replacing `m←b+.×a` by either its leading square part `(2⍴⌊/⍴m)↑m` , or by its trailing square part `(-2⍴⌊/⍴m)↑m` , one obtains two results, one corresponding to division with low-order remainder terms, and the other to division with high-order remainder terms.
+</OriginalText>
+
+我们还将提出另一种计算多项式乘积的方法。
+观察发现 `pp` 对 `b` 和 `c` 都是线性的，因此 `pp` 必然可以表示为这样的形式：
+
+```apl
+      pp:⍺+.×a+.×⍵
+```
+
+其中 `a` 是某个我们尚未知晓的数组。
+`a` 必然是三维的，且基于左参数的次数 `(¯1+⍳⍴⍺)`、结果的次数 `(¯1+⍳⍴1↓⍺,⍵)` 和右参数的次数。
+已知结果的次数和右参数的次数，就能求出每一处右参数需要匹配几次的左参数，表示为 `(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵`。
+将其与左参数的次数比较，就能得到 `a`。
+因此，
+
+```apl
+      a←(¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵
+```
+
+于是，
+
+```apl
+      pp:⍺+.×((¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵)+.×⍵
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+```apl
+      b←3 1 2 3
+      c←2 0 3
+      (⍳⍴1↓b,c)∘.-⍳⍴c   ⍝ 次数的缺额
+0 ¯1 ¯2
+1  0 ¯1
+2  1  0
+3  2  1
+4  3  2
+5  4  3
+      (¯1+⍳⍴b)∘.=(⍳⍴1↓b,c)∘.-⍳⍴c
+1 0 0
+0 1 0
+0 0 1
+0 0 0
+0 0 0
+0 0 0
+     
+0 0 0
+1 0 0
+0 1 0
+0 0 1
+0 0 0
+0 0 0
+     
+0 0 0
+0 0 0
+1 0 0
+0 1 0
+0 0 1
+0 0 0
+     
+0 0 0
+0 0 0
+0 0 0
+1 0 0
+0 1 0
+0 0 1
+      b+.×(¯1+⍳⍴b)∘.=(⍳⍴1↓b,c)∘.-⍳⍴c
+3 0 0
+1 3 0
+2 1 3
+3 2 1
+0 3 2
+0 0 3
+```
+</details>
+
+这一表达式表明：鉴于 `⍺+.×a` 是一个矩阵，令 `d←b pp c`，
+我们可以通过对 `d` 左乘拟矩阵 `(⌹b+.×a)` 来得到 `c`，从而实现多项式的除法。
+不过 `b+.×a` 不是方阵（行数多于列数），这种方法不可行；
+但我们可以求出 `m←b+.×a` 前半部分的方阵 `(2⍴⌊/⍴m)↑m` 或后半部分的方阵 `(-2⍴⌊/⍴m)↑m`，
+从而得到余数为低阶项或高阶项的除法。
+
+<details>
+  <summary>
+    解释
+  </summary>
+```apl
+      m←b+.×a
+      (2⍴⌊/⍴m)↑m
+3 0 0
+1 3 0
+2 1 3
+      (-2⍴⌊/⍴m)↑m
+3 2 1
+0 3 2
+0 0 3
+      (⌹(2⍴⌊/⍴m)↑m)+.×6 2 13
+2 0 3
+      (⌹(-2⍴⌊/⍴m)↑m)+.×9 6 9
+2 0 3
+```
+</details>
