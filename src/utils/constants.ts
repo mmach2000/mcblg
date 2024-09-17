@@ -6,14 +6,6 @@ export const SERIES_NAMES: Record<string, string> = {
   'translations': '翻译',
 };
 
-export const SORT_NAMES = {
-  ctime: '创建时间',
-  mtime: '修改时间',
-  words: '字数',
-  desc: '降序',
-  asc: '升序',
-};
-
 export const QUERY_KEYS = {
   include: 'i',
   exclude: 'e',

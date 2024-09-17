@@ -18,7 +18,6 @@ export default defineConfig({
   vite: {
     build: { sourcemap: true },
     ssr: { noExternal: ['tdesign-react', 'react-tweet', '@douyinfe/semi-illustrations'] },
-    optimizeDeps: { exclude: ['@resvg/resvg-js'] },
     plugins: [base64Import()],
   },
   experimental: {
@@ -37,11 +36,11 @@ export default defineConfig({
 
       customCss: ['./src/style/global.css'],
       components: {
-        Head: './src/components/astro/MyHead.astro',
-        Footer: './src/components/astro/MyFooter.astro',
-        Sidebar: './src/components/astro/MySidebar.astro',
-        PageTitle: './src/components/astro/MyPageTitle.astro',
-        SiteTitle: './src/components/astro/MySiteTitle.astro',
+        Head: './src/components/astro/replace/MyHead.astro',
+        Footer: './src/components/astro/replace/MyFooter.astro',
+        Sidebar: './src/components/astro/replace/MySidebar.astro',
+        PageTitle: './src/components/astro/replace/MyPageTitle.astro',
+        SiteTitle: './src/components/astro/replace/MySiteTitle.astro',
       },
 
       sidebar: [

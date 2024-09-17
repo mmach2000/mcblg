@@ -1,0 +1,15 @@
+---
+import { IS_PROD } from '@/utils/constants';
+---
+
+{
+  <details class={IS_PROD ? 'hidden' : ''}>
+    <summary>
+      <span color-accent-600>
+        <span i-lucide-languages inline-block mr-2 mb--1 />
+        原文
+      </span>
+    </summary>
+    <slot />
+  </details>
+}

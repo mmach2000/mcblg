@@ -1,14 +1,14 @@
 ---
-import { PostsPage } from '@/components/react/PostsPage';
+import { PostsPage } from '@/components/react/catalog/PostsPage';
 import { IS_DEV } from '@/utils/constants';
 
 import { getAllTags, getMetadata, getTopRoute } from '@/utils/content';
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
 import { getCollection } from 'astro:content';
 
-const allNotes = (await getCollection('docs' as const, ({ slug, data }) => getTopRoute(slug) === '/notes' && (IS_DEV || !data.draft)));
-const tags = getAllTags(allNotes);
-const trimmedPosts = await Promise.all(allNotes.map(getMetadata));
+const notes = (await getCollection('docs' as const, ({ slug, data }) => getTopRoute(slug) === '/notes' && (IS_DEV || !data.draft)));
+const tags = getAllTags(notes);
+const notesMetadata = await Promise.all(notes.map(getMetadata));
 
 const frontmatter = {
   title: 'NOTES',
@@ -18,5 +18,5 @@ const frontmatter = {
 ---
 
 <StarlightPage frontmatter={frontmatter} hasSidebar={false}>
-  <PostsPage tags={tags} posts={trimmedPosts} client:only="react" />
+  <PostsPage tags={tags} posts={notesMetadata} client:only="react" />
 </StarlightPage>

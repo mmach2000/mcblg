@@ -1,7 +1,16 @@
 import type { CollectionEntry } from 'astro:content';
 
+import { countWords } from '@/utils/word-count.ts';
 import { trim, unique } from 'moderndash';
-import wc from 'words-count';
+
+export interface PostMetadata {
+  slug: string;
+  title: string;
+  tags?: string[];
+  words: number;
+  ctime: Date;
+  mtime: Date;
+}
 
 /**
  * Get ‘continuum’ label from a slug or href.
@@ -46,16 +55,14 @@ export function getTopRoute(slugOrHref?: string): `/${string}` | undefined {
 /**
  * Get only metadata of a content
  */
-export async function getMetadata(content: CollectionEntry<'docs'>) {
+export async function getMetadata(content: CollectionEntry<'docs'>): Promise<PostMetadata> {
   return {
     title: content.data.title,
     tags: content.data?.tags,
     ctime: content.data?.ctime ? new Date(content.data.ctime) : new Date(),
     mtime: content.data?.mtime ? new Date(content.data.mtime) : new Date(),
     slug: content.slug,
-    // @ts-expect-error - mixed default export and named export
-    // eslint-disable-next-line ts/no-unsafe-assignment,ts/no-unsafe-call
-    words: wc.default(content.body),
+    words: countWords(content.body),
   };
 }
 

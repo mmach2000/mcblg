@@ -1,13 +1,10 @@
-import type { WritableAtom } from 'jotai/vanilla';
 import { isBrowser } from 'browser-or-node';
-import { atom } from 'jotai/index';
 import { atomWithLocation } from 'jotai-location';
-import { isEqual } from 'moderndash';
 import queryString from 'query-string';
 
 const QUERY_STRING_OPTION = { arrayFormat: 'separator' as const, arrayFormatSeparator: '|' as const };
 
-type QueryParams = Record<string, string[]>;
+export type QueryParams = Record<string, string[]>;
 
 export function normalizeQuery(query: string | (string | null)[] | null): string[] {
   if (query === null || query === undefined) {
@@ -73,17 +70,3 @@ export const allQueryAtom = atomWithLocation<QueryParams>({
   applyLocation: applyQuery,
   subscribe: subscribeQuery,
 });
-
-export function createQueryAtom<T extends string[]>(key: string, defaultValue: T = [] as string[] as T, options?: { replace?: boolean }) {
-  return atom<T, [update: T], void>(
-    get => (get(allQueryAtom)[key] ?? defaultValue) as T,
-    (get, set, update: T) => {
-      const query = get(allQueryAtom);
-      if (isEqual(query[key], update)) {
-        return;
-      }
-      // eslint-disable-next-line ts/no-unsafe-argument
-      set(allQueryAtom as WritableAtom<QueryParams, any, void>, { ...query, [key]: update }, { replace: options?.replace ?? false });
-    },
-  );
-}
