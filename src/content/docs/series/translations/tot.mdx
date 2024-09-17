@@ -4,7 +4,7 @@ author: Kenneth E. Iverson
 tags:
   - APL
   - 翻译
-mtime: '2024-09-17T16:20:32+08:00'
+mtime: '2024-09-17T18:20:15+08:00'
 ctime: '2024-09-14T20:48:43+08:00'
 ---
 import OriginalText from "@/components/astro/markdown/OriginalText.astro"
@@ -21,8 +21,9 @@ Kenneth E. Iverson 因其“在编程语言和数学符号方面的开创性努�
 本文是 Iverson 的图灵奖演讲，既凝缩了他对数学、编程语言和符号系统的思考，也是不可多得的 APL 语言教程。
 
 应注意，本文写于 {differenceInYears(new Date(), new Date(1979, 9, 29))} 年前。
-在这段时间里，APL 语言本身也在不断发展，新的概念不断涌现。
-此外，本文的一些记法也并非规范的 APL 语法，因此想要深入学习 APL 语言的读者应佐以其他资料。
+在这段时间里，APL 语言本身也在不断发展，新的概念不断涌现；
+此外，本文的一些记法也并非规范的 APL 语法。
+因此，想要深入学习 APL 语言的读者应佐以其他资料。
 :::
 
 <OriginalText>
@@ -1309,4 +1310,689 @@ Kenneth E. Iverson 因其“在编程语言和数学符号方面的开创性努�
 ~∨/(~v[1]),(~1↓v)    A.7
 ~∨/~(v[1]),(1↓v)     ~对,满足分配律
 ~∨/~v                连接 (,) 的定义
+```
+
+<OriginalText>
+  **2\. Polynomials**
+
+  If `c` is a vector of coefficients and `x` is a scalar, then the polynomial in `x` with coefficients `c` may be written simply as `+/c×x*¯1+⍳⍴c` , or `+/(x*¯1+⍳⍴c)×c` , or `(x*¯1+⍳⍴c)+.×c` . However, to apply to a non-scalar array of arguments `x` , the power function `*` should be replaced by the power table `∘.*` as shown in the following definition of the polynomial function:
+
+  ```apl title="B.1"
+        P:(⍵∘.*¯1+⍳⍴⍺)+.×⍺
+  ```
+
+  For example, `1 3 3 1 P 0 1 2 3 4 5 ←→ 1 8 27 64 125` . If `⍴⍺` is replaced by `1↑⍴⍺` , then the function applies also to matrices and higher dimensional arrays of sets of coefficients representing (along the leading axis of `⍺`) collections of coefficients of different polynomials.
+
+  This definition shows clearly that the polynomial is a linear function of the coefficient vector. Moreover, if `⍺` and `⍵` are vectors of the same shape, then the pre-multiplier `⍵∘.*¯1+⍳⍴⍺` is the Vandermonde matrix of `⍵` and is therefore invertible if the elements of `⍵` are distinct. Hence if `c` and `x` are vectors of the same shape, and if `y←c P x` , then the inverse (curve-fitting) problem is clearly solved by applying the matrix inverse function `⌹` to the Vandermonde matrix and using the identity:
+
+  ```apl
+        c ←→ (⌹x∘.*¯1+⍳⍴x)+.×y
+  ```
+</OriginalText>
+
+## 第二节 多项式
+
+令 `c` 表示系数向量，`x` 是标量，则 `x` 关于系数 `c` 的多项式可以简洁地表示为 `+/c×x*¯1+⍳⍴c`，
+或者 `+/(x*¯1+⍳⍴c)×c`，或者 `(x*¯1+⍳⍴c)+.×c`。
+若要将 `x` 扩展到向量，则需将幂函数 `*` 改为幂函数表 `∘.*`，亦即：
+
+```apl title="B.1"
+      P:(⍵∘.*¯1+⍳⍴⍺)+.×⍺
+```
+
+例如，`1 3 3 1 P 0 1 2 3 4 5 ←→ 1 8 27 64 125 216`
+（解释：$5^0 + 3\times 5^1 + 3\times 5^2 + 1\times 5^3 = 216$）。
+若将 `⍴⍺` 替换为 `1↑⍴⍺`，则该函数也适用于矩阵或更高维的数组（其中多项式系数应用于主轴）。
+
+这个定义清晰地表明，多项式与系数向量之间为线性关系。
+此外，若 `⍺` 和 `⍵` 形状相同，则 `⍵∘.*¯1+⍳⍴⍺` 是 `⍵` 的范德蒙矩阵；
+此时若 `⍵` 的元素各不相同，则该矩阵可逆。
+因此令 `y←c P x`，则多项式求值的逆问题——多项式拟合，就可以通过对范德蒙矩阵求逆（使用求逆函数 `⌹`）解决：
+
+```apl
+      c ←→ (⌹x∘.*¯1+⍳⍴x)+.×y
+```
+
+<OriginalText>
+  **2.1 Products of Polynomials**
+
+  The “product of two polynomials `b` and `c`” is commonly taken to mean the coefficient vector `d` such that:
+
+  ```apl
+        d P x ←→ (b P x)×(c P x)
+  ```
+
+  It is well-known that `d` can be computed by taking products over all pairs of elements from `b` and `c` and summing over subsets of these products associated with the same exponent in the result. These products occur in the function table `b∘.×c` , and it is easy to show informally that the powers of `x` associated with the elements of `b∘.×c` are given by the addition table `e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)` . For example:
+
+  ```apl
+        x←2
+        b←3 1 2 3
+        c←2 0 3
+        e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+        b∘.×c          e            x×e
+  6 0 9           0 1 2         0 2  4 
+  2 0 3           1 2 3         2 4  6 
+  4 0 6           2 3 4         4 6  8 
+  6 0 9           3 4 5         6 8 10 
+        +/,(b∘.×c)×x*e
+  518
+        (b P x)×(c P x)
+  518
+  ```
+
+  The foregoing suggests the following identity, which will be established formally in Section 4:
+
+  ```apl title="B.2"
+        (b P x)×(c P x) ←→ +/,(b∘.×c)×x*(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+  ```
+
+  Moreover, the pattern of the exponent table `e` shows that elements of `b∘.×c` lying on diagonals are associated with the same power, and that the coefficient vector of the product polynomial is therefore given by sums over these diagonals. The table `b∘.×c` therefore provides an excellent organization for the manual computation of products of polynomials. In the present example these sums give the vector `d←6 2 13 9 6 9` , and `d P x` may be seen to equal `(b P x)×(c P x)` .
+
+  Sums over the required diagonals of `b∘.×c` can also be obtained by bordering it by zeros, skewing the result by rotating successive rows by successive integers, and then summing the columns. We thus obtain a definition for the polynomial product function as follows:
+
+  ```apl
+        pp:+⌿(1-⍳⍴⍺)⌽⍺∘.×⍵,1↓0×⍺
+  ```
+</OriginalText>
+
+### 1. 多项式乘法
+
+多项式 `b` 和 `c` 的乘积一般指系数向量 `d`，满足：
+
+```apl
+      d P x ←→ (b P x)×(c P x)
+```
+
+众所周知，求 `d` 有一种简单的方法：将 `b` 和 `c` 中的每一对元素相乘，
+然后对次数相同的乘积求和，得到的就是 `d`。
+每一对元素的乘积可以表示为矩阵 `b∘.×c`，
+易得其中每个元素对应的次数 `e` 可以表示为矩阵 `e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)`：
+
+```apl
+      x←2
+      b←3 1 2 3
+      c←2 0 3
+      e←(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+      b∘.×c
+6 0 9
+2 0 3
+4 0 6
+6 0 9
+      e
+0 1 2
+1 2 3
+2 3 4
+3 4 5
+      x*e
+1  2  4
+2  4  8
+4  8 16
+8 16 32
+      +/,(b∘.×c)×x*e
+518
+      (b P x)×(c P x)
+518
+```
+
+这一系列推导说明了以下恒等式（其正式证明见第四节）：<span id="eq:B.2" />
+
+```apl title="B.2"
+      (b P x)×(c P x) ←→ +/,(b∘.×c)×x*(¯1+⍳⍴b)∘.+(¯1+⍳⍴c)
+```
+
+更进一步，观察指数表 `e` 可以发现这一矩阵副对角线上的元素相同，
+因此 `d` 等于 `b∘.×c` 中副对角线上的元素之和。
+换言之，计算 `b∘.×c` 对于计算 `d` 而言很有帮助。
+上面的例子中，`d←6 2 13 9 6 9`，可以验证 `d P x` 等于 `(b P x)×(c P x)`。
+
+这种对角线求和也可在我们的符号系统中表示，只需在 `b∘.×c` 的周围补 `0`，
+通过旋转将副对角线凑到一起，然后对列求和。
+这一系列操作可以得到多项式乘积的一种计算方法：
+
+```apl
+      pp:+⌿(1-⍳⍴⍺)⌽⍺∘.×⍵,1↓0×⍺
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+```apl
+      b←3 1 2 3
+      c←2 0 3
+      e←((¯1+⍳⍴b)∘.+(¯1+⍳⍴c))
+      c,1↓0×b               ⍝ 补至最高次为⍴b+⍴c-1
+2 0 3 0 0 0
+      b∘.×c,1↓0×b           ⍝ 补 0 后的乘积表
+6 0 9 0 0 0
+2 0 3 0 0 0
+4 0 6 0 0 0
+6 0 9 0 0 0
+      ee←e,((⍴b),(⍴b)-1)⍴¯1
+      ee                    ⍝ 这里列出补 -1 的次数表作为对比
+0 1 2 ¯1 ¯1 ¯1
+1 2 3 ¯1 ¯1 ¯1
+2 3 4 ¯1 ¯1 ¯1
+3 4 5 ¯1 ¯1 ¯1
+      (1-⍳⍴b)               ⍝ 所需的旋转次数
+0 ¯1 ¯2 ¯3
+      (1-⍳⍴b)⌽b∘.×c,1↓0×b   ⍝ 旋转乘积表
+6 0 9 0 0 0
+0 2 0 3 0 0
+0 0 4 0 6 0
+0 0 0 6 0 9
+      (1-⍳⍴b)⌽ee            ⍝ 旋转次数表，可见相同次数凑到了一起
+ 0  1  2 ¯1 ¯1 ¯1
+¯1  1  2  3 ¯1 ¯1
+¯1 ¯1  2  3  4 ¯1
+¯1 ¯1 ¯1  3  4  5
+      +⌿(1-⍳⍴b)⌽b∘.×c,1↓0×b ⍝ 对列求和
+6 2 13 9 6 9
+```
+</details>
+
+<OriginalText>
+  We will now develop an alternative method based upon the simple observation that if `b pp c` produces the product of polynomials `b` and `c` , then `pp` is linear in both of its arguments. Consequently,
+
+  ```apl
+        pp:⍺+.×a+.×⍵
+  ```
+
+  where `a` is an array to be determined. `a` must be of rank `3` , and must depend on the exponents of the left argument `(¯1+⍳⍴⍺)` , of the result `(¯1+⍳⍴1↓⍺,⍵)` , and of the right argument. The “deficiencies” of the right exponent are given by the difference table `(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵` , and comparison of these values with the left exponents yields `a` . Thus
+
+  ```apl
+        a←(¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵
+  ```
+
+  and
+
+  ```apl
+        pp:⍺+.×((¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵)+.×⍵
+  ```
+
+  Since `⍺+.×a` is a matrix, this formulation suggests that if `d←b pp c` , then `c` might be obtained from `d` by pre-multiplying it by the inverse matrix `(⌹b+.×a)` , thus providing division of polynomials. Since `b+.×a` is not square (having more rows than columns), this will not work, but by replacing `m←b+.×a` by either its leading square part `(2⍴⌊/⍴m)↑m` , or by its trailing square part `(-2⍴⌊/⍴m)↑m` , one obtains two results, one corresponding to division with low-order remainder terms, and the other to division with high-order remainder terms.
+</OriginalText>
+
+多项式乘积还有另一种计算方法。
+观察发现 `pp` 对 `b` 和 `c` 都是线性的，因此 `pp` 必然可以表示为这样的形式：
+
+```apl
+      pp:⍺+.×a+.×⍵
+```
+
+接下来的目标就是求出这个未知数组 `a`。
+`a` 必然是三维的，且只与左参数的次数 `(¯1+⍳⍴⍺)`、结果的次数 `(¯1+⍳⍴1↓⍺,⍵)` 和右参数的次数有关。
+对于结果中的某一项，固定右参数的次数，就能得到这一项中左参数需要贡献的次数，进而得到需要左参数中的哪一项。
+这个“缺失次数”的二维矩阵表示为 `(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵`；
+将其与左参数的次数比较，就能得到 `a`：
+
+```apl
+      a←(¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵
+```
+
+于是，
+
+```apl
+      pp:⍺+.×((¯1+⍳⍴⍺)∘.=(⍳⍴1↓⍺,⍵)∘.-⍳⍴⍵)+.×⍵
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+  ```apl
+        b←3 1 2 3
+        c←2 0 3
+        (⍳⍴1↓b,c)∘.-⍳⍴c   ⍝ 次数的“缺失额”
+  0 ¯1 ¯2
+  1  0 ¯1
+  2  1  0
+  3  2  1
+  4  3  2
+  5  4  3
+        (¯1+⍳⍴b)∘.=(⍳⍴1↓b,c)∘.-⍳⍴c
+  1 0 0
+  0 1 0
+  0 0 1
+  0 0 0
+  0 0 0
+  0 0 0
+      
+  0 0 0
+  1 0 0
+  0 1 0
+  0 0 1
+  0 0 0
+  0 0 0
+      
+  0 0 0
+  0 0 0
+  1 0 0
+  0 1 0
+  0 0 1
+  0 0 0
+      
+  0 0 0
+  0 0 0
+  0 0 0
+  1 0 0
+  0 1 0
+  0 0 1
+        b+.×(¯1+⍳⍴b)∘.=(⍳⍴1↓b,c)∘.-⍳⍴c
+  3 0 0
+  1 3 0
+  2 1 3
+  3 2 1
+  0 3 2
+  0 0 3
+  ```
+</details>
+
+这一表达式表明：令 `d←b pp c`，鉴于 `⍺+.×a` 是一个矩阵，
+理论上来说我们可以通过对 `d` 左乘逆矩阵 `(⌹b+.×a)` 来得到 `c`，从而实现多项式的除法。
+不过 `b+.×a` 不是方阵（行数多于列数），没有逆矩阵，这种方法不可行；
+但我们可以求出 `m←b+.×a` 的上半部分方阵 `(2⍴⌊/⍴m)↑m` 或下半部分方阵 `(-2⍴⌊/⍴m)↑m`，
+从而得到余数为低阶项或高阶项的除法。
+
+<details>
+  <summary>
+    解释
+  </summary>
+  ```apl
+        m←b+.×a
+        (2⍴⌊/⍴m)↑m
+  3 0 0
+  1 3 0
+  2 1 3
+        (-2⍴⌊/⍴m)↑m
+  3 2 1
+  0 3 2
+  0 0 3
+        (⌹(2⍴⌊/⍴m)↑m)+.×6 2 13
+  2 0 3
+        (⌹(-2⍴⌊/⍴m)↑m)+.×9 6 9
+  2 0 3
+  ```
+</details>
+
+<OriginalText>
+  **2.2 Derivative of a Polynomial**
+
+  Since the derivative of `x*n` is `n×x*n-1` , we may use the rules for the derivative of a sum of functions and of a product of a function with a constant, to show that the derivative of the polynomial `c P x` is the polynomial `(1↓c×¯1+⍳⍴c) P x` . Using this result it is clear that the integral is the polynomial `(a,c÷⍳⍴c) P x` , where `a` is an arbitrary scalar constant. The expression `1⌽c×¯1+⍳⍴c` also yields the coefficients of the derivative, but as a vector of the same shape as `c` and having a final zero element.
+
+  **2.3 Derivative of a Polynomial with Respect to Its Roots**
+
+  If `r` is a vector of three elements, then the derivatives of the polynomial `×/x-r` with respect to each of its three roots are `-(x-r[2])×(x-r[3])` , and `-(x-r[1])×(x-r[3])` , and `-(x-r[1])×(x-r[2])` . More generally, the derivative of `×/x-r` with respect to `r[j]` is simply `-(x-r)×.*j≠⍳⍴r` , and the vector of derivatives with respect to each of the roots is `-(x-r)×.*i∘.≠i←⍳⍴r` .
+
+  The expression `×/x-r` for a polynomial with roots `r` applies only to a scalar `x` , the more general expression being `×/x∘.-r` . Consequently, the general expression for the matrix of derivatives (of the polynomial evaluated at `x[i]` with respect to root `r[j]`) is given by:
+
+  ```apl title="B.3"
+        -(x∘.-r)×.*i∘.≠i←⍳⍴r
+  ```
+</OriginalText>
+
+### 2. 多项式的导数
+
+由于 `x*n` 的导数为 `n×x^(n-1)`，借助求导规则，可得多项式 `c P x` 的导数为多项式 `(1↓c×¯1+⍳⍴c) P x`。
+积分为多项式 `(a,c÷⍳⍴c) P x`，其中 `a` 是任意常数。
+此外，表达式 `1⌽c×¯1+⍳⍴c` 也能表示导数的系数，不同之处在于其长度与 `c` 相同，末尾一项为 `0`。
+
+### 3. 多项式对根的导数
+
+如果 `r` 是一个三元素向量，那么多项式 `×/x-r` 对每个根的导数分别为 `-(x-r[2])×(x-r[3])`、
+`-(x-r[1])×(x-r[3])` 和 `-(x-r[1])×(x-r[2])`。
+更一般地，多项式对 `r[j]` 的导数可以表示为 `-(x-r)×.*j≠⍳⍴r`，而对于所有根的导数向量为 `-(x-r)×.*i∘.≠i←⍳⍴r`。
+
+应当注意，写法 `×/x-r` 仅适用于标量 `x`，更一般的形式是 `×/x∘.-r`。
+因此，多项式在 `x[i]` 处对根 `r[j]` 的导数矩阵的通用表达式为：
+
+```apl title="B.3"
+      -(x∘.-r)×.*i∘.≠i←⍳⍴r
+```
+
+<OriginalText>
+  **2.4 Expansion of a Polynomial**
+  
+  Binomial expansion concerns the development of an identity in the form of a polynomial in `x` for the expression `(x+y)*n` . For the special case of `y=1` we have the well-known expression in terms of the binomial coefficients of order `n` :
+  
+  ```apl
+        (x+1)*n ←→ ((0,⍳n)!n)P x
+  ```
+  
+  By extension we speak of the expansion of a polynomial as a matter of determining coefficients `d` such that:
+  
+  ```apl
+        c P x+y ←→ d P x
+  ```
+  
+  The coefficients `d` are, in general, functions of `y` . If `y=1` they again depend only on binomial coefficients, but in this case on the several binomial coefficients of various orders, specifically on the matrix `j∘.!j←¯1+⍳⍴c` .
+  
+  For example, if `c←3 1 2 4` , and `c P x+1←→d P x` , then `d` depends on the matrix:
+  
+  ```apl
+        0 1 2 3 ∘.! 0 1 2 3
+  1 1 1 1
+  0 1 2 3
+  0 0 1 3
+  0 0 0 1
+  ```
+  
+  and `d` must clearly be a weighted sum of the columns, the weights being the elements of `c` . Thus:
+  
+  ```apl
+        d←(j∘.!j←¯1+⍳⍴c)+.×c
+  ```
+
+  Jotting down the matrix of coefficients and performing the indicated matrix product provides a quick and reliable way to organize the otherwise messy manual calculation of expansions.
+</OriginalText>
+
+### 4. 多项式的展开
+
+二项式展开指的是将 `(x+y)*n` 展开为 `x` 的多项式。
+众所周知，特殊情况 `y=1` 时，我们有：
+
+```apl
+      (x+1)*n ←→ ((0,⍳n)!n)P x
+```
+
+更广泛地讲，多项式展开指的是求出系数向量 `d`，使得：
+
+```apl
+      c P x+y ←→ d P x
+```
+
+这里系数 `d` 通常是 `y` 的函数。若固定 `y=1`，则 `d` 仅依赖于二项式系数，
+但此时会涉及多个不同阶次的二项式系数；或者说依赖于二项式系数矩阵 `j∘.!j←¯1+⍳⍴c`。
+
+例如，令 `c←3 1 2 4`，且 `c P x+1←→d P x`，那么 `d` 就依赖于矩阵：
+
+```apl
+      0 1 2 3 ∘.! 0 1 2 3
+1 1 1 1
+0 1 2 3
+0 0 1 3
+0 0 0 1
+```
+
+显然，`d` 等于各列对 `c` 加权求和，因此：
+
+```apl
+      d←(j∘.!j←¯1+⍳⍴c)+.×c
+```
+
+先计算二项式系数矩阵，再进行矩阵乘法，这种方法比手动展开要方便多了。  
+
+<OriginalText>
+  If `b` is the appropriate matrix of binomial coefficients, then `d←b+.×c` , and the expansion function is clearly linear in the coefficients `c` . Moreover, expansion for `y=¯1` must be given by the inverse matrix `⌹b` , which will be seen to contain the alternating binomial coefficients. Finally, since:
+  
+  ```apl
+        c P x+(k+1) ←→ c P (x+k)+1 ←→ (b+.×c) P (x+k)
+  ```
+  
+  it follows that the expansion for positive integer values of y must be given by products of the form:
+  
+  ```apl
+        b+.×b+.×b+.×b+.×c
+  ```
+  
+  where the `b` occurs `y` times.
+  
+  Because `+.×` is associative, the foregoing can be written as `m+.×c` , where `m` is the product of `y` occurrences of `b` . It is interesting to examine the successive powers of `b` , computed either manually or by machine execution of the following inner product power function:
+  
+  ```apl
+        ipp:⍺+.×⍺ ipp ⍵-1:⍵=0:j∘.!j←¯1+⍳⍴⍺
+  ```
+  
+  Comparison of `b ipp k` with `b` for a few values of `k` shows an obvious pattern which may be expressed as:
+  
+  ```apl
+        b ipp k ←→ b×k*0⌈-j∘.-j←¯1+⍳1↑⍴b
+  ```
+</OriginalText>
+
+令 `b` 表示二项式系数矩阵，则 `d←b+.×c`。显然，`d` 对 `c` 是线性的。
+此外，对于 `y=¯1` 的情况，展开函数由逆矩阵 `⌹b` 给出，其中包含交替的二项式系数。
+最后，由
+
+```apl
+      c P x+(k+1) ←→ c P (x+k)+1 ←→ (b+.×c) P (x+k)
+```
+
+可知 `y` 为正整数时，展开式必然形如：
+
+```apl
+      b+.×b+.×b+.×b+.× …… +.×c
+```
+
+其中 `b` 一共出现 `y` 次。
+
+由于 `+.×` 是结合的，上述形式可以写成 `m+.×c`，其中 `m` 是矩阵 `b` 的 `y` 次幂。
+定义矩阵幂函数为：
+
+```apl
+      ipp:⍺+.×⍺ ipp ⍵-1:⍵=0:j∘.!j←¯1+⍳⍴⍺
+```
+
+比较 `b ipp k` 和 `b` 的结果，可以发现二项式系数矩阵的明显规律，这一规律可以表示为：
+
+```apl
+      b ipp k ←→ b×k*0⌈-j∘.-j←¯1+⍳1↑⍴b
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+  ```apl
+        b←(⍳6)∘.!(⍳6)
+        b
+  1 2 3 4  5  6
+  0 1 3 6 10 15
+  0 0 1 4 10 20
+  0 0 0 1  5 15
+  0 0 0 0  1  6
+  0 0 0 0  0  1
+        ¯1+⍳1↑⍴b
+  0 1 2 3 4 5
+        -j∘.-j←¯1+⍳1↑⍴b
+  0  1  2  3  4 5
+  ¯1  0  1  2  3 4
+  ¯2 ¯1  0  1  2 3
+  ¯3 ¯2 ¯1  0  1 2
+  ¯4 ¯3 ¯2 ¯1  0 1
+  ¯5 ¯4 ¯3 ¯2 ¯1 0
+        0⌈-j∘.-j←¯1+⍳1↑⍴b
+  0 1 2 3 4 5
+  0 0 1 2 3 4
+  0 0 0 1 2 3
+  0 0 0 0 1 2
+  0 0 0 0 0 1
+  0 0 0 0 0 0
+        b×4*0⌈-j∘.-j←¯1+⍳1↑⍴b
+  1 8 48 256 1280 6144
+  0 1 12  96  640 3840
+  0 0  1  16  160 1280
+  0 0  0   1   20  240
+  0 0  0   0    1   24
+  0 0  0   0    0    1
+        b +.× b +.× b +.× b
+  1 8 48 256 1280 6144
+  0 1 12  96  640 3840
+  0 0  1  16  160 1280
+  0 0  0   1   20  240
+  0 0  0   0    1   24
+  0 0  0   0    0    1
+  ```
+</details>
+  
+<OriginalText>
+  The interesting thing is that the right side of this identity is meaningful for non-integer values of `k` , and, in fact, provides the desired expression for the general expansion `c P x+y` :
+  
+  ```apl title="B.4"
+        c P(x+y) ←→ (((j∘.!j)×y*0⌈-j∘.-j←¯1+⍳⍴c)+.×c)P x
+  ```
+  
+  The right side of [B.4](https://www.jsoftware.com/papers/tot1.htm#B.4) is of the form `(m+.×c)P x` , where `m` itself is of the form `bxy*e` and can be displayed informally (for the case `4=⍴c`) as follows:
+  
+  ```apl
+        1 1 1 1            0 1 2 3
+        0 1 2 3            0 0 1 2
+        0 0 1 3    ×y*     0 0 0 1
+        0 0 0 1            0 0 0 0
+  ```
+  
+  Since `y*k` multiplies the single-diagonal matrix `b×(k=e)` , the expression for `m` can also be written as the inner product `(y*j)+.×t` , where `t` is a rank `3` array; whose `k`th plane is the matrix `b×(k=e)`). Such a rank three array can be formed from an upper triangular matrix `m` by making a rank `3` array whose first plane is `m` (that is, `(1=⍳1↑⍴m)∘.×m`) and rotating it along the first axis by the matrix `j∘-j` , whose `k`th superdiagonal has the value `-k` . Thus:
+  
+  ```apl title="B.5"
+        ds←(i∘.-i)⌽[1](1=i←⍳1↑⍴⍵)∘.×⍵
+  ```
+
+  ```apl
+        ds k∘.!k←¯1+⍳3
+  1 0 0
+  0 1 0
+  0 0 1
+  
+  0 1 0
+  0 0 2
+  0 0 0
+  
+  0 0 1
+  0 0 0
+  0 0 0
+  ```
+  
+  Substituting these results in [B.4](https://www.jsoftware.com/papers/tot1.htm#B.4) and using the associativity of `+.x` , we have the following identity for the expansion of a polynomial, valid for non-integer as well as integer values of `r` :
+
+  ```apl title="B.6"
+        c P x+y ←→ ((y*j)+.×(ds j∘.!j←¯1+⍳⍴c)+.×c)P x
+  ```
+  
+  For example:
+  
+  ```apl
+        y←3
+        c←3 1 4 2
+        m←(y*j)+.×ds j∘.!j←¯1+⍳⍴c
+        m
+  1 3 9 27
+  0 1 6 27
+  0 0 1  9
+  0 0 0  1
+        m+.×c
+  96 79 22 2
+        (m+.×c) P x←2
+  358
+        c P x+y
+  358
+  ```
+</OriginalText>
+
+
+有趣的是，这一规律对于非整数值的 `k` 也是有效的，从中我们可以得出 `c P x+y` 一般形式的展开式：<span id="eq:B.4" />
+
+```apl title="B.4"
+      c P(x+y) ←→ (((j∘.!j)×y*0⌈-j∘.-j←¯1+⍳⍴c)+.×c)P x
+```
+
+[B.4](#B.4) 的右边实际上是 `(m+.×c)P x` 的形式，其中 `m` 本身是 `b×y*e` 的形式，可以非正式地表示为（假设`⍴c=4`）：
+
+```apl
+      1 1 1 1            0 1 2 3
+      0 1 2 3            0 0 1 2
+      0 0 1 3    ×y*     0 0 0 1
+      0 0 0 1            0 0 0 0
+```
+
+`m` 也可以写作 `(y*j)+.×t` 的形式，其中 `t` 是一个三维数组，其第 `k` 个平面是矩阵 `b×(k=e)`。
+这样的三维数组可以由上三角矩阵 `m` 生成，方法是构造一个三维数组，其第一个平面是 `m`（即 `(1=⍳1↑⍴m)∘.×m`），
+然后通过矩阵 `j∘.-j` 沿第一个轴旋转，其中第 `k` 个超对角线的值为 `-k`。因此：<span id="eq:B.5" />
+
+```apl title="B.5"
+      ds←(i∘.-i)⌽[1](1=i←⍳1↑⍴⍵)∘.×⍵
+```
+
+```apl
+      ds k∘.!k←¯1+⍳3
+1 0 0
+0 1 0
+0 0 1
+
+0 1 0
+0 0 2
+0 0 0
+
+0 0 1
+0 0 0
+0 0 0
+```
+
+<details>
+  <summary>
+    解释
+  </summary>
+  ```apl
+        b←(⍳5)∘.!(⍳5)
+        b
+  1 2 3 4  5
+  0 1 3 6 10
+  0 0 1 4 10
+  0 0 0 1  5
+  0 0 0 0  1
+        ds b
+  1 0 0 0  0
+  0 1 0 0  0
+  0 0 1 0  0
+  0 0 0 1  0
+  0 0 0 0  1
+            
+  0 2 0 0  0
+  0 0 3 0  0
+  0 0 0 4  0
+  0 0 0 0  5
+  0 0 0 0  0
+            
+  0 0 3 0  0
+  0 0 0 6  0
+  0 0 0 0 10
+  0 0 0 0  0
+  0 0 0 0  0
+            
+  0 0 0 4  0
+  0 0 0 0 10
+  0 0 0 0  0
+  0 0 0 0  0
+  0 0 0 0  0
+            
+  0 0 0 0  5
+  0 0 0 0  0
+  0 0 0 0  0
+  0 0 0 0  0
+  0 0 0 0  0
+  ```
+</details>
+
+将这些结果代入 [B.4](#B.4) 并利用 `+.x` 的结合性，我们得到了适用于非整数和整数值 `r` 的多项式展开恒等式：<span id="eq:B.6" />
+
+```apl title="B.6"
+      c P x+y ←→ ((y*j)+.×(ds j∘.!j←¯1+⍳⍴c)+.×c)P x
+```
+
+例如：
+
+```apl
+      y←3
+      c←3 1 4 2
+      m←(y*j)+.×ds j∘.!j←¯1+⍳⍴c
+      m
+1 3 9 27
+0 1 6 27
+0 0 1  9
+0 0 0  1
+      m+.×c
+96 79 22 2
+      (m+.×c) P x←2
+358
+      c P x+y
+358
 ```
