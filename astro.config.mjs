@@ -1,3 +1,4 @@
+import markdoc from '@astrojs/markdoc';
 import partytown from '@astrojs/partytown';
 import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
@@ -26,6 +27,7 @@ export default defineConfig({
   integrations: [
     react({ include: ['**/react/*'] }),
     UnoCSS(),
+    markdoc({ ignoreIndentation: true, allowHTML: true }),
     starlight({
       title: 'mc\'s blog',
       favicon: 'img/logo-square.svg',

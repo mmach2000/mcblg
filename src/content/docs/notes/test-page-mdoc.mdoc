@@ -1,0 +1,85 @@
+---
+title: Markdoc 排版样张
+tags:
+  - APL
+  - 翻译
+mtime: '2024-09-19T21:21:41+08:00'
+ctime: '2024-09-19T21:21:41+08:00'
+---
+{% aside type="tip" title="导读" %}
+1979 年 10 月 29 日，在底特律举行的 ACM 年会上，
+Kenneth E. Iverson 因其“在编程语言和数学符号方面的开创性努力（并作为结果产生了 APL）、
+对交互式系统的实现、APL 的教育应用以及编程语言理论和实践的贡献”而获得了图灵奖。
+
+本文是 Iverson 的图灵奖演讲，既凝缩了他对数学、编程语言和符号系统的思考，也是不可多得的 APL 语言教程。
+
+应注意，本文写于 44 年前。
+在这段时间里，APL 语言本身也在不断发展，新的概念不断涌现；
+此外，本文的一些记法也并非规范的 APL 语法。
+因此，想要深入学习 APL 语言的读者应佐以其他资料。
+{% /aside %}
+
+{% original-text %}
+  The importance of nomenclature, notation, and language as tools of thought has long been recognized. In chemistry and in botany, for example, the establishment of systems of nomenclature by Lavoisier and Linnaeus did much to stimulate and to channel later investigation. Concerning language, George Boole in his *Laws of Thought* \[1, p.24\] asserted “That language is an instrument of human reason, and not merely a medium for the expression of thought, is a truth generally admitted.”
+  
+  Mathematical notation provides perhaps the best-known and best-developed example of language used consciously as a tool of thought. Recognition of the important role of notation in mathematics is clear from the quotations from mathematicians given in Cajori’s *A History of Mathematical Notations* \[2, pp.332,331\]. They are well worth reading in full, but the following excerpts suggest the tone:
+  
+  > By relieving the brain of all unnecessary work, a good notation sets it free to concentrate on more advanced problems, and in effect increases the mental power of the race.
+  >
+  > —— A.N. Whitehead
+  >
+  > The quantity of meaning compressed into small space by algebraic signs, is another circumstance that facilitates the reasonings we are accustomed to carry on by their aid.
+  >
+  > —— Charles Babbage
+
+{% /original-text %}
+
+众所周知，命名体系、符号系统和语言都是承载思想的重要工具。
+例如，拉瓦锡和林奈分别建立了化学领域和植物学领域的命名体系，这两者都极大地激发和引导了后续的研究工作。
+语言的意义同样深远：正如乔治 · 布尔在《思维规律的研究》中所言，
+“语言不仅仅是表达思想的媒介，更是人类理性的工具，这一真理早已为世人所公认。”
+
+种种语言中，数学符号无疑是最著名且最为成熟的思维工具，其在数学领域中的重要性不言而喻。
+卡乔里在《数学符号史》中引述了许多数学家的名言来佐证这一点，这些名言值得仔细品读。
+以下两条摘录虽不足以囊括全貌，却已足以勾勒出数学符号的重要之处所在：
+
+> 优良的数学符号减轻了大脑的额外负担，使其能够集中精力解决更为复杂的问题，从而有效地提升了人类的智力。
+> 
+> <p text-right>—— 阿尔弗雷德 · 诺思 · 怀特海</p>
+> 
+> 代数符号将丰富的含义压缩于微小的空间内，因此我们习惯于借助这些符号进行推理。
+> 
+> <p text-right>—— 查尔斯 · 巴比奇</p>
+
+{% original-text %}
+  The executable language to be used is APL, a general purpose language which originated in an attempt to provide clear and precise expression in writing and teaching, and which was implemented as a programming language only after several years of use and development \[3\].
+  
+  Although many readers will be unfamiliar with APL, I have chosen not to provide a separate introduction to it, but rather to introduce it in context as needed. Mathematical notation is always introduced in this way rather than being taught, as programming languages commonly are, in a separate course. Notation suited as a tool of thought in any topic should permit easy introduction in the context of that topic; one advantage of introducing APL in context here is that the reader may assess the relative difficulty of such introduction.
+  
+  However, introduction in context is incompatible with complete discussion of all nuances of each bit of notation, and the reader must be prepared to either extend the definitions in obvious and systematic ways as required in later uses, or to consult a reference work. All of the notation used here is summarized in [Appendix A](https://www.jsoftware.com/papers/tot1.htm#axa), and is covered fully in pages 24-60 of *APL Language* \[4\].
+  
+  Readers having access to some machine embodiment of APL may wish to translate the function definitions given here in *direct definition* form \[5, p.10\] (using `⍺` and `⍵` to represent the left and right arguments) to the *canonical* form required for execution. A function for performing this translation automatically is given in [Appendix B](https://www.jsoftware.com/papers/tot1.htm#axb).
+{% /original-text %}
+
+本文所采用的“可执行语言”正是 APL。
+起初，这种符号系统并不是一门编程语言，而是一系列试图在书写和教学中引入准确而清晰的表述方式的尝试。
+在多年的使用和发展后，APL 才被实现为一种编程语言。
+
+尽管许多读者对 APL 并不熟悉，我还是决定不单独开设章节介绍 APL，而是按照需要在具体的上下文中逐步介绍之。
+这就像数学课程中逐步介绍数学符号一样（与此相反，编程语言往往单独开设课程进行教学）。
+我的观点是，好的思维工具应当能在相关的上下文中轻松介绍。
+这种导入方法还有一个优点：读者可以评估 APL 各方面的相对难度。
+
+然而，情境导入的方式并不能涵盖每种符号的全部细节。
+之后若想使用本文所述的符号系统，读者需要有扩展符号定义或查阅参考资料的心理准备。
+附录 A 总结了本文使用的所有符号，《APL 语言》第 24 至 60 页中也有详尽的阐述。
+
+如果读者能接触到实现了 APL 的计算机，
+可以使用附录 B 中给出的函数将本文用**直接定义形式**（direct definition form）给出的函数定义
+（使用 `⍺` 和 `⍵` 来表示左右参数）转换为执行所需的**规范形式**（canonical form）[^no-need]。
+
+[^no-need]: 译注：现如今 APL 实现（如 Dyalog APL 等）往往通过 dfn（dynamic function/direct function）来定义含有 `⍺` 和 `⍵` 的函数，请读者自行查阅相关文档。
+
+<!-- test comment -->
+
+{% partial file="./test-page-md.md" /%}
