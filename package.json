@@ -61,6 +61,6 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,md,mdx,astro}": ["eslint --fix"],
-    "*.{md,mdx,mdoc}": ["bun scripts/update-time.ts", "autocorrect --fix"]
+    "*.{md,mdx,mdoc}": ["bun scripts/update-frontmatter.ts", "autocorrect --fix"]
   }
 }
