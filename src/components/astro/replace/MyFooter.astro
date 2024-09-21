@@ -1,5 +1,6 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
+import { FeelGood } from '@/components/react/FeelGood';
 import { getContinuum } from '@/utils/content';
 import Default from '@astrojs/starlight/components/Footer.astro';
 
@@ -14,6 +15,9 @@ const prev = showHref(pagination?.prev?.href) ? pagination.prev : undefined;
 const next = showHref(pagination?.next?.href) ? pagination.next : undefined;
 ---
 
+{
+  getContinuum(slug) && <FeelGood pageSlug={slug} client:only="react" />
+}
 <Default {...Astro.props} pagination={{ prev, next }}>
   <slot />
 </Default>
