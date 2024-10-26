@@ -1,5 +1,4 @@
 import { getRating10, setRating10 } from '@/utils/supabase/feel-good.ts';
-import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { Rate } from 'tdesign-react';
 
@@ -18,8 +17,6 @@ function Rate10({ value, onChange }: { value?: number; onChange: (value: number)
 }
 
 export function FeelGood({ pageSlug }: { pageSlug: string }) {
-  const [parent] = useAutoAnimate();
-
   const { data: response, isLoading } = useQuery({
     queryKey: ['feel-good-get', pageSlug],
     queryFn: async () => getRating10(pageSlug),
@@ -35,7 +32,7 @@ export function FeelGood({ pageSlug }: { pageSlug: string }) {
   return (
     !isLoading
     && (
-      <div ref={parent} border="~ solid gray-300 dark:gray-700" mt-8 p="t-4 x-5 b-6">
+      <>
         <h3>
           {
             typeof response?.data?.rating10 === 'number'
@@ -46,7 +43,7 @@ export function FeelGood({ pageSlug }: { pageSlug: string }) {
         <div flex="~ row justify-center">
           <Rate10 value={response?.data?.rating10} onChange={mutate} />
         </div>
-      </div>
+      </>
     )
   );
 }

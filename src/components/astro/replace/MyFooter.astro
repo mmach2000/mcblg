@@ -1,10 +1,13 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
+import LicenseInfo from '@/components/astro/LicenseInfo.astro';
 import { FeelGood } from '@/components/react/FeelGood';
 import { getContinuum } from '@/utils/content';
+import { TabItem, Tabs } from '@astrojs/starlight/components';
 import Default from '@astrojs/starlight/components/Footer.astro';
 
 const { slug, pagination } = Astro.props;
+const { license, from } = Astro.props.entry.data;
 
 // 显示在 footer 中的页面必须与当前页面的分类相同
 function showHref(href?: string) {
@@ -16,8 +19,20 @@ const next = showHref(pagination?.next?.href) ? pagination.next : undefined;
 ---
 
 {
-  getContinuum(slug) && <FeelGood pageSlug={slug} client:only="react" />
+  getContinuum(slug) && (
+    <div border="~ solid gray-300 dark:gray-700" mt-8 p="t-4 x-5 b-6">
+    <Tabs>
+      <TabItem label="LICENSE">
+        <LicenseInfo license={license} from={from} />
+      </TabItem>
+      <TabItem label="评分">
+        <FeelGood pageSlug={slug} client:only="react" />
+      </TabItem>
+    </Tabs>
+    </div>
+  )
 }
+
 <Default {...Astro.props} pagination={{ prev, next }}>
   <slot />
 </Default>

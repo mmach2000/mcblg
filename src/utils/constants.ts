@@ -13,3 +13,5 @@ export const QUERY_KEYS = {
   sort: 's',
   order: 'o',
 };
+
+export const SUPPORT_LICENSES = ['CC0-1.0'] as const;

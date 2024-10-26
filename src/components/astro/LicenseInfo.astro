@@ -1,0 +1,62 @@
+---
+import { SUPPORT_LICENSES } from '@/utils/constants';
+
+interface Props {
+  license?: (typeof SUPPORT_LICENSES)[number];
+  from?: {
+    fu?: boolean;
+    title?: string;
+    url?: string;
+  };
+}
+
+const { license = 'CC0-1.0', from } = Astro.props;
+const { fu, title = '其他材料', url } = from ?? {};
+---
+
+{
+  from && (
+    <div>
+      本文衍生自
+      {
+        url
+          ? <a href={url} target="_blank" rel="noopener noreferrer" text-accent-900 decoration-none>{title}</a>
+          : title
+      }
+      {
+        fu
+          ? (
+            <>
+              ，符合
+              <a href="https://en.wikipedia.org/wiki/Fair_use" target="_blank" rel="license noopener noreferrer" text-accent-900 decoration-none>
+                合理使用
+                <div class="i-cc-icons:fu" inline-block mb="-2px" mr="2px" />
+              </a>
+              之原则。
+            </>
+          )
+          : '。'
+      }
+    </div>
+  )
+}
+
+{
+  license === 'CC0-1.0' && (
+    <div>
+      本文的全部文字在
+      <a
+        href="https://creativecommons.org/publicdomain/zero/1.0"
+        target="_blank"
+        rel="license noopener noreferrer"
+        text-accent-900
+        decoration-none
+      >
+        CC0 1.0 Universal
+        <div class="i-cc-icons:cc" inline-block mb="-2px" mr="2px" />
+        <div class="i-cc-icons:zero" inline-block mb="-2px" />
+      </a>
+      协议下提供。
+    </div>
+  )
+}

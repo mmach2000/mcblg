@@ -5,12 +5,7 @@ export default antfu({
   astro: true,
   unocss: true,
   isInEditor: true,
-
-  formatters: {
-    css: true,
-    html: true,
-    markdown: 'dprint',
-  },
+  formatters: true,
   stylistic: {
     indent: 2,
     quotes: 'single',
@@ -25,6 +20,7 @@ export default antfu({
 }, {
   rules: {
     'no-console': 'off',
+    'antfu/no-top-level-await': 'off',
     'ts/strict-boolean-expressions': 'off',
     'react-refresh/only-export-components': 'off',
     'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
