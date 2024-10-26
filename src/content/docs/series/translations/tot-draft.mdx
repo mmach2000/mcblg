@@ -1,8 +1,49 @@
 ---
 title: TOT 草稿
-mtime: '2024-09-21T11:36:49+08:00'
+mtime: '2024-10-26T17:19:47+08:00'
 ctime: '2024-09-17T18:20:15+08:00'
 draft: true
 license: CC0-1.0
 ---
+import OriginalText from "@/components/astro/markdown/OriginalText.astro"
 
+import '@/style/apl.css';
+
+<OriginalText>
+  **3\. Representations**
+
+  The subjects of mathematical analysis and computation can be *represented* in a variety of ways, and each representation may possess particular advantages. For example, a positive integer `n` may be represented simply by `n` check-marks; less simply, but more compactly, in Roman numerals; even less simply, but more conveniently for the performance of addition and multiplication, in the decimal system; and less familiarly, but more conveniently for the computation of the least common multiple and the greatest common divisor, in the prime decomposition scheme to be discussed here.
+
+  Graphs, which concern connections among a collection of elements, are an example of a more complex entity which possesses several useful representations. For example, a simple directed graph of `n` elements (usually called *nodes*) may be represented by an `n` by `n` boolean matrix `b` (usually called an *adjacency* matrix) such that `b[i;j]=1` if there is a connection from node `i` to node `j` . Each connection represented by a `1` in `b` is called an *edge*, and the graph can also be represented by a `+/,b` by `n` matrix in which each row shows the nodes connected by a particular edge.
+</OriginalText>
+
+3. 表示法
+
+数学中，待分析或计算的研究对象往往可以使用多种方式进行**表示**，每种表示法都有其独特优势。
+以正整数 `n` 的表示为例：最简单的方法是画 `n` 个对勾；罗马数字稍复杂一点，但更紧凑；
+十进制表示法更为复杂，但进行加减乘除时更为方便；
+我们还将讨论另一种不太常见的表示方法，即素因子分解表示法，它在计算最大公约数和最小公倍数时尤为方便。
+
+像这样有多种表示方法的数学对象还有很多，图就是其中之一。
+图用于描述一组元素之间的连接关系。
+例如，我们可以用一个 `n` 乘 `n` 的布尔值矩阵表示一个由 `n` 个元素（一般称之为**节点**）组成的简单有向图。
+其中，若矩阵的元素 `b[i][j]` 取值为 `1`，则存在一条从节点 `i` 到节点 `j` 的连接（一般称之为**边**）。
+这种矩阵一般称为**邻接矩阵**。
+同一张图也可以使用另一种矩阵表示，这种矩阵行数为 `+/,b` ，列数为 `n`，每一行对应一条边。
+
+<OriginalText>
+  Functions also admit different useful representations. For example, a permutation function, which yields a reordering of the elements of its vector argument `x` , may be represented by a *permutation vector* `p` such that the permutation function is simply `x[p]` , by a *cycle* representation which presents the structure of the function more directly. by the boolean matrix `b←p∘.=⍳⍴p` such that the permutation function is `b+.×x` , or by a *radix* representation `r` which employs one of the columns of the matrix `1+(⌽⍳n)⊤¯1+!n←⍴x` , and has the property that `2|+/r-1` is the parity of the permutation represented.
+
+  In order to use different representations conveniently, it is important to be able to express the transformations between representations clearly and precisely. Conventional mathematical notation is often deficient in this respect, and the present section is devoted to developing expressions for the transformations between representations useful in a variety of topics: number systems, polynomials, permutations, graphs, and boolean algebra.
+</OriginalText>
+
+函数也可以有多种表示方法。
+以置换函数（将向量 `x` 中元素重新排列的函数）为例，
+每个置换函数都可以表示为一个**置换向量** `p`，那么这个函数的应用就可以表示为 `x[p]`；
+或者使用**循环表示法**以更直观的展现函数的结构；
+或者使用**布尔矩阵** `b←p∘.=⍳⍴p` ，函数应用表示为 `b+.×x`；
+或者使用**基数表示法** `r`，其中矩阵 `1+(⌽⍳n)⊤¯1+!n←⍴x` 的一列对应于置换的一个循环，这种表示法的一个特点是 `2|+/r-1` 的值是置换的奇偶性。
+
+要想灵活地使用这些表示方法，关键在于如何准确而清晰地描述它们之间的转换关系。
+在这方面，传统的数学符号往往有所欠缺。
+接下来的几节将讨论在数字系统、多项式、置换、图、布尔代数中如何表示这种转换关系。

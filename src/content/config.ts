@@ -9,6 +9,7 @@ export const collections = {
         tags: z.string().array().optional(),
         ctime: z.string().optional(),
         mtime: z.string().optional(),
+        license: z.string().optional(),
       }),
     }),
   }),
