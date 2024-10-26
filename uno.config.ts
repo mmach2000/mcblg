@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   defineConfig,
   presetAttributify,
@@ -9,6 +11,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss';
+import { CC_ICONS } from './src/utils/constants.ts';
 
 export default defineConfig({
   theme: {
@@ -81,4 +84,7 @@ export default defineConfig({
     'text-hover-op': 'text-hover-ease op60 group-hover:op100',
     'license-link': 'text-accent-900 decoration-none',
   },
+  safelist: [
+    ...Object.values(CC_ICONS),
+  ],
 });
