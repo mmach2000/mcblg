@@ -1,0 +1,29 @@
+---
+import LicenseLogos from '@/components/astro/license/LicenseLogos.astro';
+import { PSEUDO_LICENSE_DATA } from '@/utils/constants';
+
+interface Props {
+   from: {
+    fu?: boolean;
+    title?: string;
+    url?: string;
+  };
+}
+
+const { fu, title = '其他材料', url } = Astro.props.from;
+---
+
+<div flex="~ items-center">
+  <LicenseLogos license={fu ? 'FU' : 'REMIX'} />
+  <span ml-2>
+    本文全部或部分衍生自
+    {
+      url
+        ? <a href={url} license-link>{title}</a>
+        : title
+    }
+    {
+      fu && <>，符合<a href={PSEUDO_LICENSE_DATA.FU.url} target="_blank" rel="noopener noreferrer" license-link>合理使用</a>之原则</>
+    }。
+  </span>
+</div>

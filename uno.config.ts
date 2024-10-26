@@ -79,5 +79,6 @@ export default defineConfig({
   shortcuts: {
     'text-hover-ease': 'ease-out duration-200 hover:transition-all',
     'text-hover-op': 'text-hover-ease op60 group-hover:op100',
+    'license-link': 'text-accent-900 decoration-none',
   },
 });

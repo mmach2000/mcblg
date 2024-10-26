@@ -1,0 +1,33 @@
+---
+import { CC_ICONS, PSEUDO_LICENSE_DATA } from '@/utils/constants';
+
+interface Props {
+  license: keyof typeof PSEUDO_LICENSE_DATA;
+}
+
+const { license } = Astro.props;
+const { url, icons } = PSEUDO_LICENSE_DATA[license];
+
+---
+
+{
+  url
+    ? (
+        <a href={url} target="_blank" rel="noopener noreferrer" license-link inline-block flex="~ items-center">
+          {
+            icons.map(icon => (
+              <div class={CC_ICONS[icon]} />
+            ))
+          }
+        </a>
+      )
+    : (
+        <div license-link inline-block flex="~ items-center">
+          {
+            icons.map(icon => (
+              <div class={CC_ICONS[icon]} />
+            ))
+          }
+        </div>
+      )
+}

@@ -1,0 +1,21 @@
+---
+import LicenseLogos from '@/components/astro/license/LicenseLogos.astro';
+import { LICENSE_DATA } from '@/utils/constants';
+
+interface Props {
+  license?: keyof typeof LICENSE_DATA;
+}
+
+const { license = 'CC0-1.0' } = Astro.props;
+---
+
+<div flex="~ items-center">
+  <LicenseLogos license={license} />
+  <span ml-2>
+    本文的全部文字在
+      <a href={LICENSE_DATA[license].url} target="_blank" rel="noopener noreferrer" license-link>
+        {LICENSE_DATA[license].name}
+      </a>
+    下提供。
+  </span>
+</div>

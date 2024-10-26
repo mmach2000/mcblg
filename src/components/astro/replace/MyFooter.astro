@@ -1,6 +1,7 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
-import LicenseInfo from '@/components/astro/LicenseInfo.astro';
+import LicenseBy from '@/components/astro/license/LicenseBy.astro';
+import RemixFrom from '@/components/astro/license/RemixFrom.astro';
 import { FeelGood } from '@/components/react/FeelGood';
 import { getContinuum } from '@/utils/content';
 import { TabItem, Tabs } from '@astrojs/starlight/components';
@@ -23,7 +24,8 @@ const next = showHref(pagination?.next?.href) ? pagination.next : undefined;
     <div border="~ solid gray-300 dark:gray-700" mt-8 p="t-4 x-5 b-6">
     <Tabs>
       <TabItem label="LICENSE">
-        <LicenseInfo license={license} from={from} />
+        { from && <RemixFrom from={from} /> }
+        <LicenseBy license={license} />
       </TabItem>
       <TabItem label="评分">
         <FeelGood pageSlug={slug} client:only="react" />
