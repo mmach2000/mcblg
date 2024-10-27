@@ -16,7 +16,12 @@ export const QUERY_KEYS = {
 
 export const LICENSE_DATA = {
   'CC0-1.0': { name: 'CC0 1.0 通用协议', url: 'https://creativecommons.org/publicdomain/zero/1.0', icons: ['cc', 'zero'] as const },
-  'CC-BY-4.0': { name: '知识共享 署名-相同方式共享 4.0 协议', url: 'https://creativecommons.org/licenses/by/4.0', icons: ['cc', 'by'] as const },
+  'CC-BY-4.0': { name: '知识共享 署名 4.0 协议', url: 'https://creativecommons.org/licenses/by/4.0', icons: ['cc', 'by'] as const },
+  'CC-BY-SA-4.0': { name: '知识共享 署名-相同方式共享 4.0 协议', url: 'https://creativecommons.org/licenses/by-sa/4.0', icons: ['cc', 'by', 'sa'] as const },
+  'CC-BY-NC-4.0': { name: '知识共享 署名-非商业性使用 4.0 协议', url: 'https://creativecommons.org/licenses/by-nc/4.0', icons: ['cc', 'by', 'nc'] as const },
+  'CC-BY-ND-4.0': { name: '知识共享 署名-禁止演绎 4.0 协议', url: 'https://creativecommons.org/licenses/by-nd/4.0', icons: ['cc', 'by', 'nd'] as const },
+  'CC-BY-NC-SA-4.0': { name: '知识共享 署名-非商业性使用-相同方式共享 4.0 协议', url: 'https://creativecommons.org/licenses/by-nc-sa/4.0', icons: ['cc', 'by', 'nc', 'sa'] as const },
+  'CC-BY-NC-ND-4.0': { name: '知识共享 署名-非商业性使用-禁止演绎 4.0 协议', url: 'https://creativecommons.org/licenses/by-nc-nd/4.0', icons: ['cc', 'by', 'nc', 'nd'] as const },
 };
 
 export const PSEUDO_LICENSE_DATA = {
